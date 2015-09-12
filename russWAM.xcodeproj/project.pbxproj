@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4669F0831BA496BA00953493 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0821BA496BA00953493 /* main.cpp */; };
+		4669F0941BA4979400953493 /* StackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0921BA4979400953493 /* StackAllocator.cpp */; };
+		4669F0971BA497AC00953493 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0951BA497AC00953493 /* Engine.cpp */; };
+		4669F09B1BA4989F00953493 /* Allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0991BA4989F00953493 /* Allocator.cpp */; };
+		4669F09D1BA498C400953493 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 4669F09C1BA498C400953493 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,15 @@
 /* Begin PBXFileReference section */
 		4669F07F1BA496BA00953493 /* russWAM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = russWAM; sourceTree = BUILT_PRODUCTS_DIR; };
 		4669F0821BA496BA00953493 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4669F0911BA4977000953493 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		4669F0921BA4979400953493 /* StackAllocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StackAllocator.cpp; path = Memory/StackAllocator.cpp; sourceTree = "<group>"; };
+		4669F0931BA4979400953493 /* StackAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StackAllocator.h; path = Memory/StackAllocator.h; sourceTree = "<group>"; };
+		4669F0951BA497AC00953493 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = WAM/Engine.cpp; sourceTree = "<group>"; };
+		4669F0961BA497AC00953493 /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = WAM/Engine.h; sourceTree = "<group>"; };
+		4669F0981BA497C800953493 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
+		4669F0991BA4989F00953493 /* Allocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Allocator.cpp; path = Memory/Allocator.cpp; sourceTree = "<group>"; };
+		4669F09A1BA4989F00953493 /* Allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Allocator.h; path = Memory/Allocator.h; sourceTree = "<group>"; };
+		4669F09C1BA498C400953493 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +54,8 @@
 		4669F0761BA496BA00953493 = {
 			isa = PBXGroup;
 			children = (
+				4669F09C1BA498C400953493 /* README.md */,
+				4669F0981BA497C800953493 /* License.txt */,
 				4669F0811BA496BA00953493 /* russWAM */,
 				4669F0801BA496BA00953493 /* Products */,
 			);
@@ -57,9 +72,64 @@
 		4669F0811BA496BA00953493 /* russWAM */ = {
 			isa = PBXGroup;
 			children = (
+				4669F08D1BA496F900953493 /* Headers */,
+				4669F0911BA4977000953493 /* main.h */,
+				4669F08C1BA496F200953493 /* Source */,
 				4669F0821BA496BA00953493 /* main.cpp */,
 			);
 			path = russWAM;
+			sourceTree = "<group>";
+		};
+		4669F0891BA496D000953493 /* WAM */ = {
+			isa = PBXGroup;
+			children = (
+				4669F0951BA497AC00953493 /* Engine.cpp */,
+			);
+			name = WAM;
+			sourceTree = "<group>";
+		};
+		4669F08A1BA496D900953493 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				4669F0921BA4979400953493 /* StackAllocator.cpp */,
+				4669F0991BA4989F00953493 /* Allocator.cpp */,
+			);
+			name = Memory;
+			sourceTree = "<group>";
+		};
+		4669F08C1BA496F200953493 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				4669F0891BA496D000953493 /* WAM */,
+				4669F08A1BA496D900953493 /* Memory */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		4669F08D1BA496F900953493 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				4669F08E1BA4971900953493 /* WAM */,
+				4669F0901BA4973800953493 /* Memory */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		4669F08E1BA4971900953493 /* WAM */ = {
+			isa = PBXGroup;
+			children = (
+				4669F0961BA497AC00953493 /* Engine.h */,
+			);
+			name = WAM;
+			sourceTree = "<group>";
+		};
+		4669F0901BA4973800953493 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				4669F09A1BA4989F00953493 /* Allocator.h */,
+				4669F0931BA4979400953493 /* StackAllocator.h */,
+			);
+			name = Memory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +188,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4669F0941BA4979400953493 /* StackAllocator.cpp in Sources */,
+				4669F0971BA497AC00953493 /* Engine.cpp in Sources */,
+				4669F09D1BA498C400953493 /* README.md in Sources */,
 				4669F0831BA496BA00953493 /* main.cpp in Sources */,
+				4669F09B1BA4989F00953493 /* Allocator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
