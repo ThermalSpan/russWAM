@@ -7,9 +7,48 @@
 //  Distributed under the MIT License.
 //
 
-#ifndef __russWAM__Allocator__
-#define __russWAM__Allocator__
+#pragma once
 
-#include <stdio.h>
+#include "stdafx.h"
 
-#endif /* defined(__russWAM__Allocator__) */
+class Allocator {
+
+public:
+  Allocator (size_t size) {
+    m_size    = size;
+    m_memused = 0;
+  }
+
+  ~Allocator () {}
+
+  virtual void* allocate (const size_t size, const size_t alignment = 4) = 0;
+
+  virtual void deallocate (void *pointer) = 0;
+
+  void* pointerAdd (void* pointer, size_t offset) {
+    return static_cast <void *> (static_cast <char *> (pointer) + offset);
+  }
+
+  void* getStart () {
+    return m_start;
+  }
+
+  void* getEnd () {
+    return pointerAdd (m_start, m_size);
+  }
+
+  size_t getSize () {
+    return m_size;
+  }
+
+  size_t getMemUsed () {
+    return m_memused;
+  }
+
+protected:
+  size_t m_size;
+  size_t m_memused;
+  void*  m_start;
+};
+
+

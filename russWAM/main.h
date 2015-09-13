@@ -7,8 +7,4 @@
 //  Distributed under the MIT License.
 //
 
-#ifndef russWAM_main_h
-#define russWAM_main_h
-
-
-#endif
+#pragma once

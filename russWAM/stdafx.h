@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  stdafx.h
 //  russWAM
 //
 //  Created by Russell Wilhelm Bentley on 9/12/15.
@@ -7,10 +7,7 @@
 //  Distributed under the MIT License
 //
 
-#include <iostream>
+#pragma once
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
-}
+#include <stdio.h>
+#include <stdlib.h>

@@ -8,3 +8,20 @@
 //
 
 #include "StackAllocator.h"
+
+StackAllocator::StackAllocator (size_t size) {
+  m_start = malloc (m_size);
+}
+
+StackAllocator::~StackAllocator () {
+
+}
+
+void* StackAllocator::allocatei (*size_t size, size_t alignment = 4) {
+
+}
+
+void StackAllocator::deallocate (void *pointer) {
+
+}
+

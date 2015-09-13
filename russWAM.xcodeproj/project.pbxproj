@@ -11,7 +11,6 @@
 		4669F0941BA4979400953493 /* StackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0921BA4979400953493 /* StackAllocator.cpp */; };
 		4669F0971BA497AC00953493 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0951BA497AC00953493 /* Engine.cpp */; };
 		4669F09B1BA4989F00953493 /* Allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4669F0991BA4989F00953493 /* Allocator.cpp */; };
-		4669F09D1BA498C400953493 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 4669F09C1BA498C400953493 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,7 +36,7 @@
 		4669F0981BA497C800953493 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		4669F0991BA4989F00953493 /* Allocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Allocator.cpp; path = Memory/Allocator.cpp; sourceTree = "<group>"; };
 		4669F09A1BA4989F00953493 /* Allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Allocator.h; path = Memory/Allocator.h; sourceTree = "<group>"; };
-		4669F09C1BA498C400953493 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4669F09E1BA513CA00953493 /* stdafx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +53,6 @@
 		4669F0761BA496BA00953493 = {
 			isa = PBXGroup;
 			children = (
-				4669F09C1BA498C400953493 /* README.md */,
 				4669F0981BA497C800953493 /* License.txt */,
 				4669F0811BA496BA00953493 /* russWAM */,
 				4669F0801BA496BA00953493 /* Products */,
@@ -111,6 +109,7 @@
 			children = (
 				4669F08E1BA4971900953493 /* WAM */,
 				4669F0901BA4973800953493 /* Memory */,
+				4669F09E1BA513CA00953493 /* stdafx.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -190,7 +189,6 @@
 			files = (
 				4669F0941BA4979400953493 /* StackAllocator.cpp in Sources */,
 				4669F0971BA497AC00953493 /* Engine.cpp in Sources */,
-				4669F09D1BA498C400953493 /* README.md in Sources */,
 				4669F0831BA496BA00953493 /* main.cpp in Sources */,
 				4669F09B1BA4989F00953493 /* Allocator.cpp in Sources */,
 			);
