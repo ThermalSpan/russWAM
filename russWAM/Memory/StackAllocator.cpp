@@ -9,7 +9,7 @@
 
 #include "StackAllocator.h"
 
-StackAllocator::StackAllocator (size_t size) {
+StackAllocator::StackAllocator (size_t size) : Allocator (size) {
   m_start = malloc (m_size);
 }
 
@@ -17,7 +17,7 @@ StackAllocator::~StackAllocator () {
 
 }
 
-void* StackAllocator::allocatei (*size_t size, size_t alignment = 4) {
+void* StackAllocator::allocate (size_t size, size_t alignment) {
 
 }
 
