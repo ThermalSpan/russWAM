@@ -19,6 +19,7 @@ struct ValueCell {
 };
 
 struct FunctorCell {
+  int functorId;
   size_t n;
 };
 

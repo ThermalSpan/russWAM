@@ -19,18 +19,22 @@ OBJFILES = $(SRCFILES:$(SRCDIR)/%.cpp=$(BUILDDIR)/%.o)
 # Targets
 
 russWAMex : $(OBJFILES)
+	@mkdir -p bin
 	$(CC) $^ -o $(TARGETDIR)/russWAMex
 
 russWAMde : $(OBJFILES)
+	@mkdir -p bin
 	$(CC) $^ -o -g bin/russWAMde
 
 $(BUILDDIR)/%.o : $(SRCDIR)/%.cpp
+	@mkdir -p build
+	@mkdir -p build/Memory
+	@mkdir -p build/WAM
 	$(CC)  $(CFLAGS) $< -o $@
 
 all: russWAMex
 
 clean:
-	rm build/*.o build/*/*.o bin/*
-
+	rm -f -r build bin
 
 

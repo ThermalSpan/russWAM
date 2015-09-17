@@ -8,9 +8,11 @@
 //
 
 #include <iostream>
+#include "WAM/types.h"
+using namespace std;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+  cout << "size value Cell" << sizeof(ValueCell) << endl;
+  cout << "size FunctorCell" << sizeof(FunctorCell) << endl;
+  return 0;
 }
