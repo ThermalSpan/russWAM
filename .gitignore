@@ -1,0 +1,24 @@
+# Ignore Build Results
+build/*.o
+build/*/*.o
+bin/*
+
+# Ignore Mac Specific Stuff
+.DS_STORE
+
+# Ignore Vim Swap files
+*.swp
+
+# Ignore Latex stuff
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fdb_latexmk
+*.synctex
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
