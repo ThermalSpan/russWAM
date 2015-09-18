@@ -10,9 +10,21 @@
 #include "Engine.h"
 
 WAM::WAM () {
-  ArgRegisters = (ValueCell*) malloc (ARG_REG_COUNT * sizeof (ValueCell));
+  ArgRegisters = (DataCell*) malloc (ARG_REG_COUNT * sizeof (DataCell));
 }
 
 WAM::~WAM () {
   free (ArgRegisters);
+}
+
+void put_structure (int functorId, int arity, int regId) {
+
+}
+
+void set_variable (int regId) {
+
+}
+
+void set_value (int regId) {
+
 }

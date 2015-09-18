@@ -20,9 +20,14 @@ public:
   
   ~WAM ();
 
+  void put_structure (int functorId, int arity, int regId);
+
+  void set_variable (int regId);
+
+  void set_value (int regId);
 protected:
 
-  ValueCell* ArgRegisters;
+  DataCell* ArgRegisters;
 
 };
 

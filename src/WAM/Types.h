@@ -23,4 +23,27 @@ struct FunctorCell {
   size_t n;
 };
 
+enum CellType {VAL, FUN};
+
+union testCell {
+  FunctorCell fc;
+  ValueCell vc;
+};
+
+struct DataCell {
+  CellType type;
+
+  testCell t;
+};
+
+struct testCell2 {
+  int a;
+  int b;
+
+  union u {
+	ValueCell vc;
+	FunctorCell fc;
+  };
+};
+
 

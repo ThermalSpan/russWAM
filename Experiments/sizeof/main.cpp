@@ -12,5 +12,6 @@ int main() {
   cout << "void*\t\t"      << sizeof (char *)      << endl;
   cout << "Value Cell\t"   << sizeof (ValueCell)   << endl;
   cout << "Functor Cell\t" << sizeof (FunctorCell) << endl;
+  cout << "testCell\t"    << sizeof (DataCell)    << endl;
   return 0;
 }
