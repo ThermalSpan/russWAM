@@ -9,10 +9,16 @@
 
 #include <iostream>
 #include "WAM/types.h"
+
+#include "Memory/PoolAllocator.h"
+
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-  cout << "size value Cell" << sizeof(ValueCell) << endl;
-  cout << "size FunctorCell" << sizeof(FunctorCell) << endl;
+  cout << "size value Cell\t" << sizeof(ValueCell) << endl;
+  cout << "size FunctorCell\t" << sizeof(FunctorCell) << endl; 
+  
+
+  
   return 0;
 }

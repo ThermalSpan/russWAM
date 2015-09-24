@@ -18,6 +18,7 @@ public:
     m_size    = size;
     m_memused = 0;
     m_memleft = size;
+    m_allocations = 0;
   }
 
   ~Allocator () {}
@@ -50,10 +51,15 @@ public:
     return m_memused;
   }
 
+  size_t getAllocations () {
+    return m_allocations;
+  }
+
 protected:
   size_t m_size;
   size_t m_memused;
   size_t m_memleft;
+  size_t m_allocations;
   void*  m_start;
 };
 

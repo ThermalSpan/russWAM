@@ -17,14 +17,14 @@ WAM::~WAM () {
   free (ArgRegisters);
 }
 
-void put_structure (int functorId, int arity, int regId) {
+void WAM::put_structure (int functorId, int arity, int regId) {
 
 }
 
-void set_variable (int regId) {
+void WAM::set_variable (int regId) {
 
 }
 
-void set_value (int regId) {
+void WAM::set_value (int regId) {
 
 }
