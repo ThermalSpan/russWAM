@@ -10,8 +10,8 @@ int main() {
   cout << "char\t\t"       << sizeof (char)        << endl;
   cout << "char*\t\t"      << sizeof (char *)      << endl;
   cout << "void*\t\t"      << sizeof (char *)      << endl;
-  cout << "Value Cell\t"   << sizeof (ValueCell)   << endl;
-  cout << "Functor Cell\t" << sizeof (FunctorCell) << endl;
-  cout << "testCell\t"    << sizeof (DataCell)    << endl;
+  cout << "Tag\t\t"        << sizeof (Tag)         << endl;
+  cout << "Cell Type\t"    << sizeof (CellType)    << endl;
+  cout << "DataCell\t"     << sizeof (DataCell)    << endl;
   return 0;
 }

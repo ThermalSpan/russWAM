@@ -13,37 +13,19 @@
 
 enum Tag {REF, STR};
 
-struct ValueCell {
-  Tag tag;
-  ValueCell* ref;
-};
-
-struct FunctorCell {
-  int functorId;
-  size_t n;
-};
-
 enum CellType {VAL, FUN};
 
-union testCell {
-  FunctorCell fc;
-  ValueCell vc;
-};
-
 struct DataCell {
-  CellType type;
-
-  testCell t;
+    CellType type;
+    union {
+        Tag tag;
+        int functorId;
+    };
+    union {
+        int arity;
+        int ref;
+    };
 };
 
-struct testCell2 {
-  int a;
-  int b;
-
-  union u {
-	ValueCell vc;
-	FunctorCell fc;
-  };
-};
 
 

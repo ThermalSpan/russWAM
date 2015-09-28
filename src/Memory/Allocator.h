@@ -21,8 +21,6 @@ public:
     m_allocations = 0;
   }
 
-  ~Allocator () {}
-
   virtual void* allocate (const size_t size, const size_t alignment = 4) = 0;
 
   virtual void deallocate (void *pointer) = 0;

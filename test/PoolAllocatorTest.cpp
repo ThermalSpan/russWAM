@@ -26,9 +26,9 @@ int main () {
     cout << "osize:\t" << p.getObjectSize () << endl << endl;
     
     cout << "Allocating 100 objects..." << endl;
-    ValueCell* pArray[200];
+    DataCell* pArray[200];
     for (i = 0; i < 100; i++) {
-        pArray[i] = (ValueCell*) p.allocate (16,0);
+        pArray[i] = (DataCell*) p.allocate (16,0);
     }
     cout << "used:\t" << p.getMemUsed () << endl;
     cout << "count:\t" << p.getAllocations () << endl << endl;
@@ -41,10 +41,10 @@ int main () {
 
     cout << "Allocating 150 objects..." << endl;
     for (i = 0; i < 100; i += 2) {
-        pArray[i] = (ValueCell*) p.allocate (16,0); 
+        pArray[i] = (DataCell*) p.allocate (16,0); 
     }
     for (i = 100; i < 200; i++) {
-        pArray[i] = (ValueCell*) p.allocate (16,0);
+        pArray[i] = (DataCell*) p.allocate (16,0);
     }
     cout << "used:\t" << p.getMemUsed () << endl;
     cout << "count:\t" << p.getAllocations () << endl << endl;

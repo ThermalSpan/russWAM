@@ -40,7 +40,7 @@ $(BUILDDIR)/test/%.o : $(TSTDIR)/%.cpp
 	$(CC)  $(CFLAGS) $< -o $@
 
 # Phony Commands
-all: russWAMex
+all: $(TEMDIRS) russWAMex
 
 .PHONY: debug
 debug:  $(TEMPDIRS)  russWAMde

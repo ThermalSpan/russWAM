@@ -43,6 +43,21 @@ void* PoolAllocator::allocate (size_t size, size_t alignment) {
     return result;
 }
 
+void* PoolAllocator::allocate (size_t n) {
+   if (pointerAdd(m_freeList, n) == nullptr) {
+        return nullptr;
+   }
+
+   void *result = m_freeList;
+   m_freeList = (void**) *pointerAdd (m_freeList,n);
+
+   m_memused += n * m_objectSize;
+   m_memleft -= n * m_objectSize;
+   m_allocations++'
+
+   return result;
+}
+
 void PoolAllocator::deallocate (void* pointer) {
     *( (void**) pointer) = m_freeList;
     m_freeList = (void**) pointer;

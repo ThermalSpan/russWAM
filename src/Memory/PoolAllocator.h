@@ -24,6 +24,8 @@ public:
 
     void deallocate (void* pointer);
 
+    void* allocate (int n);
+
 protected:
     size_t m_objectSize;
     size_t m_alignment;
