@@ -31,7 +31,7 @@ int Heap::allocate () {
 
 int Heap::allocate (int size) {
     if (m_used + size == m_size) {
-        return -1
+        return -1;
     }
     
     m_used += size;  

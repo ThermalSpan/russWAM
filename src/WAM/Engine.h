@@ -13,10 +13,12 @@
 #include "types.h"
 #include "Heap.h"
 
-typedef std::vector <string> StrVec;
-
 #define ARG_REG_COUNT 10
 #define MEMSIZE 8128
+
+using namespace std;
+
+typedef vector <string> StrVec;
 
 class WAM {
 public:
@@ -30,10 +32,14 @@ public:
 
     void set_value (int regId);
 
-    int deref (const DataCell *cell);
+    int deref (int index);
+    
+    void addString (int i, string s);
 
     void printHeap ();
+
 protected:
+
     StrVec m_functortable;
 
     DataCell* m_argRegisters;

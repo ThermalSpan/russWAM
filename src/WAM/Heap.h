@@ -26,6 +26,10 @@ public:
 
     DataCell* at (int index);
 
+	int getUsed () { return m_used; }
+
+	int getSize () { return m_size; }
+
 protected:
     int m_size;
 
@@ -34,4 +38,4 @@ protected:
     int m_next;
 
     DataCell* m_array;
-}
+};

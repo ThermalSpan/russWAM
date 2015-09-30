@@ -7,50 +7,34 @@ CC        = g++
 CFLAGS    = -c -std=c++11 -stdlib=libc++ -Wall
 
 # Directories
-SRCDIR    = src
-BUILDDIR  = build
-TARGETDIR = bin
-TSTDIR    = test
-TEMPDIRS  = bin build build/Memory build/WAM build/test
+TEMPDIRS  = build bin build/Memory build/WAM build/test
 
 # Files
-SRCFILES  = $(shell find $(SRCDIR) -name *.cpp)
-TSTFILES  = $(shell find $(TSTDIR) -name *.cpp)
+WAMFILES = Engine Heap
+WAMSRCFILES = $(WAMFILES:%=src/WAM/%.cpp)
+WAMOBJFILES = $(WAMSRCFILES:src/%.cpp=build/%.o)
 
-SOBJFILES  = $(SRCFILES:$(SRCDIR)/%.cpp=$(BUILDDIR)/%.o)
-TOBJFILES  = $(TSTFILES:$(TSTDIR)/%.cpp=$(BUILDDIR)/test/%.o)
+EXEFILES = main
+EXESRCFILES = $(EXEFILES:%=src/%.cpp)
+EXEOBJFILES = $(EXESRCFILES:src/%.cpp=build/%.o)
 
 # Targets
-$(TEMPDIRS):
-	@echo  $@
-	@mkdir $@
+all: dirFile bin/russWAMex
 
-russWAMex       : $(SOBJFILES)
-	$(CC) $^ -o $(TARGETDIR)/russWAMex
+dirFile:
+	for dir in $(TEMPDIRS); do \
+		mkdir -p $$dir ; \
+	done
+	@touch dirFile
 
-russWAMde       : $(TOBJFILES)
-	$(CC) $^ -o -g bin/russWAMde
+bin/russWAMex       : $(WAMOBJFILES) $(EXEOBJFILES)
+	$(CC) $^ -o bin/russWAMex
 
-$(BUILDDIR)/%.o : $(SRCDIR)/%.cpp
-	@echo "Compling: souce / executable"
-	$(CC)  $(CFLAGS) $< -o $@
-
-$(BUILDDIR)/test/%.o : $(TSTDIR)/%.cpp
-	@echo "Compling: test"
+build/%.o : src/%.cpp
 	$(CC)  $(CFLAGS) $< -o $@
 
 # Phony Commands
-all: $(TEMDIRS) russWAMex
-
-.PHONY: debug
-debug:  $(TEMPDIRS)  russWAMde
 
 .PHONY: clean
 clean:
-	rm -f -r build bin
-
-.PHONY: test
-test:	$(TEMPDIRS) $(SOBJFILES) $(TOBJFILES)
-	$(CC) $(TOBJFILES)  build/Memory/PoolAllocator.o -o $(TARGETDIR)/test
-
-
+	rm -f -r build bin dirFile
