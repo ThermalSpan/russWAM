@@ -2,6 +2,7 @@
 build/*.o
 build/*/*.o
 bin/*
+dirFile
 
 # Ignore Mac Specific Stuff
 .DS_STORE
