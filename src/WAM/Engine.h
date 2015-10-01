@@ -38,6 +38,8 @@ public:
 
     void printHeap ();
 
+	void printArgRegisters ();
+
 protected:
 
     StrVec m_functortable;

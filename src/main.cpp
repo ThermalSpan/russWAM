@@ -24,14 +24,15 @@ int main(int argc, const char * argv[]) {
     w.put_structure (1, 2, 3);
     w.set_variable (2);
     w.set_variable (5);
-   /* w.put_structure (0, 1, 4);
+    w.put_structure (0, 1, 4);
     w.set_value (5);
     w.put_structure (2, 3, 1);
     w.set_value (2);
     w.set_value (3);
     w.set_value (4);
-*/
+
     w.printHeap ();
+    w.printArgRegisters ();
 
     return 0;
 }

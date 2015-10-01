@@ -45,16 +45,18 @@ void WAM::put_structure (int functorId, int arity, int regId) {
     m_argRegisters[regId] = *m_heap->at (baseIndex);
 
     // H <- H+2
-    m_Hindex = baseIndex;   
+    m_Hindex = baseIndex + 2;   
 }
 
 void WAM::set_variable (int regId) {
     DataCell* curCell;
-    
+   	
+	cout << "set_variable: H=" << m_Hindex << endl;
+
     // HEAP[H] <- (REF, H)
     curCell = m_heap->at (m_Hindex);
     curCell->type = VAL;
-    curCell->tag = STR;
+    curCell->tag = REF;
     curCell->ref = m_Hindex;
 
     // Xi <- HEAP[H]
@@ -66,10 +68,10 @@ void WAM::set_variable (int regId) {
 
 void WAM::set_value (int regId) {
     DataCell* curCell;
-
+	
     // HEAP[H] <- Xi
     curCell = m_heap->at (m_Hindex);
-    curCell = &m_argRegisters[regId];    
+    *m_heap->at(m_Hindex) = m_argRegisters[regId];    
 
     // H <- H+1
     m_Hindex++;
@@ -92,7 +94,8 @@ void WAM::addString (int i, string s) {
 
 void WAM::printHeap () {
     int i;
-    
+ 	cout << "HEAP:" << endl;   
+
     for (i = 0; i < m_heap->getUsed(); i++) {
         cout << i << "\t| ";
         
@@ -108,9 +111,38 @@ void WAM::printHeap () {
         
         }
         else {
-        cout << "What type is this?" << endl;
+        cout << "What type is this?";
         }
         
         cout << "|" << endl; 
     }
+
+	cout << endl;
+}
+
+void WAM::printArgRegisters () {
+    int i;
+ 	cout << "ARGUMENT REGISTERS:" << endl;
+
+    for (i = 1; i < ARG_REG_COUNT; i++) {
+        cout << i << "\t| ";
+        
+        if (m_argRegisters[i].type == VAL && m_argRegisters[i].tag == REF) {
+            cout << "REF: " << m_argRegisters[i].ref;
+        }
+        else if (m_argRegisters[i].type == VAL && m_argRegisters[i].tag == STR) {
+            cout << "STR: " << m_argRegisters[i].ref;
+        }       
+        else if (m_argRegisters[i].type == FUN) {
+            cout << m_functortable.at (m_argRegisters[i].functorId) << "/";
+            cout << m_argRegisters[i].arity << "\t"; 
+        
+        }
+        else {
+        cout << "What type is this?";
+        }
+        
+        cout << "|" << endl; 
+    }
+	cout << endl;
 }
