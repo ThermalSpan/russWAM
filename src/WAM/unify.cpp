@@ -104,27 +104,39 @@ RtnCode WAM::unify(DataCell* a1, DataCell* a2) {
     RtnCode result = SUCCESS;
 
     // PUSH (a1, PDL); PUSH (a2, PDL)
-    m_UnifStack.push (a1);
-    m_UnifStack.push (a2);
+    m_UnifStack->push (a1);
+    m_UnifStack->push (a2);
     
     while (!m_UnifStack->isEmpty()) {
-        DataCell* d1 = deref (m_UnifStack.peek ());
-        m_UnifStack.pop ();
-        DataCell* d2 = deref (m_UnifStack.peek ());
-        m_UnifStack.pop ();
+        DataCell* d1 = deref (m_UnifStack->peek ());
+        m_UnifStack->pop ();
+        DataCell* d2 = deref (m_UnifStack->peek ());
+        m_UnifStack->pop ();
 
         if (d1 != d2) {
             bool b1 = d1->type == VAL && d1->tag == REF;
             bool b2 = d2->type == VAL && d2->tag == REF;
+            
+            // IF (t1 = REF) || (t2 = REF)
             if (b1 || b2) {
                 bind (d1, d2);
             } 
             else {
-                bool f = d1->ref 
+                bool f = d1->ref->functorId == d2->ref->functorId;
+                bool n = d1->ref->arity == d2->ref->arity;
+                
+                if (f && n) {
+                    for (int i = 1; i <= d1->ref->arity; i++) {
+                        m_UnifStack->push (&d1->ref[i]);
+                        m_UnifStack->push (&d2->ref[i]);
+                    }
+                }
+                else {
+                    result = UNIFY_FAIL;
+                }
             }
         }
     }
-
     return result;
 }
 

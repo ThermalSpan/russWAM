@@ -21,11 +21,11 @@ Stack::~Stack () {
     free (m_array);
 }
 
-DataCell* peek () {
+DataCell* Stack::peek () {
     return &m_array[m_SP];
 }
 
-void push (DataCell* cell) {
+void Stack::push (DataCell* cell) {
     m_SP++;
 
     if (m_SP >= m_size) {
@@ -35,10 +35,10 @@ void push (DataCell* cell) {
     m_array[m_SP] = *cell;
 }
 
-void pop () {
+void Stack::pop () {
     m_SP -= 1;
 }
 
-bool isEmpty () {
+bool Stack::isEmpty () {
     return m_SP == 0;
 }

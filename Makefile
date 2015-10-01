@@ -10,7 +10,7 @@ CFLAGS    = -c -std=c++11 -stdlib=libc++ -Wall
 TEMPDIRS  = build bin build/Memory build/WAM build/test bin/test
 
 # Files
-WAMFILES = Engine Heap unify
+WAMFILES = Engine Heap unify Stack
 WAMSRCFILES = $(WAMFILES:%=src/WAM/%.cpp)
 WAMOBJFILES = $(WAMSRCFILES:src/%.cpp=build/%.o)
 
@@ -42,7 +42,6 @@ build/test/%.o : test/%.cpp
 	$(CC) $(CFLAGS) $< -o $@
 
 bin/test/% : build/test/%.o
-	@echo "Compiling test"
 	$(CC) $< $(WAMOBJFILES) -o $@
 
 # Phony Commands
