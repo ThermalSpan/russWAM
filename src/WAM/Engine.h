@@ -34,6 +34,12 @@ public:
 
     int deref (int index);
 
+    void get_structure (int functorId, int arity, int regId);
+
+    void unify_variable (int regId);
+
+    void unify_value (int regId);
+
 	void unify (int a, int b);
     
     void addString (int i, string s);
@@ -51,6 +57,10 @@ protected:
     Heap* m_heap;
 
     int m_Hindex;
+
+    enum Mode {READ, WRITE};
+
+    Mode m_mode;
 };
 
 
