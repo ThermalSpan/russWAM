@@ -28,11 +28,26 @@ int main () {
     w.set_value (4);
 
     w.printHeap();
-    
+   
+    DataCell* base = w.getBase();
     cout << "DEREFERENCING:" << endl;
     for (int i = 0; i < 11; i++) {
-        int t = w.deref (i);
+        DataCell* t = w.deref (&base[i]);
         cout << "Cell " << i << " Refers to Cell " << t << endl;
+        if (t->type == VAL && t->tag == REF) {
+            cout << "REF: " << t->ref;
+        }
+        else if (t->type == VAL && t->tag == STR) {
+            cout << "STR: " << t->ref;
+        }
+        else if (t->type == FUN) {
+            cout << w.getFunctor(t->functorId) << "/";
+            cout << t->arity << "\t";
+        }
+        else {
+        cout << "What type is this?";
+        }
+        cout << "|" << endl;
     }
 
     return 0;

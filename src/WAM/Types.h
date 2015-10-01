@@ -23,7 +23,7 @@ struct DataCell {
     };
     union {
         int arity;
-        int ref;
+        DataCell* ref;
     };
 };
 

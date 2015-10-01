@@ -26,13 +26,13 @@ public:
   
     ~WAM ();
 
+    DataCell* deref (DataCell* cell);
+
     void put_structure (int functorId, int arity, int regId);
 
     void set_variable (int regId);
 
     void set_value (int regId);
-
-    int deref (int index);
 
     void get_structure (int functorId, int arity, int regId);
 
@@ -48,6 +48,10 @@ public:
 
 	void printArgRegisters ();
 
+    DataCell* getBase ();
+
+    string getFunctor (int functorId);
+
 protected:
 
     StrVec m_functortable;
@@ -56,7 +60,7 @@ protected:
  
     Heap* m_heap;
 
-    int m_Hindex;
+    DataCell* m_Hindex;
 
     enum Mode {READ, WRITE};
 

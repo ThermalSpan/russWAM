@@ -18,11 +18,11 @@ public:
 
     ~Heap ();
 
-    int allocate ();
+    DataCell* allocate ();
 
-    int allocate (int size);
+    DataCell* allocate (int size);
     
-    void deallocate (int index);
+    void deallocate (DataCell* pointer);
 
     DataCell* at (int index);
 

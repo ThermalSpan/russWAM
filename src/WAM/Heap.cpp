@@ -19,33 +19,33 @@ Heap::~Heap () {
     free (m_array);
 }
 
-int Heap::allocate () {
+DataCell* Heap::allocate () {
     if (m_used == m_size) {
-        return -1;
+        return nullptr;
     }
 
     m_used++;
-    int result = m_next++;
-    return result;
+    return &m_array[m_next++];
 }
 
-int Heap::allocate (int size) {
+DataCell* Heap::allocate (int size) {
     if (m_used + size == m_size) {
-        return -1;
+        return nullptr;
     }
     
     m_used += size;  
     int result = m_next;
     m_next += size;
-    return result;
+    return &m_array[result];
 }
 
-void deallocate (int index) {
+void deallocate (DataCell* pointer) {
 
 }
 
 DataCell* Heap::at (int index) {
     return &m_array[index];
 }
+
 
 
