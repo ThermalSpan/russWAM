@@ -1,18 +1,18 @@
 //
-//  main.cpp
-//  russWAM
+// QueryTerms.cpp
+// russWAM
 //
-//  Created by Russell Wilhelm Bentley on 9/12/15.
-//  Copyright (c) 2015 Russell Wilhelm Bentley.
-//  Distributed under the MIT License
+// Created by Russell Wilhelm Bentley on 10/1/15
+// Copyrigt (c) 2015 Russell Wilhelm Bentley
+// Distributed under the MIT license
 //
 
-#include "stdafx.h"
-#include "WAM/Engine.h"
+#include "../src/stdafx.h"
+#include "../src/WAM/Engine.h"
 
 using namespace std;
 
-int main(int argc, const char * argv[]) {
+int main () {
     WAM w;
 
     w.addString (0, "f");

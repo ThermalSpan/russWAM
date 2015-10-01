@@ -26,8 +26,6 @@ void WAM::put_structure (int functorId, int arity, int regId) {
     int baseIndex;
 
     baseIndex = m_heap->allocate (arity + 2);
-    cout << "Allocated: " << baseIndex << endl;
-
     
     // HEAP[H] <- (STR, H+1)
     curCell = m_heap->at(baseIndex);
@@ -51,8 +49,6 @@ void WAM::put_structure (int functorId, int arity, int regId) {
 void WAM::set_variable (int regId) {
     DataCell* curCell;
    	
-	cout << "set_variable: H=" << m_Hindex << endl;
-
     // HEAP[H] <- (REF, H)
     curCell = m_heap->at (m_Hindex);
     curCell->type = VAL;

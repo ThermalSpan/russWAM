@@ -1,18 +1,16 @@
 //
-//  main.cpp
+//  Deref.cpp
 //  russWAM
 //
-//  Created by Russell Wilhelm Bentley on 9/12/15.
+//  Created by Russell Wilhelm Bentley on 10/1/15.
 //  Copyright (c) 2015 Russell Wilhelm Bentley.
 //  Distributed under the MIT License
 //
 
-#include "stdafx.h"
-#include "WAM/Engine.h"
+#include "../src/stdafx.h"
+#include "../src/WAM/Engine.h"
 
-using namespace std;
-
-int main(int argc, const char * argv[]) {
+int main () {
     WAM w;
 
     w.addString (0, "f");
@@ -29,8 +27,13 @@ int main(int argc, const char * argv[]) {
     w.set_value (3);
     w.set_value (4);
 
-    w.printHeap ();
-    w.printArgRegisters ();
+    w.printHeap();
+    
+    cout << "DEREFERENCING:" << endl;
+    for (int i = 0; i < 11; i++) {
+        int t = w.deref (i);
+        cout << "Cell " << i << " Refers to Cell " << t << endl;
+    }
 
     return 0;
 }

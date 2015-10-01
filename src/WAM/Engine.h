@@ -33,6 +33,8 @@ public:
     void set_value (int regId);
 
     int deref (int index);
+
+	void unify (int a, int b);
     
     void addString (int i, string s);
 
