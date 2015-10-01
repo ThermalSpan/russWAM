@@ -12,13 +12,17 @@
 WAM::WAM () {
     m_argRegisters = (DataCell*) malloc (ARG_REG_COUNT * sizeof (DataCell));
     m_heap = new Heap (512); 
+    m_UnifStack = new Stack (512);
 
     m_functortable = StrVec (10);
+    m_mode = READ;
+    m_Sreg = nullptr;
 }
 
 WAM::~WAM () {
     free (m_argRegisters);
     delete (m_heap);
+    delete (m_UnifStack);
 }
 
 void WAM::put_structure (int functorId, int arity, int regId) {

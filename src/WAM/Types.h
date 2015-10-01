@@ -11,6 +11,7 @@
 
 #include "../stdafx.h"
 
+// The DataCell is the fundemenetal type maniupulated in the WAM
 enum Tag {REF, STR};
 
 enum CellType {VAL, FUN};
@@ -26,6 +27,18 @@ struct DataCell {
         DataCell* ref;
     };
 };
+
+// Error Codes used for return values
+enum RtnCode {
+    SUCCESS,               // All is well! 
+    GET_STRUCT_FAIL,       // get_structure found a non REF, or STR didn't point to f/n
+    UNIFY_FAIL             // unify (a1, a2) failed to complete
+};
+
+
+// The WAM has some modal instructions.
+enum Mode {READ, WRITE};
+
 
 
 

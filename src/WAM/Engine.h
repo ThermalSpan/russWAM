@@ -12,6 +12,7 @@
 #include "../stdafx.h"
 #include "types.h"
 #include "Heap.h"
+#include "Stack.h"
 
 #define ARG_REG_COUNT 10
 #define MEMSIZE 8128
@@ -34,13 +35,15 @@ public:
 
     void set_value (int regId);
 
-    void get_structure (int functorId, int arity, int regId);
+    void bind (DataCell* a, DataCell* b);
+
+    RtnCode get_structure (int functorId, int arity, int regId);
 
     void unify_variable (int regId);
 
     void unify_value (int regId);
 
-	void unify (int a, int b);
+	RtnCode unify (DataCell* a, DataCell* b);
     
     void addString (int i, string s);
 
@@ -60,11 +63,13 @@ protected:
  
     Heap* m_heap;
 
+    Stack* m_UnifStack;
+
     DataCell* m_Hindex;
 
-    enum Mode {READ, WRITE};
-
     Mode m_mode;
+
+    DataCell* m_Sreg;
 };
 
 

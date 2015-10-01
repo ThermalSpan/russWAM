@@ -9,6 +9,7 @@ int main() {
   cout << "size_t\t\t"     << sizeof (size_t)      << endl;
   cout << "char\t\t"       << sizeof (char)        << endl;
   cout << "char*\t\t"      << sizeof (char *)      << endl;
+  cout << "boolean\t\t"      << sizeof (bool)        << endl;
   cout << "void*\t\t"      << sizeof (char *)      << endl;
   cout << "Tag\t\t"        << sizeof (Tag)         << endl;
   cout << "Cell Type\t"    << sizeof (CellType)    << endl;
