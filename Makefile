@@ -10,7 +10,7 @@ CFLAGS    = -c -std=c++11 -stdlib=libc++ -Wall
 TEMPDIRS  = build bin build/Memory build/WAM build/test bin/test
 
 # Files
-WAMFILES = Engine Heap unify Stack
+WAMFILES = Engine Heap unify Stack Driver
 WAMSRCFILES = $(WAMFILES:%=src/WAM/%.cpp)
 WAMOBJFILES = $(WAMSRCFILES:src/%.cpp=build/%.o)
 

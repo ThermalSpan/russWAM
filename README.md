@@ -11,6 +11,8 @@ Notable links so far include:
 <li><a href="http://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/"> A Simple C++ Project Structure </a></li>
 <li><a href="http://www.catb.org/esr/structure-packing/"> The Lost Art of Structure Packing </a></li>
 <li><a href="https://isocpp.org/wiki/faq/dtors#overview-dtors"> Destructors FAQ </a></li>
+<li><a href="http://stackoverflow.com/questions/18260876/in-a-warrens-abstract-machine-where-are-argument-variables-created"> SO: When are WAM Argument Variables created? </a></li>
+<li><a href="http://www.gprolog.org/"> The GNU Prolog website </a></li>
 </ul>
 
 ### License
