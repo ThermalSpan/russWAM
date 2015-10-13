@@ -7,7 +7,7 @@
 //	Distributed under the MIT License
 //
 
-#include "Engine.h"
+#include "WAM.h"
 
 void WAM::bind (DataCell* a, DataCell* b) {
     a[0] = b[0];

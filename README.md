@@ -1,6 +1,7 @@
 # russWAM
 
-This is my implementation of the Warren abstract machine. More information to follow. 
+This is my implementation of Warren's Abstract Machine (WAM.) This is a work in progress, expect it to be done in around two months time. My most important resource has been <a href="http://wambook.sourceforge.net">"Warren's Abstract Machine: A Tutorial Reconstruction"</a> by Hassan Aït-Kaci. As the code base (read: documentation) grows, I will make it more explicit what segments drew heavily from his work.  
+
 
 ### Online Resources
 

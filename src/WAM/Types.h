@@ -39,23 +39,9 @@ enum RtnCode {
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
 
-// Here are the operation codes
-enum InstCode {
-    PUT_STRUCTURE,
-    SET_VARIABLE,
-    SET_VALUE,
-    BIND,
-    GET_STRUCTURE,
-    UNIFY_VARIABLE,
-    UNIFY_VALUE,
-    UNIFY,
-    CALL,
-    PROCEED
-};
-
 // This structure represents one WAM intruction
 struct WamWord {
-    InstCode op;
+    //InstCode op;
     int a1;
     int a2;
     int a3;
