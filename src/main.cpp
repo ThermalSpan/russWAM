@@ -8,12 +8,12 @@
 //
 
 #include "stdafx.h"
-#include "WAM/Engine.h"
+#include "WAM/WAMdebug.h"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    WAM w;
+    WAMdebug w;
 
     w.addString (0, "f");
     w.addString (1, "h");

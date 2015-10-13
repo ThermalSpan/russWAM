@@ -1,8 +1,8 @@
 //
-//  Engine.h
+//  WAM.h
 //  russWAM
 //
-//  Created by Russell Wilhelm Bentley on 9/12/15.
+//  Created by Russell Wilhelm Bentley on 10/15/15.
 //  Copyright (c) 2015 Russell Wilhelm Bentley.
 //  Distributed under the MIT License.
 //
@@ -26,37 +26,38 @@ public:
     WAM ();
   
     ~WAM ();
-
-    DataCell* deref (DataCell* cell);
-
+    
+    // WAM Instructions
+    // put 
     void put_structure (int functorId, int arity, int regId);
 
+    // set
     void set_variable (int regId);
 
     void set_value (int regId);
-
-    void bind (DataCell* a, DataCell* b);
-
+    
+    // get
     RtnCode get_structure (int functorId, int arity, int regId);
 
+    //Unify 
     void unify_variable (int regId);
 
     void unify_value (int regId);
 
-	RtnCode unify (DataCell* a, DataCell* b);
-    
+    // Utility Functions
     void addString (int i, string s);
-
-    void printHeap ();
-
-	void printArgRegisters ();
-
-    DataCell* getBase ();
 
     string getFunctor (int functorId);
 
 protected:
+    // Protected Functions
+    void bind (DataCell* a, DataCell* b);
 
+    DataCell* deref (DataCell* cell);
+
+	RtnCode unify (DataCell* a, DataCell* b);
+
+   // Protected Variables
     StrVec m_functortable;
 
     DataCell* m_argRegisters;
