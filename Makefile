@@ -5,7 +5,7 @@
 # Compiler Stuff
 CC        	= g++
 CFLAGS    	= -c -std=c++11 -stdlib=libc++ -Wall -Wno-deprecated-register
-BISON 		= bison
+BISON 		= /usr/local/Cellar/bison/3.0.4/bin/bison
 FLEX 		= flex
 
 # Directories

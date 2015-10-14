@@ -2,7 +2,7 @@
     rWAMscanner.lex
     russWAM
 
-    Created by Russell WIlhelm Bentley on 10/15/15
+    Created by Russell Wilhelm Bentley on 10/15/15
     Copyright (c) 2015 Russell Wilhelm Bentley.
     Distributed under the MIT License.
 
@@ -21,7 +21,7 @@
 INTEGER ([1-9][0-9]*)|(0)
 FUNCTOR [a-z][a-zA-Z0-9_]*
 
-STRING [A-Za-z0-9-_\.]+
+STRING [A-Za-z0-9_]+
 
 %%
 
@@ -79,26 +79,31 @@ STRING [A-Za-z0-9-_\.]+
 "get_level"             { return GET_LEVEL; }
 "cut"                   { return CUT; }
 
-    /* Other stuff  */
-INTEGER         {
-    yylval->i = atoi (yytext);
-    return INT;
-}
-
-FUNCTOR         {
-    yylval->s = yytext;
-}
-
-STRING          {
-    yylval->s = yytext;
-}
-
     /* Accessories  */
 "printHeap"             { return PRINT_HEAP; }
 "printArgRegisters"     { return PRINT_ARG_REGISTERS; }
 "printResultArg"        { return PRINT_RESULT_ARG;}
 "write"                 { return WRITE_OUT; }
+"label"                 { return LABEL; }
+"/"                     { return DIV; }
+":"                     { return COLON; }
 \"                      { return QUOTE; }
+
+    /* Other stuff  */
+{INTEGER}         {
+    yylval->i = atoi (yytext);
+    return INT;
+}
+
+{FUNCTOR}         {
+    yylval->s = yytext;
+    return FUNCTOR;
+}
+
+{STRING}          {
+    yylval->s = yytext;
+    return STRING;
+}
 
     /* Ignore Comments, and everything else */
 \/\/.*$

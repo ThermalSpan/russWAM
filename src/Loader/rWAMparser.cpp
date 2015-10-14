@@ -17,13 +17,14 @@ rWAMparser::~rWAMparser () {
     
 }   
 
-void rWAMparser::run (char* fileName) {
+void rWAMparser::run (const char* fileName) {
     extern int yyparse (rWAMparser*);    
     extern FILE* yyin;
     extern int yydebug;
     
     if (fileName != 0) {
         yyin = fopen (fileName, "r");
+		std::cout << "Opened File: " << fileName << " " << yyin << std::endl;
     }
 
     yyparse (this);

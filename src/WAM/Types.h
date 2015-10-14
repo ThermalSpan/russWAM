@@ -79,7 +79,7 @@ enum OpCode {
     OC_neck_cut,
     OC_get_level,
     OC_cut
-}
+};
 
 // This structure represents one WAM intruction
 struct WAMword {

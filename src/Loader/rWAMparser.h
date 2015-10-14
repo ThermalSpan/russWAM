@@ -18,7 +18,7 @@ public:
     
     ~rWAMparser ();
 
-    void run (char* fileName = 0);
+    void run (const char* fileName = 0);
 
     void success () { m_status = true; }
 
