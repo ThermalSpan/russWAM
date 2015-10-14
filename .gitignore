@@ -1,6 +1,6 @@
 # Ignore Build Results
-build/*.o
-build/*/*.o
+build/*
+build/*
 bin/*
 dirFile
 
