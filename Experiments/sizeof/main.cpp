@@ -15,5 +15,6 @@ int main() {
   cout << "Cell Type\t"    << sizeof (CellType)    << endl;
   cout << "DataCell\t"     << sizeof (DataCell)    << endl;
   cout << "WAMWord\t\t"    << sizeof (WamWord)     << endl;
+  cout << "string*\t\t"    << sizeof (string*)     << endl;
   return 0;
 }

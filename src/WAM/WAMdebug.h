@@ -19,7 +19,7 @@ public:
 
     void printHeap ();
 
-	void printArgRegisters ();
+    void printArgRegisters ();
 
     DataCell* getBase ();
 
