@@ -47,7 +47,7 @@ void rWAMparser::passString (char* s) {
 
 void rWAMparser::addFunctor (int arity) {
 	int id = m_FunctorTable->addFunctor (m_String, arity, &m_Code[m_codeIndex]);
-    cout << "Functor " << m_String << "/" << arity << " had Id: " << id << endl;
+    //cout << "Functor " << m_String << "/" << arity << " had Id: " << id << endl;
 }
 
 void rWAMparser::addInstruction (OpCode op, int a, int b, int c) {

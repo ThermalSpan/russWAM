@@ -9,9 +9,10 @@
 
 #include "WAM.h"
 
-void WAM::put_structure (int functorId, int arity, int regId) {
+void WAM::put_structure (int functorId, int regId) {
     DataCell* curCell;
     DataCell* basCell;
+    int arity = m_FunctorTable->getArity (functorId);
 
     basCell = m_heap->allocate (arity + 2);
     

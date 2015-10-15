@@ -30,13 +30,16 @@ int main(int argc, const char * argv[]) {
 
    	if (p.status ()) {
      	cout << "Input OK" << endl;
-        cout << "FunctorTable size: " << funTab->getTableSize () << endl;
+        //cout << "FunctorTable size: " << funTab->getTableSize () << endl;
+		
     
-        
+		Driver dr (codeArray, funTab, strTab, 400);
+		dr.run ();		
 
    	} else 
      	cout << "Input BAD" << endl;
 
+	free (codeArray);
     
     return 0;
 }

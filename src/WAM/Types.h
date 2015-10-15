@@ -33,9 +33,11 @@ struct DataCell {
 
 // Error Codes used for return values
 enum RtnCode {
-    SUCCESS,               // All is well! 
-    GET_STRUCT_FAIL,       // get_structure found a non REF, or STR didn't point to f/n
-    UNIFY_FAIL             // unify (a1, a2) failed to complete
+    SUCCESS,                // All is well! 
+    UNKNOWN_OP,             // In driver loop, default case is reached
+    TERMINATED,             // a terminate instruction was found.
+    GET_STRUCT_FAIL,        // get_structure found a non REF, or STR didn't point to f/n
+    UNIFY_FAIL              // unify (a1, a2) failed to complete
 };
 
 
@@ -85,7 +87,8 @@ enum OpCode {
 	OC_printHeap,
 	OC_printArgRegisters,
 	OC_printResultArg,
-	OC_write
+	OC_write,
+    OC_terminate
 };
 
 // This structure represents one WAM intruction

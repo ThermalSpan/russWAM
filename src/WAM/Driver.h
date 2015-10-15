@@ -12,17 +12,26 @@
 #include "../stdafx.h"
 #include "types.h"
 #include "WAMdebug.h"
+#include "FunctorTable.h"
 
 class Driver {
 public:
-    Driver (WAMword* code, int size);
+    Driver (WAMword* code, FunctorTable* functorTable, StrVec* stringTable, int size);
 
     ~Driver ();
 
     void run ();
  
 protected:
+	// Protected Methods
+	RtnCode ExecuteInstruction (WAMword* instr);
+	
+	// Protected Variables
     int m_size;
+
+	FunctorTable* m_FunctorTable;
+
+	StrVec*	m_StringTable;
 
     WAMdebug* m_wam;
 

@@ -13,23 +13,22 @@
 #include "types.h"
 #include "Heap.h"
 #include "Stack.h"
+#include "FunctorTable.h"
 
 #define ARG_REG_COUNT 10
 #define MEMSIZE 8128
 
 using namespace std;
 
-typedef vector <string> StrVec;
-
 class WAM {
 public:
-    WAM ();
+    WAM (FunctorTable* functorTable);
   
     ~WAM ();
     
     // WAM Instructions
     // put 
-    void put_structure (int functorId, int arity, int regId);
+    void put_structure (int functorId, int regId);
 
     // set
     void set_variable (int regId);
@@ -37,17 +36,12 @@ public:
     void set_value (int regId);
     
     // get
-    RtnCode get_structure (int functorId, int arity, int regId);
+    RtnCode get_structure (int functorId, int regId);
 
     //Unify 
     void unify_variable (int regId);
 
     void unify_value (int regId);
-
-    // Utility Functions
-    void addString (int i, string s);
-
-    string getFunctor (int functorId);
 
 protected:
     // Protected Functions
@@ -58,7 +52,7 @@ protected:
 	RtnCode unify (DataCell* a, DataCell* b);
 
    // Protected Variables
-    StrVec m_functortable;
+    FunctorTable* m_FunctorTable;
 
     DataCell* m_argRegisters;
  

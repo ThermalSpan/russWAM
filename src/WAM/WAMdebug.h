@@ -13,7 +13,7 @@
 
 class WAMdebug : public WAM {
 public:
-    WAMdebug ();
+    WAMdebug (FunctorTable* functorTable);
 
     ~WAMdebug ();
 

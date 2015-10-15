@@ -10,7 +10,7 @@
 #pragma once
 
 #include "../stdafx.h"
-#include "../WAM/types.h"
+#include "../WAM/Types.h"
 #include "../WAM/FunctorTable.h"
 
 class rWAMparser {

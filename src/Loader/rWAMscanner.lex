@@ -21,7 +21,7 @@
 INTEGER ([1-9][0-9]*)|(0)
 FUNCTOR [a-z][a-zA-Z0-9_]*
 
-STRING [A-Za-z0-9_]+
+STRING \"[A-Za-z0-9_ ]+\"
 
 %%
 
@@ -85,9 +85,9 @@ STRING [A-Za-z0-9_]+
 "printResultArg"        { return PRINT_RESULT_ARG;}
 "write"                 { return WRITE_OUT; }
 "label"                 { return LABEL; }
-\/                     { return DIV; }
+\/                     	{ return DIV; }
 ":"                     { return COLON; }
-\"                      { return QUOTE; }
+"terminate"				{ return TERMINATE; }
 
     /* Other stuff  */
 {INTEGER}         {

@@ -61,7 +61,7 @@
 %token <s> STRING
 
 %token PRINT_HEAP PRINT_ARG_REGISTERS PRINT_RESULT_ARG
-%token WRITE_OUT QUOTE LABEL DIV COLON
+%token WRITE_OUT LABEL DIV COLON TERMINATE
 
 %%
 
@@ -87,17 +87,19 @@ instr:
 |   G_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_get_structure, $4, $5); }
 |   U_VARIABLE                          { parser->addInstruction (OC_unify_variable); }
 |   U_VALUE                             { parser->addInstruction (OC_unify_value); }
-|   WRITE_OUT QUOTE string QUOTE        { parser->addStringInstr (OC_write); }
+|   WRITE_OUT string        			{ parser->addStringInstr (OC_write); }
 |   CALL functor DIV INT                { parser->addFunctorInstr (OC_call, $4); } 
 |   PRINT_HEAP                          { parser->addInstruction (OC_printHeap); }
 |   PRINT_ARG_REGISTERS                 { parser->addInstruction (OC_printArgRegisters); }
 |   PRINT_RESULT_ARG INT                { parser->addInstruction (OC_printResultArg, $2); }
+|   TERMINATE                           { parser->addInstruction (OC_terminate); }
 ;
 
-functor: FUNCTOR                        { cout << "Y Functor: " << string ($1) << endl; parser->passString ($1); }
+functor: FUNCTOR                        { parser->passString ($1); }
 ;
 
-string: STRING                          { parser->passString ($1); }
+string: 
+	  STRING                          { parser->passString ($1); }
 ;
 %%
 

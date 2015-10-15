@@ -12,12 +12,12 @@ FLEX 		= flex
 TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
-WAMFILES 	= Heap Stack WAMdebug core unify put set FunctorTable
+WAMFILES 	= Heap Stack WAMdebug core unify put set get FunctorTable Driver
 LOADFILES 	= rWAMparser
 GRAMFILE	= rWAMgrammar
 FLEXFILES	= rWAMscanner
 EXEFILES 	= main
-TSTFILES 	= QueryTerms Deref
+TSTFILES 	= 
 
 # Derived Files Lists
 WAMSRCFILES	= $(WAMFILES:%=src/WAM/%.cpp)

@@ -9,15 +9,17 @@
 
 #include "Driver.h"
 
-Driver::Driver (WamWord* code, WamWord* start, int size) : m_wam () {
+Driver::Driver (WAMword* code, FunctorTable* functorTable, StrVec* stringTable, int size) {
     m_Code = code;
-    m_Preg = start;
+    m_Preg = m_Code;
     m_size = size;
+	m_FunctorTable = functorTable;
+	m_StringTable = stringTable;
     
-    m_wam = new WAM ();
+    m_wam = new WAMdebug (functorTable);
 }   
 
-Driver::Driver () {
+Driver::~Driver () {
     delete (m_wam);
 }
 
@@ -27,40 +29,52 @@ void Driver::run () {
 
     while (contExecution) {
         rtnCode = ExecuteInstruction (m_Preg);
-        m_Preg = &m_Preg[1];
+ 		if (rtnCode != SUCCESS) {
+			contExecution = false;
+		}		
+	   	m_Preg = &m_Preg[1];
     }
 }
 
-RtnCode ExecuteInstruction (WamWord* inst) {
+RtnCode Driver::ExecuteInstruction (WAMword* instr) {
     RtnCode result;
     result = SUCCESS;
 
-    switch (inst->op) {
-        case PUT_STRUCTURE:
-            m_wam->put_structure (inst->a1, inst->a2, inst->a3);
+    switch (instr->op) {
+        case OC_put_structure:
+            m_wam->put_structure (instr->a, instr->b);
             break;
-        case SET_VARIABLE:
-            m_wam->set_variable (inst->a1);
+        case OC_set_variable:
+            m_wam->set_variable (instr->a);
             break;
-        case SET_VALUE:
-            m_wam->set_value (inst->a1);
+        case OC_set_value:
+            m_wam->set_value (instr->a);
             break;
-        case GET_STRUCTURE:
-            result = m_wam->get_structure (ints->a1, inst->a2, inst->a3);
+        case OC_get_structure:
+            result = m_wam->get_structure (instr->a, instr->b);
             break;
-        case UNIFY_VARIABLE:
-            m_wam->unify_variable (inst->a1);
+        case OC_unify_variable:
+            m_wam->unify_variable (instr->a);
             break;
-        case UNIFY_VALUE:
-            m_wam->unify_value (inst->a1);
+        case OC_unify_value:
+            m_wam->unify_value (instr->a);
             break;
-        case CALL:
-            
+        case OC_call:
             break;
-        case PROCEED:
-
+		case OC_write:
+			cout << m_StringTable->at (instr->a) << endl;
+			break;
+		case OC_printHeap:
+			m_wam->printHeap ();
+			break;
+		case OC_printArgRegisters:
+			break;
+		case OC_printResultArg:
+			break;
+		case OC_terminate:
+			result = TERMINATED;
             break;       
-        case default:
+        default:
             break;
     }
     

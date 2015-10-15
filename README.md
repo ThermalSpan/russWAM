@@ -1,6 +1,6 @@
 # russWAM
 
-This is my implementation of Warren's Abstract Machine (WAM.) This is a work in progress, expect it to be done in around two months time. My most important resource has been <a href="http://wambook.sourceforge.net">"Warren's Abstract Machine: A Tutorial Reconstruction"</a> by Hassan Aït-Kaci. As the code base (read: documentation) grows, I will make it more explicit what segments drew heavily from his work.  
+This is my implementation of Warren's Abstract Machine (WAM.) This is a work in progress, expect it to be done in around two months time. My most important resource has been <a href="http://wambook.sourceforge.net">"Warren's Abstract Machine: A Tutorial Reconstruction"</a> by Hassan Aït-Kaci [1]. As the code base (read: documentation) grows, I will make it more explicit what segments drew heavily from his work.  
 
 ### How To:
 You will need bison and flex installed. At the moment I have only built this on OSX, and it will require a newer version of bison than the one that's included. I suggest using <a href="http://brew.sh">Homebrew</a> for package management on OSX. You can use Homebrew to install the dependencies for this project.
@@ -13,13 +13,46 @@ git clone https://github.com/ThermalSpan/russWAM.git
 cd russWAM
 make
 ```
-This will but an executable in the bin directory of the repository. This executable will take in WAM code and evaluate it. For example, consider the following WAMcode:
+This will but an executable in the bin directory of the repository. Note that there is note a "make install" target at the moment so you will have to move the executable. Consider the following WAM code, based on figure 2.3 from [1]. It is saved in "rWAMfiles/fig23.rwam".
 ```
-iblahhhh
+//  Based on Figure 2.3
+label t/0:
+write "Building Term"
+
+label h/2:  put_structure h/2 3
+            set_variable 2
+            set_variable 5
+label f/1:  put_structure f/1 4
+            set_value 5
+label p/3:  put_structure p/3 1
+            set_value 2
+            set_value 3
+            set_value 4
+
+write "Done building Term"
+printHeap
+terminate
 ```
-We can then pass this to the executable using.  
+We can then pass this to russWAM and we will see:
 ```
-./russWAMex test.wam
+$ ./russWAMex < fig23.rwam
+Input OK
+"Building Term"
+"Done building Term"
+HEAP:
+0	| STR: 1|
+1	| h/2	|
+2	| REF: 2|
+3	| REF: 3|
+4	| STR: 5|
+5	| f/1	|
+6	| REF: 3|
+7	| STR: 8|
+8	| p/3	|
+9	| REF: 2|
+10	| STR: 1|
+11	| STR: 5|
+
 ```
 
 

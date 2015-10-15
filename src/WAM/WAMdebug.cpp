@@ -9,7 +9,7 @@
 
 #include "WAMdebug.h"
 
-WAMdebug::WAMdebug () : WAM () {
+WAMdebug::WAMdebug (FunctorTable* functorTable) : WAM (functorTable) {
 
 }
 
@@ -42,7 +42,7 @@ void WAMdebug::printHeap () {
             cout << "STR: " << ptrToHeapCell (basCell[i].ref);
         }       
         else if (basCell[i].type == FUN) {
-            cout << m_functortable.at (basCell[i].functorId) << "/";
+            cout << m_FunctorTable->getName (basCell[i].functorId) << "/";
             cout << basCell[i].arity << "\t"; 
         }
         else {
@@ -67,7 +67,7 @@ void WAMdebug::printArgRegisters () {
             cout << "STR: " << ptrToHeapCell (m_argRegisters[i].ref);
         }       
         else if (m_argRegisters[i].type == FUN) {
-            cout << m_functortable.at (m_argRegisters[i].functorId) << "/";
+            cout << m_FunctorTable->getName (m_argRegisters[i].functorId) << "/";
             cout << m_argRegisters[i].arity << "\t"; 
         }
         else {
