@@ -11,6 +11,9 @@
 
 #include "../stdafx.h"
 
+// Useful typedefs
+typedef std::vector <std::string> StrVec;
+
 // The DataCell is the fundemenetal type maniupulated in the WAM
 enum Tag {REF, STR};
 
@@ -78,13 +81,17 @@ enum OpCode {
     OC_trust,
     OC_neck_cut,
     OC_get_level,
-    OC_cut
+    OC_cut,
+	OC_printHeap,
+	OC_printArgRegisters,
+	OC_printResultArg,
+	OC_write
 };
 
 // This structure represents one WAM intruction
 struct WAMword {
     OpCode op;
-    int a1;
-    int a2;
-    int a3;
+	int a;
+	int b;
+	int c;
 };

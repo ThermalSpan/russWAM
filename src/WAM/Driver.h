@@ -2,7 +2,7 @@
 //  Driver.h
 //  russWAM
 //
-//  Created by Russell Wilhelm Bentley on 9/6/2015
+//  Created by Russell Wilhelm Bentley on 10/6/2015
 //  Copyright (c) 2015 Russell Wilhelm Bentley
 //  Distributed under the MIT License
 //
@@ -11,11 +11,11 @@
 
 #include "../stdafx.h"
 #include "types.h"
-#include "Engine.h"
+#include "WAMdebug.h"
 
 class Driver {
 public:
-    Driver (WamWord* code, WamWord* start, int size);
+    Driver (WAMword* code, int size);
 
     ~Driver ();
 
@@ -24,9 +24,9 @@ public:
 protected:
     int m_size;
 
-    WAM* m_wam;
+    WAMdebug* m_wam;
 
-    WamWord* m_Code;
+    WAMword* m_Code;
 
-    WamWord* m_Preg;
+    WAMword* m_Preg;
 };

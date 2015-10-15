@@ -74,37 +74,31 @@ labelListTail: %empty | labelSection labelListTail;
 
 labelSection: label instrList;
 
-label: LABEL FUNCTOR DIV INT COLON { cout << "label" << endl; }
+label: LABEL functor DIV INT COLON { parser->addFunctor ($4); }
 
 instrList: instr instrListTail;
 
 instrListTail: %empty | instr instrListTail;
 
 instr:
-    P_STRUCTURE INT INT INT     { cout << "put_structure" << endl; }
-|   S_VARIABLE INT              { cout << "set_variable" << endl; }
-|   S_VALUE INT                 { cout << "set_value" << endl; }
-|   G_STRUCTURE INT INT INT     { cout << "get_structure" << endl; }
-|   U_VARIABLE                  { cout << "unify_variable" << endl; }
-|   U_VALUE                     { cout << "unify_value" << endl; }
-|   WRITE_OUT                   { cout << "write" << endl; }
-|   CALL STRING DIV INT         { cout << "call" << endl; } 
-|   PRINT_HEAP                  { cout << "printHeap" << endl; }
-|   PRINT_ARG_REGISTERS         { cout << "printArgRegisters" << endl; }
-|   PRINT_RESULT_ARG            { cout << "printResultArg" << endl; }
+    P_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_put_structure, $4, $5); }
+|   S_VARIABLE INT                      { parser->addInstruction (OC_set_variable, $2); }
+|   S_VALUE INT                         { parser->addInstruction (OC_set_value, $2);}
+|   G_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_get_structure, $4, $5); }
+|   U_VARIABLE                          { parser->addInstruction (OC_unify_variable); }
+|   U_VALUE                             { parser->addInstruction (OC_unify_value); }
+|   WRITE_OUT QUOTE string QUOTE        { parser->addStringInstr (OC_write); }
+|   CALL functor DIV INT                { parser->addFunctorInstr (OC_call, $4); } 
+|   PRINT_HEAP                          { parser->addInstruction (OC_printHeap); }
+|   PRINT_ARG_REGISTERS                 { parser->addInstruction (OC_printArgRegisters); }
+|   PRINT_RESULT_ARG INT                { parser->addInstruction (OC_printResultArg, $2); }
 ;
 
+functor: FUNCTOR                        { cout << "Y Functor: " << string ($1) << endl; parser->passString ($1); }
+;
 
-
-
-
-
-
-
-
-
-
-
+string: STRING                          { parser->passString ($1); }
+;
 %%
 
 

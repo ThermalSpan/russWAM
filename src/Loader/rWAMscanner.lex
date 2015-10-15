@@ -85,7 +85,7 @@ STRING [A-Za-z0-9_]+
 "printResultArg"        { return PRINT_RESULT_ARG;}
 "write"                 { return WRITE_OUT; }
 "label"                 { return LABEL; }
-"/"                     { return DIV; }
+\/                     { return DIV; }
 ":"                     { return COLON; }
 \"                      { return QUOTE; }
 
@@ -107,6 +107,7 @@ STRING [A-Za-z0-9_]+
 
     /* Ignore Comments, and everything else */
 \/\/.*$
+[ \t\n]*
 .
 
 

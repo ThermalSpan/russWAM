@@ -14,24 +14,24 @@ TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 # File List/s
 WAMFILES 	= Heap Stack WAMdebug core unify put set FunctorTable
 LOADFILES 	= rWAMparser
-GRAMFILE 	= rWAMgrammar
-FLEXFILES   = rWAMscanner
+GRAMFILE	= rWAMgrammar
+FLEXFILES	= rWAMscanner
 EXEFILES 	= main
 TSTFILES 	= QueryTerms Deref
 
 # Derived Files Lists
-WAMSRCFILES = $(WAMFILES:%=src/WAM/%.cpp)
-WAMOBJFILES = $(WAMSRCFILES:src/%.cpp=build/%.o)
+WAMSRCFILES	= $(WAMFILES:%=src/WAM/%.cpp)
+WAMOBJFILES	= $(WAMSRCFILES:src/%.cpp=build/%.o)
 
 LOADSRC		= $(LOADFILES:%=src/Loader/%.cpp)
 LOADOBJ  	= $(LOADSRC:src/%.cpp=build/%.o)
 
-GRAMMARYS   = $(GRAMFILE:%=src/Loader/%.y)
+GRAMMARYS	= $(GRAMFILE:%=src/Loader/%.y)
 GRAMSRC		= $(GRAMMARYS:src/Loader/%.y=build/Loader/%.c)
 GRAMHED 	= $(GRAMSRC:%.c=%.h)
 GRAMOBJ		= $(GRAMSRC:%.c=%.o)
 
-FLEXLEX     = $(FLEXFILES:%=src/Loader/%.lex)
+FLEXLEX		= $(FLEXFILES:%=src/Loader/%.lex)
 FLEXSRC 	= $(FLEXLEX:src/Loader/%.lex=build/Loader/%.c)
 FLEXOBJ		= $(FLEXSRC:%.c=%.o)
 

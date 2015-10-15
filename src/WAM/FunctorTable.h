@@ -20,7 +20,9 @@ public:
     
     ~FunctorTable ();
 
-    int addFunction (int arity, string name, WAMword* labelPtr);
+    int addFunctor (string name, int arity, WAMword* labelPtr);
+
+    int getFunctorId (string name, int arity);
 
     string getName (int id);
 
@@ -50,4 +52,6 @@ protected:
    vector <TableValue> m_ValueVector;
 
    unordered_map <string, int> m_StringMap;
+
+   typedef unordered_map <string, int>::const_iterator MapElem;
 };

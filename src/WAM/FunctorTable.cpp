@@ -19,17 +19,30 @@ FunctorTable::~FunctorTable () {
 
 }
 
-int FunctorTable::addFunction (int arity, string name, WAMword* labelPtr) {
-    string key = name + "*" + to_string(arity);
-    unordered_map <string, int>::const_iterator element = m_StringMap.find (key);
+int FunctorTable::addFunctor (string nameString, int arity, WAMword* labelPtr) {
+    string key = nameString + "*" + to_string (arity);
+    MapElem element = m_StringMap.find (key);
     int result;
 
     if (element == m_StringMap.end ()) {
         result = m_Size++;
-        m_ValueVector.push_back (TableValue (result, arity, name, labelPtr));
+		m_StringMap.emplace (key, result);
+        m_ValueVector.push_back (TableValue (result, arity, nameString, labelPtr));
     }
     else {
         result = element->second;   
+    }
+
+    return result;
+}
+
+int FunctorTable::getFunctorId (string nameString, int arity) {
+    string key = nameString + "*" + to_string (arity);
+    MapElem element = m_StringMap.find (key);
+    int result = -1;
+
+    if (element != m_StringMap.end ()) {
+       result = element->second;
     }
 
     return result;
