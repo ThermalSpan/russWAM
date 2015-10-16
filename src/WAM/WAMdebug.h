@@ -21,9 +21,13 @@ public:
 
     void printArgRegisters ();
 
+    void printResultArg (int reg);
+
     DataCell* getBase ();
 
 protected:
     
     long ptrToHeapCell (DataCell* pointer);
+
+    void printCell (DataCell* cell);
 };

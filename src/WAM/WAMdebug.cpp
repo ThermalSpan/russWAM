@@ -28,28 +28,33 @@ long WAMdebug::ptrToHeapCell (DataCell* pointer) {
     }
 }
 
+void WAMdebug::printCell (DataCell* cell) {
+    cout << "\t| ";       
+    if (cell->type == VAL && cell->tag == REF) {
+        cout << "REF: " << ptrToHeapCell (cell->ref);
+    }
+    else if (cell->type == VAL && cell->tag == STR) {
+        cout << "STR: " << ptrToHeapCell (cell->ref);
+    }       
+    else if (cell->type == FUN) {
+        cout << m_FunctorTable->getName (cell->functorId) << "/";
+        cout << cell->arity << "\t"; 
+    }
+    else {
+        cout << "What type is this?";
+    }   
+    cout << "|" << endl; 
+}
+
 void WAMdebug::printHeap () {
     int i;
     DataCell* basCell = m_heap->at (0);
 
  	cout << "HEAP:" << endl;   
     for (i = 0; i < m_heap->getUsed(); i++) {
-        cout << i << "\t| ";       
-        if (basCell[i].type == VAL && m_heap->at (i)->tag == REF) {
-            cout << "REF: " << ptrToHeapCell (basCell[i].ref);
-        }
-        else if (basCell[i].type == VAL && m_heap->at (i)->tag == STR) {
-            cout << "STR: " << ptrToHeapCell (basCell[i].ref);
-        }       
-        else if (basCell[i].type == FUN) {
-            cout << m_FunctorTable->getName (basCell[i].functorId) << "/";
-            cout << basCell[i].arity << "\t"; 
-        }
-        else {
-        cout << "What type is this?";
-        }   
-        cout << "|" << endl; 
-    }
+        cout << i;       
+        printCell (&basCell[i]);
+     }
 
 	cout << endl;
 }
@@ -60,23 +65,15 @@ void WAMdebug::printArgRegisters () {
 
     for (i = 1; i < ARG_REG_COUNT; i++) {
         cout << i << "\t| ";       
-        if (m_argRegisters[i].type == VAL && m_argRegisters[i].tag == REF) {
-            cout << "REF: " << ptrToHeapCell (m_argRegisters[i].ref);
-        }
-        else if (m_argRegisters[i].type == VAL && m_argRegisters[i].tag == STR) {
-            cout << "STR: " << ptrToHeapCell (m_argRegisters[i].ref);
-        }       
-        else if (m_argRegisters[i].type == FUN) {
-            cout << m_FunctorTable->getName (m_argRegisters[i].functorId) << "/";
-            cout << m_argRegisters[i].arity << "\t"; 
-        }
-        else {
-        cout << "What type is this?";
-        }
-        cout << "|" << endl; 
+        printCell (&m_argRegisters[i]);           
     }
 
 	cout << endl;
+}
+
+void WAMdebug::printResultArg (int reg) {
+    DataCell* cell = deref (&m_argRegisters[reg]);
+    printCell (cell);
 }
 
 DataCell* WAMdebug::getBase () {

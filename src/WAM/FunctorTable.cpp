@@ -30,6 +30,9 @@ int FunctorTable::addFunctor (string nameString, int arity, WAMword* labelPtr) {
         m_ValueVector.push_back (TableValue (result, arity, nameString, labelPtr));
     }
     else {
+        if (m_ValueVector.at(element->second).labelPtr == nullptr) {
+            m_ValueVector.at(element->second).labelPtr = labelPtr;
+        }
         result = element->second;   
     }
 

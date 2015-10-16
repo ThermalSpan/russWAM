@@ -68,8 +68,10 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
 			m_wam->printHeap ();
 			break;
 		case OC_printArgRegisters:
+            m_wam->printArgRegisters ();
 			break;
 		case OC_printResultArg:
+            m_wam->printResultArg (instr->a);
 			break;
 		case OC_terminate:
 			result = TERMINATED;

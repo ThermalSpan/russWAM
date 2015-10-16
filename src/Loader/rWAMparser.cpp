@@ -45,9 +45,13 @@ void rWAMparser::passString (char* s) {
     m_String = string (s);
 }
 
-void rWAMparser::addFunctor (int arity) {
-	int id = m_FunctorTable->addFunctor (m_String, arity, &m_Code[m_codeIndex]);
-    //cout << "Functor " << m_String << "/" << arity << " had Id: " << id << endl;
+int rWAMparser::mapFunctor (int arity) {
+	int id = m_FunctorTable->addFunctor (m_String, arity, nullptr);
+    return id;
+}
+
+void rWAMparser::addLabel (int arity) {
+    m_FunctorTable->addFunctor (m_String, arity, &m_Code[m_codeIndex]);
 }
 
 void rWAMparser::addInstruction (OpCode op, int a, int b, int c) {
@@ -67,7 +71,10 @@ void rWAMparser::addStringInstr (OpCode op) {
 }
 
 void rWAMparser::addFunctorInstr (OpCode op, int arity, int b, int c) {
-    int id = m_FunctorTable->getFunctorId(m_String, arity);
+    if (op == OC_get_structure) {
+        cout << "get structure" << endl;
+    }
+    int id = mapFunctor (arity);
     if (id == -1) {
         cout << "Cannont find functor: " << string (m_String) << " / " << arity << endl;
     }

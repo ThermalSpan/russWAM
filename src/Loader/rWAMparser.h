@@ -27,7 +27,9 @@ public:
 
     void passString (char* s);
 
-	void addFunctor (int arity);
+    void addLabel (int arity);
+
+	int  mapFunctor (int arity);
 
 	void addInstruction (OpCode op, int a = -1, int b = -1, int c = -1);
 

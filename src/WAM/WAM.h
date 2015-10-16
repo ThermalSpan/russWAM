@@ -10,7 +10,7 @@
 #pragma once
 
 #include "../stdafx.h"
-#include "types.h"
+#include "Types.h"
 #include "Heap.h"
 #include "Stack.h"
 #include "FunctorTable.h"

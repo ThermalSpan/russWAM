@@ -65,23 +65,16 @@
 
 %%
 
-Top: labelList      { parser->success (); }
+Top: instrList                          { parser->success (); }
 ;
-
-labelList: labelSection labelListTail;
-
-labelListTail: %empty | labelSection labelListTail;
-
-labelSection: label instrList;
-
-label: LABEL functor DIV INT COLON { parser->addFunctor ($4); }
 
 instrList: instr instrListTail;
 
 instrListTail: %empty | instr instrListTail;
 
 instr:
-    P_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_put_structure, $4, $5); }
+    LABEL functor DIV INT COLON         { parser->addLabel ($4); } 
+|   P_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_put_structure, $4, $5); }
 |   S_VARIABLE INT                      { parser->addInstruction (OC_set_variable, $2); }
 |   S_VALUE INT                         { parser->addInstruction (OC_set_value, $2);}
 |   G_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_get_structure, $4, $5); }
