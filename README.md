@@ -19,15 +19,15 @@ This will but an executable in the bin directory of the repository. Note that th
 label t/0:
 write "Building Term"
 
-label h/2:  put_structure h/2 3
-            set_variable 2
-            set_variable 5
-label f/1:  put_structure f/1 4
-            set_value 5
-label p/3:  put_structure p/3 1
-            set_value 2
-            set_value 3
-            set_value 4
+put_structure h/2 3
+set_variable 2
+set_variable 5
+put_structure f/1 4
+set_value 5
+put_structure p/3 1
+set_value 2
+set_value 3
+set_value 4
 
 write "Done building Term"
 printHeap
