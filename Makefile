@@ -75,16 +75,12 @@ build/test/%.o : test/%.cpp
 bin/test/% : build/test/%.o
 	$(CC) $< $(WAMOBJFILES) -o $@
 
-# Phony Commands
+# Phony Command
 
-.PHONY: t
-t:	
-	@echo $(TSTOBJFILES)
-	@echo $(TSTEXEFILES)
-
-.PHONY: test
-test: dirFile $(WAMOBJFILES) $(TSTEXEFILES)
+.PHONY: install
+install: bin/russWAMex
+	cp bin/russWAMex rWAMfiles/russWAMex
 
 .PHONY: clean
 clean:
-	rm -f -r build bin dirFile
+	rm -f -r build bin dirFile rWAMfiles/russWAMex

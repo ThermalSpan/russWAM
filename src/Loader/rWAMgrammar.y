@@ -78,8 +78,8 @@ instr:
 |   S_VARIABLE INT                      { parser->addInstruction (OC_set_variable, $2); }
 |   S_VALUE INT                         { parser->addInstruction (OC_set_value, $2);}
 |   G_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_get_structure, $4, $5); }
-|   U_VARIABLE                          { parser->addInstruction (OC_unify_variable); }
-|   U_VALUE                             { parser->addInstruction (OC_unify_value); }
+|   U_VARIABLE INT                      { parser->addInstruction (OC_unify_variable, $2); }
+|   U_VALUE INT                         { parser->addInstruction (OC_unify_value, $2); }
 |   WRITE_OUT string        			{ parser->addStringInstr (OC_write); }
 |   CALL functor DIV INT                { parser->addFunctorInstr (OC_call, $4); } 
 |   PRINT_HEAP                          { parser->addInstruction (OC_printHeap); }

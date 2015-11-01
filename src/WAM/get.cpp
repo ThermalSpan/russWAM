@@ -10,6 +10,7 @@
 #include "WAM.h"
 
 RtnCode WAM::get_structure (int functorId, int regId) {
+    cout << "WAM: get_structure" << endl;
     RtnCode result = SUCCESS;
     DataCell* cell = deref (&m_argRegisters[regId]);
     int arity = m_FunctorTable->getArity (functorId);

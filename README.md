@@ -1,6 +1,6 @@
 # russWAM
 
-This is my implementation of Warren's Abstract Machine (WAM.) This is a work in progress, expect it to be done in around two months time. My most important resource has been <a href="http://wambook.sourceforge.net">"Warren's Abstract Machine: A Tutorial Reconstruction"</a> by Hassan Aït-Kaci [1]. As the code base (read: documentation) grows, I will make it more explicit what segments drew heavily from his work.  
+This is my implementation of Warren's Abstract Machine (WAM.) This is a work in progress, expect it to be done in around a months time. My most important resource has been <a href="http://wambook.sourceforge.net">"Warren's Abstract Machine: A Tutorial Reconstruction"</a> by Hassan Aït-Kaci [1]. As the code base (read: documentation) grows, I will make it more explicit what segments drew heavily from his work.  
 
 ### How To:
 You will need bison and flex installed. At the moment I have only built this on OSX, and it will require a newer version of bison than the one that's included. I suggest using <a href="http://brew.sh">Homebrew</a> for package management on OSX. You can use Homebrew to install the dependencies for this project.
