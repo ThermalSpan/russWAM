@@ -67,13 +67,13 @@ bin/russWAMex : $(GRAMOBJ) $(FLEXOBJ) $(LOADOBJ) $(WAMOBJFILES) $(EXEOBJFILES)
 	$(CC) $^ -o bin/russWAMex
 
 build/%.o : src/%.cpp
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -g $< -o $@
 
 build/test/%.o : test/%.cpp
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -g $< -o $@
 
 bin/test/% : build/test/%.o
-	$(CC) $< $(WAMOBJFILES) -o $@
+	$(CC) $< $(WAMOBJFILES) -g -o $@
 
 # Phony Command
 

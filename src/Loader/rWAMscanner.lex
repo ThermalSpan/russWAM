@@ -37,7 +37,7 @@ STRING \"[A-Za-z0-9_ ]+\"
     
     /* Set          */
 "set_variable"          { return S_VARIABLE; }
-"set_value"             { cout << "lex: set_value" << endl; return S_VALUE; }
+"set_value"             { return S_VALUE; }
 "set_local_value"       { return S_LCL_VALUE; }
 "set_constant"          { return S_CONSTANT; }
 "set_void"              { return S_VOID; }
@@ -45,7 +45,7 @@ STRING \"[A-Za-z0-9_ ]+\"
     /* Get          */
 "get_variable"          { return G_VARIABLE; }
 "get_value"             { return G_VALUE; }
-"get_structure"         { cout << "lex: get_structure" << endl; return G_STRUCTURE; }
+"get_structure"         { return G_STRUCTURE; }
 "get_list"              { return G_LIST; }
 "get_constant"          { return G_CONSTANT; }
 

@@ -51,6 +51,8 @@ protected:
 
 	RtnCode unify (DataCell* a, DataCell* b);
 
+    void updateSreg (DataCell* cell);
+
    // Protected Variables
     FunctorTable* m_FunctorTable;
 
@@ -64,6 +66,7 @@ protected:
 
     Mode m_mode;
 
+    // The next sub-term to be matched
     DataCell* m_Sreg;
 };
 

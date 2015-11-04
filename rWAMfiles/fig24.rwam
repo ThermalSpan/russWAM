@@ -15,9 +15,6 @@ set_value 4
 write "Done building Term"
 
 get_structure p/3 1
-
-write "Done pp"
-
 unify_variable 2
 unify_variable 3
 unify_variable 4

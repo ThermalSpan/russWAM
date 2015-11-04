@@ -16,8 +16,10 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     const char* fn = 0;
-   	if (argc == 2)
+   	if (argc == 2) {
       	fn = argv[1];
+        cout << "Input: " << fn << endl;
+    }
    	rWAMparser p;
 
     FunctorTable* funTab = new FunctorTable ();
@@ -26,13 +28,12 @@ int main(int argc, const char * argv[]) {
 
     p.setTableCode(funTab, codeArray, strTab);
 
-   	p.run(fn);
+   	p.run("fig24.rwam");
 
    	if (p.status ()) {
      	cout << "Input OK" << endl;
         //cout << "FunctorTable size: " << funTab->getTableSize () << endl;
-		
-    
+
 		Driver dr (codeArray, funTab, strTab, 400);
 		dr.run ();		
 
@@ -40,6 +41,8 @@ int main(int argc, const char * argv[]) {
      	cout << "Input BAD" << endl;
 
 	free (codeArray);
+    delete (strTab);
+    delete (funTab);
     
     return 0;
 }

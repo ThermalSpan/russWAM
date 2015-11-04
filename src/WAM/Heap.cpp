@@ -13,6 +13,7 @@ Heap::Heap (int size) {
     m_size = size;
     m_used = 0;
     m_array = (DataCell*) malloc (m_size * sizeof(DataCell));
+    m_next = 0;
 }
 
 Heap::~Heap () {
@@ -29,6 +30,8 @@ DataCell* Heap::allocate () {
 }
 
 DataCell* Heap::allocate (int size) {
+    std::cout << "Heap.allocate: mem_used: " << m_used << std::endl;
+
     if (m_used + size == m_size) {
         return nullptr;
     }

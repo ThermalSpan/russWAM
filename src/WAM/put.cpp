@@ -15,11 +15,12 @@ void WAM::put_structure (int functorId, int regId) {
     int arity = m_FunctorTable->getArity (functorId);
 
     basCell = m_heap->allocate (arity + 2);
-    
+
     // HEAP[H] <- (STR, H+1)
     curCell = basCell;
     curCell->type = VAL;
     curCell->tag = STR;
+    cout << "bouta refercence something?" << endl;
     curCell->ref = &basCell[1];
 
     //HEAP[H+1] <- (f / n)

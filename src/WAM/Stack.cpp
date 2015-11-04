@@ -26,16 +26,17 @@ DataCell* Stack::peek () {
 }
 
 void Stack::push (DataCell* cell) {
-    m_SP++;
-
+    cout << "Stack: pushin'" << endl;
     if (m_SP >= m_size) {
         cout << "Stack Overflow: " << m_SP << " out of " << m_size << endl;
     }    
 
     m_array[m_SP] = *cell;
+    m_SP++;
 }
 
 void Stack::pop () {
+    cout << "Stack: pop" << endl;
     m_SP -= 1;
 }
 

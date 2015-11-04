@@ -39,4 +39,9 @@ void WAM::bind (DataCell* a, DataCell* b) {
     a[0] = b[0];
 }
 
+void WAM::updateSreg (DataCell* cell) {
+    cout << "Updating S reg. from: " << m_Sreg << " to: " << cell << endl;
+    m_Sreg = cell;
+}
+
 

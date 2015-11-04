@@ -31,6 +31,8 @@ void rWAMparser::run (const char* fileName) {
     }
 
     yyparse (this);
+
+    fclose(yyin);
 }
 
 extern "C" int yywrap () {
