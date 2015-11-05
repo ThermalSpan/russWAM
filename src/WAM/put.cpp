@@ -11,29 +11,28 @@
 
 void WAM::put_structure (int functorId, int regId) {
     DataCell* curCell;
-    DataCell* basCell;
+    DataCell* baseCell;
     int arity = m_FunctorTable->getArity (functorId);
 
-    basCell = m_heap->allocate (arity + 2);
+    baseCell = m_heap->allocate (arity + 2);
 
     // HEAP[H] <- (STR, H+1)
-    curCell = basCell;
+    curCell = baseCell;
     curCell->type = VAL;
     curCell->tag = STR;
-    cout << "bouta refercence something?" << endl;
-    curCell->ref = &basCell[1];
+    curCell->ref = &baseCell[1];
 
     //HEAP[H+1] <- (f / n)
-    curCell = &basCell[1];
+    curCell = &baseCell[1];
     curCell->type = FUN;
     curCell->functorId = functorId;
     curCell->arity = arity;
 
     // Xi <- HEAP[H]
-    m_argRegisters[regId] = basCell[0];
+    m_argRegisters[regId] = baseCell[0];
 
     // H <- H+2
-    m_Hindex = &basCell[2];   
+    m_Hindex = &baseCell[2];   
 }
 
    

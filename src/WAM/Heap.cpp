@@ -30,8 +30,6 @@ DataCell* Heap::allocate () {
 }
 
 DataCell* Heap::allocate (int size) {
-    std::cout << "Heap.allocate: mem_used: " << m_used << std::endl;
-
     if (m_used + size == m_size) {
         return nullptr;
     }

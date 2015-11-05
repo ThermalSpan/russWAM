@@ -20,6 +20,7 @@ void WAM::set_variable (int regId) {
 
     // Xi <- HEAP[H]
     m_argRegisters[regId] = m_Hindex[0]; 
+
     // H <- H+1
     m_Hindex = &m_Hindex[1];    
 }

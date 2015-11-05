@@ -8,9 +8,9 @@
 //
 
 #include "WAM.h"
+#include "WAMdebug.h"
 
 RtnCode WAM::get_structure (int functorId, int regId) {
-    cout << "WAM: get_structure" << endl;
     RtnCode result = SUCCESS;
     DataCell* cell = deref (&m_argRegisters[regId]);
     int arity = m_FunctorTable->getArity (functorId);
@@ -37,7 +37,7 @@ RtnCode WAM::get_structure (int functorId, int regId) {
         }
         
         // CASE: (STR, a)
-        if (cell->tag == STR) {
+        else if (cell->tag == STR) {
             // IF HEAP[a] = f/n
             if (cell->ref->functorId == functorId && cell->ref->arity == arity) {
                 // S <- a + 1

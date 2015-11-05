@@ -8,6 +8,7 @@
 //
 
 #include "WAM.h"
+#include "WAMdebug.h"
 
 void WAM::unify_variable (int regId) {
     switch (m_mode) {
@@ -59,10 +60,10 @@ RtnCode WAM::unify(DataCell* a1, DataCell* a2) {
     m_UnifStack->push (a1);
     m_UnifStack->push (a2);
     
-    while (!m_UnifStack->isEmpty()) {
-        DataCell* d1 = deref (m_UnifStack->peek ());
+    while (!m_UnifStack->empty ()) {
+        DataCell* d1 = deref (m_UnifStack->top ());
         m_UnifStack->pop ();
-        DataCell* d2 = deref (m_UnifStack->peek ());
+        DataCell* d2 = deref (m_UnifStack->top ());
         m_UnifStack->pop ();
 
         if (d1 != d2) {

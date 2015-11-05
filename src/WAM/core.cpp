@@ -8,11 +8,12 @@
 //
 
 #include "WAM.h"
+#include "WAMdebug.h"
 
 WAM::WAM (FunctorTable* functorTable) {
     m_argRegisters = (DataCell*) malloc (ARG_REG_COUNT * sizeof (DataCell));
     m_heap = new Heap (512); 
-    m_UnifStack = new Stack (512);
+    m_UnifStack = new AddrStack ();
 
     m_FunctorTable = functorTable;
     m_mode = READ;
@@ -40,7 +41,6 @@ void WAM::bind (DataCell* a, DataCell* b) {
 }
 
 void WAM::updateSreg (DataCell* cell) {
-    cout << "Updating S reg. from: " << m_Sreg << " to: " << cell << endl;
     m_Sreg = cell;
 }
 

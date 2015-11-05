@@ -11,9 +11,6 @@
 
 #include "../stdafx.h"
 
-// Useful typedefs
-typedef std::vector <std::string> StrVec;
-
 // The DataCell is the fundemenetal type maniupulated in the WAM
 enum Tag {REF, STR};
 
@@ -98,3 +95,9 @@ struct WAMword {
 	int b;
 	int c;
 };
+
+// Useful typedefs
+typedef std::vector <std::string> StrVec;
+typedef std::stack <DataCell*> AddrStack;
+
+

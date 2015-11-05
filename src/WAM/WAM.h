@@ -12,7 +12,6 @@
 #include "../stdafx.h"
 #include "Types.h"
 #include "Heap.h"
-#include "Stack.h"
 #include "FunctorTable.h"
 
 #define ARG_REG_COUNT 10
@@ -60,7 +59,7 @@ protected:
  
     Heap* m_heap;
 
-    Stack* m_UnifStack;
+    AddrStack* m_UnifStack;
 
     DataCell* m_Hindex;
 

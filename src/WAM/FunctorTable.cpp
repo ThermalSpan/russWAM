@@ -23,12 +23,14 @@ int FunctorTable::addFunctor (string nameString, int arity, WAMword* labelPtr) {
     string key = nameString + "*" + to_string (arity);
     MapElem element = m_StringMap.find (key);
     int result;
-
+    
+    // If the (name, arity) is not in the functor table, add it
     if (element == m_StringMap.end ()) {
         result = m_Size++;
 		m_StringMap.emplace (key, result);
         m_ValueVector.push_back (TableValue (result, arity, nameString, labelPtr));
     }
+    // Else, if the (name, arity) pair is in place and without a label, we update the label
     else {
         if (m_ValueVector.at(element->second).labelPtr == nullptr) {
             m_ValueVector.at(element->second).labelPtr = labelPtr;
@@ -43,7 +45,7 @@ int FunctorTable::getFunctorId (string nameString, int arity) {
     string key = nameString + "*" + to_string (arity);
     MapElem element = m_StringMap.find (key);
     int result = -1;
-
+    
     if (element != m_StringMap.end ()) {
        result = element->second;
     }

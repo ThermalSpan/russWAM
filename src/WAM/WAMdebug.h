@@ -11,6 +11,8 @@
 #include "../stdafx.h"
 #include "WAM.h"
 
+#define DEBUG WAMdebug* w = (WAMdebug*) this;
+
 class WAMdebug : public WAM {
 public:
     WAMdebug (FunctorTable* functorTable);
@@ -25,9 +27,9 @@ public:
 
     DataCell* getBase ();
 
+    void printCell (DataCell* cell);
+
 protected:
     
     long ptrToHeapCell (DataCell* pointer);
-
-    void printCell (DataCell* cell);
 };

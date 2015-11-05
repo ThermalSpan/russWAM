@@ -42,18 +42,15 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
 
     switch (instr->op) {
         case OC_put_structure:
-            cout << "driver: put_structure " << endl;
             m_wam->put_structure (instr->a, instr->b);
             break;
         case OC_set_variable:
             m_wam->set_variable (instr->a);
             break;
         case OC_set_value:
-            cout << "driver: set_value " << instr->a << endl;
             m_wam->set_value (instr->a);
             break;
         case OC_get_structure:
-            cout << "driver: get_structure" << instr->a << " " << instr->b << endl;
             result = m_wam->get_structure (instr->a, instr->b);
             break;
         case OC_unify_variable:

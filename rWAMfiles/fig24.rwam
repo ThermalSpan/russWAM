@@ -29,7 +29,10 @@ get_structure a/0, 7
 
 write "Done unifying"
 printHeap
-printResultArg (1);
+write "X equals"
+printResultArg 5;
+write "Y equals"
+printResultArg 4;
 
 terminate
     

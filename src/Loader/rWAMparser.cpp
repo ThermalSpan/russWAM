@@ -59,10 +59,6 @@ void rWAMparser::addLabel (int arity) {
 }
 
 void rWAMparser::addInstruction (OpCode op, int a, int b, int c) {
-    if (op == OC_unify_variable) {
-        cout << "parser: unify_variable " << a << endl;
-    }
-
     m_Code[m_codeIndex].op = op;
     m_Code[m_codeIndex].a = a;
     m_Code[m_codeIndex].b = b;
@@ -79,9 +75,6 @@ void rWAMparser::addStringInstr (OpCode op) {
 }
 
 void rWAMparser::addFunctorInstr (OpCode op, int arity, int b, int c) {
-    if (op == OC_get_structure) {
-        cout << "parser: get_structure" << endl;
-    }
     int id = mapFunctor (arity);
     if (id == -1) {
         cout << "Cannont find functor: " << string (m_String) << " / " << arity << endl;

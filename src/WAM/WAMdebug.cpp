@@ -18,6 +18,10 @@ WAMdebug::~WAMdebug () {
 }
 
 long WAMdebug::ptrToHeapCell (DataCell* pointer) {
+    if (pointer == nullptr) {
+        return -2;
+    } 
+  
     long dif = pointer - getBase ();
     
     if (dif > MEMSIZE || dif < 0) {
@@ -30,7 +34,10 @@ long WAMdebug::ptrToHeapCell (DataCell* pointer) {
 
 void WAMdebug::printCell (DataCell* cell) {
     cout << "\t| ";       
-    if (cell->type == VAL && cell->tag == REF) {
+    if (cell == nullptr) {
+        cout << "null";
+    }
+    else if (cell->type == VAL && cell->tag == REF) {  
         cout << "REF: " << ptrToHeapCell (cell->ref);
     }
     else if (cell->type == VAL && cell->tag == STR) {
