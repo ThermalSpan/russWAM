@@ -26,7 +26,7 @@ void WAM::unify_variable (int regId) {
             m_argRegisters[regId] = m_Hindex[0];
 
             // H <- H + 2
-            m_Hindex = &m_Hindex[1];
+            setHindex (&m_Hindex[1]);
             break;
     }
 
@@ -45,7 +45,7 @@ void WAM::unify_value (int regId) {
             m_Hindex[0] = m_argRegisters[regId];
 
             // H <- H + 1
-            m_Hindex = &m_Hindex[1];
+            setHindex(&m_Hindex[1]);
             break; 
     }
 
@@ -75,10 +75,7 @@ RtnCode WAM::unify(DataCell* a1, DataCell* a2) {
                 bind (d1, d2);
             } 
             else {
-                bool f = d1->ref->functorId == d2->ref->functorId;
-                bool n = d1->ref->arity == d2->ref->arity;
-                
-                if (f && n) {
+                if (d1->ref->functorId == d2->ref->functorId) {
                     for (int i = 1; i <= d1->ref->arity; i++) {
                         m_UnifStack->push (&d1->ref[i]);
                         m_UnifStack->push (&d2->ref[i]);

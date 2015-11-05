@@ -29,6 +29,10 @@ get_structure a/0, 7
 
 write "Done unifying"
 printHeap
+
+write "Cell 19 equals"
+printHeapCell 19
+
 write "X equals"
 printResultArg 5;
 write "Y equals"

@@ -22,7 +22,7 @@ void WAM::set_variable (int regId) {
     m_argRegisters[regId] = m_Hindex[0]; 
 
     // H <- H+1
-    m_Hindex = &m_Hindex[1];    
+    setHindex (&m_Hindex[1]);
 }
 
 void WAM::set_value (int regId) {
@@ -30,7 +30,7 @@ void WAM::set_value (int regId) {
     m_Hindex[0] = m_argRegisters[regId];    
 
     // H <- H+1
-    m_Hindex = &m_Hindex[1];
+    setHindex (&m_Hindex[1]);
 }
 
 

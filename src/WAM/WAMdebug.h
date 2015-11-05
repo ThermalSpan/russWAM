@@ -25,11 +25,21 @@ public:
 
     void printResultArg (int reg);
 
+    void printHeapCell (int i);
+
     DataCell* getBase ();
 
     void printCell (DataCell* cell);
 
+    void setHindex (DataCell* cell);
+
 protected:
+
+    DataCell* strDeref (DataCell* cell);
+
+    void recurPrint (DataCell* cell);
     
     long ptrToHeapCell (DataCell* pointer);
+
+    int m_maxHindex;
 };

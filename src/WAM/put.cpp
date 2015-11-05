@@ -32,7 +32,7 @@ void WAM::put_structure (int functorId, int regId) {
     m_argRegisters[regId] = baseCell[0];
 
     // H <- H+2
-    m_Hindex = &baseCell[2];   
+    setHindex (&baseCell[2]);
 }
 
    

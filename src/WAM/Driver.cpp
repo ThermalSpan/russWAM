@@ -32,7 +32,7 @@ void Driver::run () {
  		if (rtnCode != SUCCESS) {
 			contExecution = false;
 		}		
-	   	m_Preg = &m_Preg[1];
+	   	m_Preg = m_Preg + 1;
     }
 }
 
@@ -73,6 +73,9 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
 		case OC_printResultArg:
             m_wam->printResultArg (instr->a);
 			break;
+        case OC_printHeapCell:
+            m_wam->printHeapCell (instr->a);
+            break;
 		case OC_terminate:
 			result = TERMINATED;
             break;       

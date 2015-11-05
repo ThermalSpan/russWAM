@@ -44,4 +44,6 @@ void WAM::setSreg (DataCell* cell) {
     m_Sreg = cell;
 }
 
-
+void WAM::setHindex (DataCell* cell) {
+    m_Hindex = cell;
+}

@@ -58,7 +58,7 @@ void WAMdebug::printHeap () {
     DataCell* basCell = m_heap->at (0);
 
  	cout << "HEAP:" << endl;   
-    for (i = 0; i < m_heap->getUsed(); i++) {
+    for (i = 0; i < m_maxHindex; i++) {
         cout << i;       
         printCell (&basCell[i]);
      }
@@ -80,11 +80,67 @@ void WAMdebug::printArgRegisters () {
 
 void WAMdebug::printResultArg (int reg) {
     DataCell* cell = deref (&m_argRegisters[reg]);
-    printCell (cell);
+    recurPrint (cell);  
+    cout << endl;
 }
+
+void WAMdebug::printHeapCell (int i) {
+    recurPrint (m_heap->at(i));
+    cout << endl;
+}
+
+void WAMdebug::recurPrint (DataCell* cell) {
+    DataCell* fun = strDeref (deref (cell));
+    
+    if (fun == nullptr) {
+        cout << "NULL FUN";
+    }
+
+    int a = m_FunctorTable->getArity (fun->functorId);
+    string name = m_FunctorTable->getName (fun->functorId);
+
+    cout << name;
+    if (a != 0) {
+        cout << "(";
+    }
+
+    for (int i = 1; i <= a; i++) {
+        recurPrint (&fun[i]);
+        if (i != a) {
+            cout << ",";
+         }
+    }
+
+    if (a != 0) {
+        cout << ")";
+    }
+ }
 
 DataCell* WAMdebug::getBase () {
     return m_heap->at (0);
 }
 
+void WAMdebug::setHindex (DataCell* cell) {
+    WAM::setHindex (cell);
 
+    int i = ptrToHeapCell (cell);
+    if (i > m_maxHindex) {
+        m_maxHindex = i;  
+    }               
+}
+
+DataCell* WAMdebug::strDeref (DataCell* cell) {
+    DataCell* result;
+
+    if (cell->type == VAL && cell->tag == STR) {
+        result = strDeref (cell->ref);
+    }
+    else if (cell->type == FUN) {
+        result = cell;
+    }
+    else {
+        result = nullptr;
+    }
+
+    return result;
+}

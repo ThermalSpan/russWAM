@@ -31,7 +31,7 @@ RtnCode WAM::get_structure (int functorId, int regId) {
             bind (cell, m_Hindex);
 
             // H <- H + 2;
-            m_Hindex = &m_Hindex[2];
+            setHindex(&m_Hindex[2]);
 
             m_mode = WRITE;
         }

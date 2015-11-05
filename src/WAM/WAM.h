@@ -23,7 +23,7 @@ class WAM {
 public:
     WAM (FunctorTable* functorTable);
   
-    ~WAM ();
+    virtual ~WAM ();
     
     // WAM Instructions
     // put 
@@ -50,7 +50,10 @@ protected:
 
 	RtnCode unify (DataCell* a, DataCell* b);
 
-    void setSreg (DataCell* cell);
+    // These methods are virtual so I can plug in debug statements
+    virtual void setSreg (DataCell* cell);
+
+    virtual void setHindex (DataCell* cell);
 
    // Protected Variables
     FunctorTable* m_FunctorTable;

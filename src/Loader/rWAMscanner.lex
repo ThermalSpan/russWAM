@@ -84,7 +84,8 @@ STRING \"[A-Za-z0-9_ ]+\"
     /* Accessories  */
 "printHeap"             { return PRINT_HEAP; }
 "printArgRegisters"     { return PRINT_ARG_REGISTERS; }
-"printResultArg"        { return PRINT_RESULT_ARG;}
+"printResultArg"        { return PRINT_RESULT_ARG; }
+"printHeapCell"         { return PRINT_HEAP_CELL; }
 "write"                 { return WRITE_OUT; }
 "label"                 { return LABEL; }
 \/                     	{ return DIV; }

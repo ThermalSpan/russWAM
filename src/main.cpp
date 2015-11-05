@@ -28,7 +28,7 @@ int main(int argc, const char * argv[]) {
 
     p.setTableCode(funTab, codeArray, strTab);
 
-   	p.run("fig24.rwam");
+ 	p.run(fn);
 
    	if (p.status ()) {
      	cout << "Input OK" << endl;
