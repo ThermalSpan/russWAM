@@ -31,7 +31,7 @@ void WAM::unify_variable (int regId) {
     }
 
     // S <- S + 1
-    updateSreg (&m_Sreg[1]);
+    setSreg (&m_Sreg[1]);
 }
 
 void WAM::unify_value (int regId) {
@@ -50,7 +50,7 @@ void WAM::unify_value (int regId) {
     }
 
     // S <- S + 1
-    updateSreg (&m_Sreg[1]);
+    setSreg (&m_Sreg[1]);
 }
 
 RtnCode WAM::unify(DataCell* a1, DataCell* a2) {

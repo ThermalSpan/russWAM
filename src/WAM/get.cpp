@@ -41,7 +41,7 @@ RtnCode WAM::get_structure (int functorId, int regId) {
             // IF HEAP[a] = f/n
             if (cell->ref->functorId == functorId && cell->ref->arity == arity) {
                 // S <- a + 1
-                updateSreg (&cell->ref[1]);
+                setSreg (&cell->ref[1]);
                 m_mode = READ;
             } 
             else {

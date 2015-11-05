@@ -50,7 +50,7 @@ protected:
 
 	RtnCode unify (DataCell* a, DataCell* b);
 
-    void updateSreg (DataCell* cell);
+    void setSreg (DataCell* cell);
 
    // Protected Variables
     FunctorTable* m_FunctorTable;

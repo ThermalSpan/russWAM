@@ -40,7 +40,7 @@ void WAM::bind (DataCell* a, DataCell* b) {
     a[0] = b[0];
 }
 
-void WAM::updateSreg (DataCell* cell) {
+void WAM::setSreg (DataCell* cell) {
     m_Sreg = cell;
 }
 
