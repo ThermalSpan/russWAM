@@ -27,6 +27,8 @@ public:
 
     void printHeapCell (int i);
 
+    void unifyHeapCells (int a, int b);
+
     DataCell* getBase ();
 
     void printCell (DataCell* cell);

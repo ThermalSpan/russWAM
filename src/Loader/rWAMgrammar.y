@@ -60,7 +60,7 @@
 %token <s> FUNCTOR
 %token <s> STRING
 
-%token PRINT_HEAP PRINT_ARG_REGISTERS PRINT_RESULT_ARG PRINT_HEAP_CELL
+%token PRINT_HEAP PRINT_ARG_REGISTERS PRINT_RESULT_ARG PRINT_HEAP_CELL UNIFY_HEAP_CELLS
 %token WRITE_OUT LABEL DIV COLON TERMINATE
 
 %%
@@ -86,6 +86,7 @@ instr:
 |   PRINT_ARG_REGISTERS                 { parser->addInstruction (OC_printArgRegisters); }
 |   PRINT_RESULT_ARG INT                { parser->addInstruction (OC_printResultArg, $2); }
 |   PRINT_HEAP_CELL INT                 { parser->addInstruction (OC_printHeapCell, $2); }
+|   UNIFY_HEAP_CELLS INT INT            { parser->addInstruction (OC_unifyHeapCells, $2, $3); }
 |   TERMINATE                           { parser->addInstruction (OC_terminate); }
 ;
 

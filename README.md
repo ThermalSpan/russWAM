@@ -67,6 +67,7 @@ Notable links so far include:
 <li><a href="https://isocpp.org/wiki/faq/dtors#overview-dtors"> Destructors FAQ </a></li>
 <li><a href="http://stackoverflow.com/questions/18260876/in-a-warrens-abstract-machine-where-are-argument-variables-created"> SO: When are WAM Argument Variables created? </a></li>
 <li><a href="http://www.gprolog.org/"> The GNU Prolog website </a></li>
+<li><a href="http://stackoverflow.com/questions/19459516/unification-algorithm-example-in-wam-warrens-abstract-machine"> SO: Unification Algorithm Example </a></li>
 </ul>
 
 ### License

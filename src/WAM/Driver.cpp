@@ -76,6 +76,9 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
         case OC_printHeapCell:
             m_wam->printHeapCell (instr->a);
             break;
+        case OC_unifyHeapCells:
+            m_wam->unifyHeapCells (instr->a, instr->b);
+            break;
 		case OC_terminate:
 			result = TERMINATED;
             break;       

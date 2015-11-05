@@ -144,3 +144,9 @@ DataCell* WAMdebug::strDeref (DataCell* cell) {
 
     return result;
 }
+
+void WAMdebug::unifyHeapCells (int a, int b) {
+    DataCell* cell1 = m_heap->at (a);
+    DataCell* cell2 = m_heap->at (b);
+    unify (cell1, cell2);
+}

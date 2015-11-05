@@ -86,6 +86,7 @@ STRING \"[A-Za-z0-9_ ]+\"
 "printArgRegisters"     { return PRINT_ARG_REGISTERS; }
 "printResultArg"        { return PRINT_RESULT_ARG; }
 "printHeapCell"         { return PRINT_HEAP_CELL; }
+"unifyHeapCells"        { return UNIFY_HEAP_CELLS; }
 "write"                 { return WRITE_OUT; }
 "label"                 { return LABEL; }
 \/                     	{ return DIV; }

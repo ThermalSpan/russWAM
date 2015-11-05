@@ -85,6 +85,7 @@ enum OpCode {
 	OC_printArgRegisters,
 	OC_printResultArg,
     OC_printHeapCell,
+    OC_unifyHeapCells,
 	OC_write,
     OC_terminate
 };
