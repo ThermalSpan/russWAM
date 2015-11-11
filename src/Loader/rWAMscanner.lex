@@ -81,17 +81,20 @@ STRING \"[A-Za-z0-9_ ]+\"
 "get_level"             { return GET_LEVEL; }
 "cut"                   { return CUT; }
 
-    /* Accessories  */
+    /* Other        */ 
+"label"                 { return LABEL; }
+"terminate"				{ return TERMINATE; }
+"x"                     { yylval->i = 0; return REGTYPE; }
+"y"                     { yylval->i = 1; return REGTYPE; }
+(\(\)\/\:)              { return yytext[0]; }
+
+    /* Debug        */
 "printHeap"             { return PRINT_HEAP; }
 "printArgRegisters"     { return PRINT_ARG_REGISTERS; }
 "printResultArg"        { return PRINT_RESULT_ARG; }
 "printHeapCell"         { return PRINT_HEAP_CELL; }
 "unifyHeapCells"        { return UNIFY_HEAP_CELLS; }
 "write"                 { return WRITE_OUT; }
-"label"                 { return LABEL; }
-\/                     	{ return DIV; }
-":"                     { return COLON; }
-"terminate"				{ return TERMINATE; }
 
     /* Other stuff  */
 {INTEGER}         {

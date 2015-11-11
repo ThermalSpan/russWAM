@@ -25,6 +25,8 @@ public:
 protected:
 	// Protected Methods
 	RtnCode ExecuteInstruction (WAMword* instr);
+
+    void incr ();
 	
 	// Protected Variables
     int m_size;
@@ -38,4 +40,6 @@ protected:
     WAMword* m_Code;
 
     WAMword* m_Preg;
+
+    WAMword* m_CPreg;
 };

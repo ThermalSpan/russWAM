@@ -56,12 +56,14 @@
 
 %token NECK_CUT GET_LEVEL CUT
 
-%token <i> INT
+%token <i> INT REGTYPE
 %token <s> FUNCTOR
 %token <s> STRING
 
+%token '(' ')' '/' ':'
+
 %token PRINT_HEAP PRINT_ARG_REGISTERS PRINT_RESULT_ARG PRINT_HEAP_CELL UNIFY_HEAP_CELLS
-%token WRITE_OUT LABEL DIV COLON TERMINATE
+%token WRITE_OUT LABEL TERMINATE
 
 %%
 
@@ -73,21 +75,26 @@ instrList: instr instrListTail;
 instrListTail: %empty | instr instrListTail;
 
 instr:
-    LABEL functor DIV INT COLON         { parser->addLabel ($4); } 
-|   P_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_put_structure, $4, $5); }
+    LABEL functor '/' INT ':'           { parser->addLabel ($4); } 
+|   P_VARIABLE REGTYPE '(' INT ')' INT  { parser->addInstruction (OC_put_variable, $2, $4, $6); }
+|   P_VALUE REGTYPE '(' INT ')' INT     { parser->addInstruction (OC_put_value, $2, $4, $6); } 
+|   P_STRUCTURE functor '/' INT INT     { parser->addFunctorInstr (OC_put_structure, $4, $5); }
 |   S_VARIABLE INT                      { parser->addInstruction (OC_set_variable, $2); }
 |   S_VALUE INT                         { parser->addInstruction (OC_set_value, $2);}
-|   G_STRUCTURE functor DIV INT INT     { parser->addFunctorInstr (OC_get_structure, $4, $5); }
+|   G_VARIABLE REGTYPE '(' INT ')' INT  { parser->addInstruction (OC_get_variable, $2, $4, $6); }
+|   G_VALUE REGTYPE '(' INT ')' INT     { parser->addInstruction (OC_get_value, $2, $4, $6); }
+|   G_STRUCTURE functor '/' INT INT     { parser->addFunctorInstr (OC_get_structure, $4, $5); }
 |   U_VARIABLE INT                      { parser->addInstruction (OC_unify_variable, $2); }
 |   U_VALUE INT                         { parser->addInstruction (OC_unify_value, $2); }
 |   WRITE_OUT string        			{ parser->addStringInstr (OC_write); }
-|   CALL functor DIV INT                { parser->addFunctorInstr (OC_call, $4); } 
+|   CALL functor '/' INT                { parser->addFunctorInstr (OC_call, $4); } 
 |   PRINT_HEAP                          { parser->addInstruction (OC_printHeap); }
 |   PRINT_ARG_REGISTERS                 { parser->addInstruction (OC_printArgRegisters); }
 |   PRINT_RESULT_ARG INT                { parser->addInstruction (OC_printResultArg, $2); }
 |   PRINT_HEAP_CELL INT                 { parser->addInstruction (OC_printHeapCell, $2); }
 |   UNIFY_HEAP_CELLS INT INT            { parser->addInstruction (OC_unifyHeapCells, $2, $3); }
 |   TERMINATE                           { parser->addInstruction (OC_terminate); }
+|   PROCEED                             { parser->addInstruction (OC_proceed); }
 ;
 
 functor: FUNCTOR                        { parser->passString ($1); }

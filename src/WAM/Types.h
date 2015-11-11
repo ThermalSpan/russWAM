@@ -41,6 +41,9 @@ enum RtnCode {
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
 
+// Some operations specify the register type
+enum RegType {X = 0, Y = 1};
+
 enum OpCode {
     OC_cut_variable,
     OC_put_variable,

@@ -35,4 +35,6 @@ void WAM::put_structure (int functorId, int regId) {
     setHindex (&baseCell[2]);
 }
 
+
+
    

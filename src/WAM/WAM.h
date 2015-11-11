@@ -28,6 +28,10 @@ public:
     // WAM Instructions
     // put 
     void put_structure (int functorId, int regId);
+    
+    void put_variable (int regType, int reg1, int reg2);
+
+    void put_value (int regType, int reg);
 
     // set
     void set_variable (int regId);
@@ -35,6 +39,10 @@ public:
     void set_value (int regId);
     
     // get
+    void get_variable (int regType, int reg1, int reg2);
+
+    void get_value (int regType, int reg1, int reg2);
+
     RtnCode get_structure (int functorId, int regId);
 
     //Unify 
@@ -48,7 +56,7 @@ protected:
 
     DataCell* deref (DataCell* cell);
 
-	RtnCode unify (DataCell* a, DataCell* b);
+    RtnCode unify (DataCell* a, DataCell* b);
 
     // These methods are virtual so I can plug in debug statements
     virtual void setSreg (DataCell* cell);
