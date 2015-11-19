@@ -33,6 +33,8 @@ void WAM::put_structure (int functorId, int regId) {
 
     // H <- H+2
     setHindex (&baseCell[2]);
+
+    incrPreg ();
 }
 
 

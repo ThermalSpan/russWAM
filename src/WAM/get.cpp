@@ -53,6 +53,7 @@ RtnCode WAM::get_structure (int functorId, int regId) {
         result = GET_STRUCT_FAIL;
     }
     
+    incrPreg ();    
     return result;
 }
 

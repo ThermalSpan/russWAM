@@ -34,8 +34,8 @@ int main(int argc, const char * argv[]) {
      	cout << "Input OK" << endl;
         //cout << "FunctorTable size: " << funTab->getTableSize () << endl;
 
-		Driver dr (codeArray, funTab, strTab, 400);
-		dr.run ();		
+		WAM w (funTab, strTab, codeArray, 400);
+		w.run ();		
 
    	} else 
      	cout << "Input BAD" << endl;

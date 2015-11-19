@@ -23,6 +23,8 @@ void WAM::set_variable (int regId) {
 
     // H <- H+1
     setHindex (&m_Hindex[1]);
+
+    incrPreg ();
 }
 
 void WAM::set_value (int regId) {
@@ -31,6 +33,8 @@ void WAM::set_value (int regId) {
 
     // H <- H+1
     setHindex (&m_Hindex[1]);
+
+    incrPreg ();
 }
 
 

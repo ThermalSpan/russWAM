@@ -21,9 +21,11 @@ using namespace std;
 
 class WAM {
 public:
-    WAM (FunctorTable* functorTable);
+    WAM (FunctorTable* functorTable, StrVec* stringTable, WAMword* code, int size);
   
     virtual ~WAM ();
+
+    void run ();
     
     // WAM Instructions
     // put 
@@ -49,6 +51,21 @@ public:
     void unify_variable (int regId);
 
     void unify_value (int regId);
+    
+    // Debug Stuff
+    void printHeap ();
+
+    void printArgRegisters ();
+
+    void printResultArg (int reg);
+
+    void printHeapCell (int i);
+
+    void unifyHeapCells (int a, int b);
+
+    DataCell* getBase ();
+
+    void printCell (DataCell* cell);
 
 protected:
     // Protected Functions
@@ -58,10 +75,21 @@ protected:
 
     RtnCode unify (DataCell* a, DataCell* b);
 
-    // These methods are virtual so I can plug in debug statements
-    virtual void setSreg (DataCell* cell);
+    RtnCode ExecuteInstruction (WAMword* instr);
 
-    virtual void setHindex (DataCell* cell);
+    void incrPreg ();
+
+    void setSreg (DataCell* cell);
+
+    void setHindex (DataCell* cell);
+
+    // Debug Stuff
+    DataCell* strDeref (DataCell* cell);
+
+    void recurPrint (DataCell* cell);
+    
+    long ptrToHeapCell (DataCell* pointer);
+
 
    // Protected Variables
     FunctorTable* m_FunctorTable;
@@ -76,8 +104,24 @@ protected:
 
     Mode m_mode;
 
+    StrVec* m_StringTable;
+    
+    // Core Array;
+    WAMword* m_Code;
+
+    int m_size;
+
+    // Next instruction
+    WAMword* m_Preg;
+    
+    // Continuation instruction
+    WAMword* m_CPreg;
+
     // The next sub-term to be matched
     DataCell* m_Sreg;
+
+    int m_maxHindex;
+
 };
 
 

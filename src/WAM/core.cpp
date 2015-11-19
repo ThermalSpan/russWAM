@@ -10,7 +10,7 @@
 #include "WAM.h"
 #include "WAMdebug.h"
 
-WAM::WAM (FunctorTable* functorTable) {
+WAM::WAM (FunctorTable* functorTable, StrVec* stringTable,  WAMword* code, int size) {
     m_argRegisters = (DataCell*) malloc (ARG_REG_COUNT * sizeof (DataCell));
     m_heap = new Heap (512); 
     m_UnifStack = new AddrStack ();
@@ -18,6 +18,11 @@ WAM::WAM (FunctorTable* functorTable) {
     m_FunctorTable = functorTable;
     m_mode = READ;
     m_Sreg = nullptr;
+
+    m_Code = code;
+    m_Preg = m_Code;
+    m_size = size;
+    m_StringTable = stringTable;
 }
 
 WAM::~WAM () {

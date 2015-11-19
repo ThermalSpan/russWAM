@@ -1,5 +1,5 @@
 //
-//  WAMdebug.cpp
+//  debug.cpp
 //  russWAM
 //
 //  Created by Russell Wilhelm Bentley on 10/15/15.
@@ -7,17 +7,9 @@
 //  Distributed under the MIT License.
 //
 
-#include "WAMdebug.h"
+#include "WAM.h"
 
-WAMdebug::WAMdebug (FunctorTable* functorTable) : WAM (functorTable) {
-
-}
-
-WAMdebug::~WAMdebug () {
-
-}
-
-long WAMdebug::ptrToHeapCell (DataCell* pointer) {
+long WAM::ptrToHeapCell (DataCell* pointer) {
     if (pointer == nullptr) {
         return -2;
     } 
@@ -32,7 +24,7 @@ long WAMdebug::ptrToHeapCell (DataCell* pointer) {
     }
 }
 
-void WAMdebug::printCell (DataCell* cell) {
+void WAM::printCell (DataCell* cell) {
     cout << "\t| ";       
     if (cell == nullptr) {
         cout << "null";
@@ -51,9 +43,11 @@ void WAMdebug::printCell (DataCell* cell) {
         cout << "What type is this?";
     }   
     cout << "|" << endl; 
+
+    incrPreg ();
 }
 
-void WAMdebug::printHeap () {
+void WAM::printHeap () {
     int i;
     DataCell* basCell = m_heap->at (0);
 
@@ -64,9 +58,11 @@ void WAMdebug::printHeap () {
      }
 
 	cout << endl;
+
+    incrPreg ();
 }
 
-void WAMdebug::printArgRegisters () {
+void WAM::printArgRegisters () {
     int i;
  	cout << "ARGUMENT REGISTERS:" << endl;
 
@@ -76,20 +72,24 @@ void WAMdebug::printArgRegisters () {
     }
 
 	cout << endl;
+
+    incrPreg ();
 }
 
-void WAMdebug::printResultArg (int reg) {
+void WAM::printResultArg (int reg) {
     DataCell* cell = deref (&m_argRegisters[reg]);
     recurPrint (cell);  
     cout << endl;
+    incrPreg ();
 }
 
-void WAMdebug::printHeapCell (int i) {
+void WAM::printHeapCell (int i) {
     recurPrint (m_heap->at(i));
     cout << endl;
+    incrPreg ();
 }
 
-void WAMdebug::recurPrint (DataCell* cell) {
+void WAM::recurPrint (DataCell* cell) {
     DataCell* fun = strDeref (deref (cell));
     
     if (fun == nullptr) {
@@ -116,11 +116,11 @@ void WAMdebug::recurPrint (DataCell* cell) {
     }
  }
 
-DataCell* WAMdebug::getBase () {
+DataCell* WAM::getBase () {
     return m_heap->at (0);
 }
 
-void WAMdebug::setHindex (DataCell* cell) {
+void WAM::setHindex (DataCell* cell) {
     WAM::setHindex (cell);
 
     int i = ptrToHeapCell (cell);
@@ -129,7 +129,7 @@ void WAMdebug::setHindex (DataCell* cell) {
     }               
 }
 
-DataCell* WAMdebug::strDeref (DataCell* cell) {
+DataCell* WAM::strDeref (DataCell* cell) {
     DataCell* result;
 
     if (cell->type == VAL && cell->tag == STR) {
@@ -145,8 +145,9 @@ DataCell* WAMdebug::strDeref (DataCell* cell) {
     return result;
 }
 
-void WAMdebug::unifyHeapCells (int a, int b) {
+void WAM::unifyHeapCells (int a, int b) {
     DataCell* cell1 = m_heap->at (a);
     DataCell* cell2 = m_heap->at (b);
     unify (cell1, cell2);
+    incrPreg ();
 }
