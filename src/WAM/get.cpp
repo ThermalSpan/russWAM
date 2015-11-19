@@ -8,7 +8,6 @@
 //
 
 #include "WAM.h"
-#include "WAMdebug.h"
 
 RtnCode WAM::get_structure (int functorId, int regId) {
     RtnCode result = SUCCESS;
@@ -57,4 +56,10 @@ RtnCode WAM::get_structure (int functorId, int regId) {
     return result;
 }
 
+void WAM::get_variable (int regType, int regId, int argRegId) {
 
+}
+
+void WAM::get_value (int regType, int regId, int argRegId) {
+
+}

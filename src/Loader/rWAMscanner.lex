@@ -86,7 +86,7 @@ STRING \"[A-Za-z0-9_ ]+\"
 "terminate"				{ return TERMINATE; }
 "x"                     { yylval->i = 0; return REGTYPE; }
 "y"                     { yylval->i = 1; return REGTYPE; }
-(\(\)\/\:)              { return yytext[0]; }
+[\(\)\/\:]              { return yytext[0]; }
 
     /* Debug        */
 "printHeap"             { return PRINT_HEAP; }

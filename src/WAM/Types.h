@@ -37,7 +37,6 @@ enum RtnCode {
     UNIFY_FAIL              // unify (a1, a2) failed to complete
 };
 
-
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
 
@@ -100,6 +99,24 @@ struct WAMword {
 	int b;
 	int c;
 };
+
+// This is what the STACK uses
+struct EnvFrame {
+    WAMword* CE;
+    WAMword* CP;
+    std::vector <DataCell> registers;
+
+    EnvFrame () : registers () {
+        CE = nullptr;
+        CP = nullptr;
+    }
+
+    EnvFrame(WAMword* _CE, WAMword* _CP, int N) : registers (N) {
+        CE = _CE;
+        CP = _CP;
+    }
+};
+
 
 // Useful typedefs
 typedef std::vector <std::string> StrVec;

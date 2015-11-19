@@ -43,8 +43,6 @@ void WAM::printCell (DataCell* cell) {
         cout << "What type is this?";
     }   
     cout << "|" << endl; 
-
-    incrPreg ();
 }
 
 void WAM::printHeap () {
@@ -118,15 +116,6 @@ void WAM::recurPrint (DataCell* cell) {
 
 DataCell* WAM::getBase () {
     return m_heap->at (0);
-}
-
-void WAM::setHindex (DataCell* cell) {
-    WAM::setHindex (cell);
-
-    int i = ptrToHeapCell (cell);
-    if (i > m_maxHindex) {
-        m_maxHindex = i;  
-    }               
 }
 
 DataCell* WAM::strDeref (DataCell* cell) {

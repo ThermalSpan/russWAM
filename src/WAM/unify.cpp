@@ -8,7 +8,6 @@
 //
 
 #include "WAM.h"
-#include "WAMdebug.h"
 
 void WAM::unify_variable (int regId) {
     switch (m_mode) {

@@ -12,7 +12,6 @@
 void WAM::run () {
     bool contExecution = true;
     RtnCode rtnCode;
-
     while (contExecution) {
         rtnCode = ExecuteInstruction (m_Preg);
  		if (rtnCode != SUCCESS) {
@@ -61,10 +60,11 @@ RtnCode WAM::ExecuteInstruction (WAMword* instr) {
             unify_value (instr->a);
             break;
         case OC_call:
-            m_Preg = m_FunctorTable->getLabel (instr->a);
+            call (instr->a);
             break;
 		case OC_write:
 			cout << m_StringTable->at (instr->a) << endl;
+            incrPreg ();
 			break;
 		case OC_printHeap:
 			printHeap ();
@@ -82,7 +82,8 @@ RtnCode WAM::ExecuteInstruction (WAMword* instr) {
             unifyHeapCells (instr->a, instr->b);
             break;
         case OC_proceed:
-            m_Preg = m_CPreg;
+            proceed ();
+            break;
 		case OC_terminate:
 			result = TERMINATED;
             break;       

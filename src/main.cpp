@@ -8,9 +8,8 @@
 //
 
 #include "stdafx.h"
-#include "WAM/WAMdebug.h"
 #include "Loader/rWAMparser.h"
-#include "WAM/Driver.h"
+#include "WAM/WAM.h"
 
 using namespace std;
 
@@ -28,7 +27,7 @@ int main(int argc, const char * argv[]) {
 
     p.setTableCode(funTab, codeArray, strTab);
 
- 	p.run("prob22.rwam");
+ 	p.run(fn);
 
    	if (p.status ()) {
      	cout << "Input OK" << endl;

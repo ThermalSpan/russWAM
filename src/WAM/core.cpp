@@ -8,7 +8,6 @@
 //
 
 #include "WAM.h"
-#include "WAMdebug.h"
 
 WAM::WAM (FunctorTable* functorTable, StrVec* stringTable,  WAMword* code, int size) {
     m_argRegisters = (DataCell*) malloc (ARG_REG_COUNT * sizeof (DataCell));
@@ -51,4 +50,9 @@ void WAM::setSreg (DataCell* cell) {
 
 void WAM::setHindex (DataCell* cell) {
     m_Hindex = cell;
+
+	int i = ptrToHeapCell (cell);
+    if (i > m_maxHindex) {
+        m_maxHindex = i;  
+    }             
 }

@@ -1,5 +1,5 @@
 //  Based on Figure 2.3
-label t/0:
+label t / 0:
 write "Building Term" 
 
 put_structure h/2 3

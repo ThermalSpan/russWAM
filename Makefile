@@ -12,7 +12,7 @@ FLEX 		= flex
 TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
-WAMFILES 	= Heap WAMdebug core unify put set get FunctorTable Driver
+WAMFILES 	= Heap debug core unify put set get FunctorTable driver control
 LOADFILES 	= rWAMparser
 GRAMFILE	= rWAMgrammar
 FLEXFILES	= rWAMscanner

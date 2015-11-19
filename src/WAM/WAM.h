@@ -28,30 +28,39 @@ public:
     void run ();
     
     // WAM Instructions
-    // put 
+    // Put 
     void put_structure (int functorId, int regId);
     
-    void put_variable (int regType, int reg1, int reg2);
+    void put_variable (int regType, int regId, int argRegId);
 
-    void put_value (int regType, int reg);
+    void put_value (int regType, int regId);
 
-    // set
+    // Set
     void set_variable (int regId);
 
     void set_value (int regId);
     
-    // get
-    void get_variable (int regType, int reg1, int reg2);
+    // Get
+    void get_variable (int regType, int regId, int argRegId);
 
-    void get_value (int regType, int reg1, int reg2);
+    void get_value (int regType, int regId, int argRegId);
 
     RtnCode get_structure (int functorId, int regId);
 
-    //Unify 
+    // Unify 
     void unify_variable (int regId);
 
     void unify_value (int regId);
-    
+
+    // Control
+    void call (int functorId);
+
+    void proceed ();
+
+    void allocate (int N);
+
+    void deallocate ();
+
     // Debug Stuff
     void printHeap ();
 
@@ -74,6 +83,8 @@ protected:
     DataCell* deref (DataCell* cell);
 
     RtnCode unify (DataCell* a, DataCell* b);
+
+    DataCell* getEnvReg (int regId);
 
     RtnCode ExecuteInstruction (WAMword* instr);
 

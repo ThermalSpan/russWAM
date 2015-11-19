@@ -37,6 +37,14 @@ void WAM::put_structure (int functorId, int regId) {
     incrPreg ();
 }
 
+void WAM::put_variable (int regType, int regId, int argRegId) {
+
+}
+
+void WAM::put_value (int regType, int regId) {
+
+}
+
 
 
    
