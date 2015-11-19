@@ -111,6 +111,8 @@ protected:
 
     AddrStack* m_UnifStack;
 
+    EnvStack* m_EnvStack;
+
     DataCell* m_Hindex;
 
     Mode m_mode;

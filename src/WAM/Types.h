@@ -100,26 +100,23 @@ struct WAMword {
 	int c;
 };
 
-// This is what the STACK uses
+// This is what the EnvStack uses
 struct EnvFrame {
-    WAMword* CE;
     WAMword* CP;
     std::vector <DataCell> registers;
 
     EnvFrame () : registers () {
-        CE = nullptr;
         CP = nullptr;
     }
 
-    EnvFrame(WAMword* _CE, WAMword* _CP, int N) : registers (N) {
-        CE = _CE;
-        CP = _CP;
+    EnvFrame(WAMword* P, int N) : registers (N) {
+        CP = P;
     }
 };
-
 
 // Useful typedefs
 typedef std::vector <std::string> StrVec;
 typedef std::stack <DataCell*> AddrStack;
+typedef std::stack <EnvFrame*> EnvStack; 
 
 

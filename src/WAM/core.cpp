@@ -13,6 +13,7 @@ WAM::WAM (FunctorTable* functorTable, StrVec* stringTable,  WAMword* code, int s
     m_argRegisters = (DataCell*) malloc (ARG_REG_COUNT * sizeof (DataCell));
     m_heap = new Heap (512); 
     m_UnifStack = new AddrStack ();
+    m_EnvStack = new EnvStack ();
 
     m_FunctorTable = functorTable;
     m_mode = READ;
