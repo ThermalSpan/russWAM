@@ -50,7 +50,7 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
             incr ();
             break;
         case OC_put_value:
-            m_wam->put_value (instr->a, instr->b, instr->c);
+            m_wam->put_value (instr->a, instr->b);
             incr ();
             break;
         case OC_put_structure:
@@ -70,7 +70,7 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
             incr ();
             break;
         case OC_get_value:
-            m_wam->get_value (intr->a, instr->b, instr->c);
+            m_wam->get_value (instr->a, instr->b, instr->c);
             incr ();
             break;
         case OC_get_structure:
@@ -111,7 +111,7 @@ RtnCode Driver::ExecuteInstruction (WAMword* instr) {
             break;
         case OC_unifyHeapCells:
             m_wam->unifyHeapCells (instr->a, instr->b);
-            incr ():
+            incr ();
             break;
         case OC_proceed:
             m_Preg = m_CPreg;
