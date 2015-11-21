@@ -38,7 +38,23 @@ void WAM::put_structure (int functorId, int regId) {
 }
 
 void WAM::put_variable (int regType, int regId, int argRegId) {
+    switch (regType) {
+        case X: 
+            m_Hindex->type = VAL;
+            m_Hindex->tag = REF;
+            m_Hindex->ref = m_Hindex;
+             
+            break;
+        case Y:
+            DataCell* yreg = getEnvReg (regId);
+            yreg->type = VAL;
+            yreg->tag = REF;
+            yreg->ref = yreg;
+            m_argRegisters[argRegId] = *yreg;
+            break;
+    }
 
+    incrPreg ();
 }
 
 void WAM::put_value (int regType, int regId) {
