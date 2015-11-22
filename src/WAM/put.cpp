@@ -41,18 +41,11 @@ void WAM::put_variable (RegType t, int regId, int argRegId) {
 }
 
 void WAM::put_value (RegType t, int regId, int argRegId) {
-    DataCell* valueReg;
-     switch (t) {
-        case GLOBAL:
-            valueReg = getGlobalReg (regId);
-            break;
-        case LOCAL:
-            valueReg = getLocalReg (regId);
-            break;
-    }
+    DataCell* reg = getRegister (t, regId); 
+
     // Ai <- Vn
     DataCell* globalReg = getGlobalReg (argRegId);
-    *globalReg = *valueReg;
+    *globalReg = *reg;
     
     m_P = m_P + 1;
 }
@@ -61,8 +54,8 @@ void WAM::put_unsafe_value (int regId, int argRegId) {
     DataCell* localReg = getLocalReg (int regId);
     DataCell* address = deref (DataCell* localReg);
     
-    // If deref (Yn) is unbound then make an unbound cell on the heap, save to Ai
-    if (unbound (address)) {
+    // If addr is unbound stack var then make an unbound cell on the heap, save to Ai
+    if (unboundStack (address)) {
         m_H->tag = REF;
         m_H->ref = m_H;
         bind (address, m_H);
@@ -106,11 +99,3 @@ void WAM::put_constant (int functorId, int argRegId) {
 
     m_P = m_p + 1;
 }
-
-
-
-
-
-
-
-
