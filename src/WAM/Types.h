@@ -9,7 +9,8 @@
 
 #pragma once
 
-#include "../stdafx.h"
+#include "opcode.h"
+#include <stack.h>
 
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
@@ -21,16 +22,14 @@ enum RegType {GLOBAL, LOCAL};
 enum Tag {REF, STR, FUN, LIS, CON};
 
 struct DataCell {
-    union {
-        Tag tag;
-    };
+    Tag tag;
     union {
         DataCell* ref;
         int functorId;
     };
 };
 
-// This structure represents one WAM intruction
+// This structure represents one WAM instruction
 struct WAMword {
     OpCode op;
     int a;
@@ -41,7 +40,7 @@ struct WAMword {
 // The local stack contains environment frames and choice points
 enum LocalType {Environment, ChoicePoint};
 struct LocalFrame {
-    LocalType 
+    int a;
 };
 
 // The Trail Stack is a doubly linked list of TrailFrames
@@ -60,9 +59,6 @@ struct MemoryRegisters {
     DataCell* HB;               // Heap Backtrack point
 };
 
-struct WAMstate {
-    DataCell* HeapBase;
-    
-}
-
+// Some useful typedefs
+typedef std::stack <DataCell*> addressStack;
 

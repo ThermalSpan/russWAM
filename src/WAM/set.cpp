@@ -8,6 +8,7 @@
 //
 
 #include "WAM.h"
+#include <assert.h>
 
 void WAM::set_variable (RegType t, int regId) {
     DataCell* reg = getRegister (t, regId);
@@ -37,7 +38,7 @@ void WAM::set_local_value (RegType t, int regId) {
     DataCell* address = deref (reg);
     
     // If unbound heap var, push copy onto HEAP
-    if (unboundHeap (address) {
+    if (unboundHeap (address)) {
         // HEAP[H] <- HEAP[address]
         *m_H = *address;     
     }

@@ -11,7 +11,7 @@
 
 void WAM::put_variable (RegType t, int regId, int argRegId) {
     switch (t) {
-        case GLOBAL:
+        case GLOBAL: {
             DataCell* globalRegX = getGlobalReg (regId);
             DataCell* globalRegA = getGlobalReg (argRegId);
             
@@ -24,17 +24,16 @@ void WAM::put_variable (RegType t, int regId, int argRegId) {
             *globalRegA = *m_H;
             
             m_H = m_H + 1;
-            break;
-        case LOCAL:
+            } break;
+        case LOCAL: {
             DataCell* localReg = getLocalReg (regId); 
-            DataCell* globalReg = getGlobalReg (argRegId);
             
             // STACK[addr] <- (REF, addr)
             localReg->tag = REF;
-            localReg->ref = reg;
+            localReg->ref = localReg;
             //Ai <- STACK[addr]
-            *globalReg = *localReg; 
-            break;
+            *getGlobalReg (argRegId) = *localReg; 
+            } break;
     }
 
     m_P = m_P + 1;
@@ -51,8 +50,8 @@ void WAM::put_value (RegType t, int regId, int argRegId) {
 }
 
 void WAM::put_unsafe_value (int regId, int argRegId) {
-    DataCell* localReg = getLocalReg (int regId);
-    DataCell* address = deref (DataCell* localReg);
+    DataCell* localReg = getLocalReg (regId);
+    DataCell* address = deref (localReg);
     
     // If addr is unbound stack var then make an unbound cell on the heap, save to Ai
     if (unboundStack (address)) {
@@ -75,7 +74,7 @@ void WAM::put_structure (int functorId, int argRegId) {
     m_H->functorId = functorId;
     // Ai <- (STR, H)
     DataCell* globalReg = getGlobalReg (argRegId);
-    globalReg->type = STR;
+    globalReg->tag = STR;
     globalReg->ref = m_H;
 
     m_H = m_H + 1;
@@ -85,7 +84,7 @@ void WAM::put_structure (int functorId, int argRegId) {
 void WAM::put_list (int argRegId) {
     // Ai <- (LIS, H)
     DataCell* globalReg = getGlobalReg (argRegId);
-    globalReg->type = LIS;
+    globalReg->tag = LIS;
     globalReg->ref = m_H;
 
     m_P = m_P + 1;
@@ -94,8 +93,8 @@ void WAM::put_list (int argRegId) {
 void WAM::put_constant (int functorId, int argRegId) {
     // Ai <- (CON, H)
     DataCell* globalReg = getGlobalReg (argRegId);
-    globalReg->type = CON;
+    globalReg->tag = CON;
     globalReg->functorId = functorId;
 
-    m_P = m_p + 1;
+    m_P = m_P + 1;
 }

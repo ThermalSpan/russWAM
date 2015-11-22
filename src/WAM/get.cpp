@@ -22,7 +22,7 @@ void WAM::get_value (RegType t, int regId, int argRegId) {
     bool unifySuccess; 
     DataCell* reg = getRegister (t, regId);
 
-    unifySuccess = unify (reg, *getGlobalReg (argRegId));  
+    unifySuccess = unify (reg, getGlobalReg (argRegId));  
     if (unifySuccess) {
         m_P = m_P + 1;
     } else {

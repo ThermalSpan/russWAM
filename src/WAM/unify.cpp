@@ -8,6 +8,7 @@
 //
 
 #include "WAM.h"
+#include <assert.h>
 
 void WAM::unify_variable (RegType t, int regId) {
     DataCell* reg = getRegister (t, regId);
@@ -89,7 +90,7 @@ void WAM::unify_local_value (RegType t, int regId) {
 void WAM::unify_constant (int functorId) {
     bool unifySuccess = true;
     switch (m_Mode) {
-        case READ:
+        case READ: {
             DataCell* address = deref (m_S);
             switch (address->tag) {
                 case REF:
@@ -107,7 +108,7 @@ void WAM::unify_constant (int functorId) {
                     unifySuccess = false;
                     break;
             }
-            break;
+        } break;
 
         case WRITE:
             // HEAP[H] <- (CON, c)
@@ -119,7 +120,6 @@ void WAM::unify_constant (int functorId) {
 
     if (unifySuccess) {
         m_P = m_P + 1;
-    } else {
         backtrack ();
     }
 }
@@ -140,4 +140,24 @@ void WAM::unify_void (int n) {
     }
 
     m_P = m_P + 1;
+}
+
+bool WAM::unify (DataCell* cell1, DataCell* cell2) {
+    bool unifySuccess = true;
+    m_PDL->push (cell1); 
+    m_PDL->push (cell2);
+
+    while (!m_PDL->empty () || !unifySuccess) {
+        DataCell* d1 = deref (m_PDL->top ());
+        m_PDL->pop ();
+        DataCell* d2 = deref (m_PDL->top ());
+        m_PDL->pop ();
+
+        if (d1 != d2) {
+            
+        
+        }
+    }
+    
+    return unifySuccess;
 }
