@@ -10,6 +10,7 @@
 #pragma once
 
 #include "types.h"
+#include "FunctorTable.h"
 
 class WAM {
 public:
@@ -24,6 +25,7 @@ protected:
     // Data areas
     DataCell* m_Heap;
     addressStack* m_PDL;
+    FunctorTable* m_functorTable;
 
     // Put instructions
     void put_variable (RegType t, int regId, int argRegId);

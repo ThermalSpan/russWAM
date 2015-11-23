@@ -10,7 +10,7 @@
 #pragma once
 
 #include "opcode.h"
-#include <stack.h>
+#include <stack>
 
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
@@ -38,9 +38,9 @@ struct WAMword {
 };
 
 // The local stack contains environment frames and choice points
-enum LocalType {Environment, ChoicePoint};
+enum LocalType {ENVIRON, CHOICEP};
 struct LocalFrame {
-    int a;
+    LocalType type;
 };
 
 // The Trail Stack is a doubly linked list of TrailFrames

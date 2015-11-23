@@ -154,8 +154,47 @@ bool WAM::unify (DataCell* cell1, DataCell* cell2) {
         m_PDL->pop ();
 
         if (d1 != d2) {
-            
-        
+           if (d1->tag == REF) {
+                bind (d1, d2);
+           } else {
+                switch (d2->tag) {
+                    case REF:
+                        bind (d1, d2);
+                        break;
+                    case CON:
+                        unifySuccess = (d1->tag == CON) && (d1->functorId == d2->functorId);
+                        break;
+                    case LIS:
+                        if (d1->tag != LIS) {
+                            unifySuccess = false;
+                        } else {
+                            m_PDL->push (d1->ref);
+                            m_PDL->push (d2->ref);
+                            m_PDL->push (d1->ref + 1);
+                            m_PDL->push (d2->ref + 1);
+                        }
+                        break;
+                    case STR:
+                        if (d1->tag != STR) {
+                            unifySuccess = false;
+                        } else {
+                            if (d1->ref->functorId != d2->ref->functorId) {
+                                unifySuccess = false;
+                            } else {
+                                int n = m_functorTable->getArity (d1->ref->functorId);
+                                for (int i = 0; i < n; i++) {
+                                    m_PDL->push (d1->ref + i);
+                                    m_PDL->push (d2->ref + i);
+                                }
+                            }
+                        }
+                        break;
+                    case default:
+                        unifySuccess = false;
+                        cout << "ERROR: unify, unknown tag" << endl;
+                        break;
+                }
+            }
         }
     }
     
