@@ -16,16 +16,21 @@ class WAM {
 public:
 
 protected:
-    DataCell* m_H;
-    DataCell* m_S;
-    WAMword* m_P;
-    WAMword* m_CP;
-    Mode m_Mode;
+    DataCell* m_H;                          // The Heap Pointer
+    DataCell* m_S;                          // The next term to be unified
+    WAMword* m_P;                           // The next Instruction to be run
+    WAMword* m_CP;                          // The continuation instruction
+    WAMword* m_L;                           // L for label: the next clause to try
+    Mode m_Mode;                            // READ or WRITE?
+    int m_arity;                            // Arity of local functor, called num_of_args in tutorial
 
     // Data areas
-    DataCell* m_Heap;
-    addressStack* m_PDL;
-    FunctorTable* m_functorTable;
+    DataCell* m_Heap;                       // The base of the HEAP
+    addressStack* m_PDL;                    // Stack of data cells used for unification
+    FunctorTable* m_functorTable;           // A data struture used to identify functors
+    EnvFrame* m_E;                          // The top of the local frame stack
+    ChoiceFrame* m_B;
+
 
     // Put instructions
     void put_variable (RegType t, int regId, int argRegId);
@@ -58,6 +63,11 @@ protected:
     bool unify (DataCell* cell1, DataCell* cell2);
 
     // Control instructions
+    void allocate (int N);
+    void deallocate ();
+    void call (int functorId);
+    void execute (int functorId);
+    void proceed ();
     
     // Choice instructions
     

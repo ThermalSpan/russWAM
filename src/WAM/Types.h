@@ -11,6 +11,7 @@
 
 #include "opcode.h"
 #include <stack>
+#include <vector>
 
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
@@ -37,28 +38,40 @@ struct WAMword {
     int c;
 };
 
-// The local stack contains environment frames and choice points
-enum LocalType {ENVIRON, CHOICEP};
-struct LocalFrame {
-    LocalType type;
-};
-
 // The Trail Stack is a doubly linked list of TrailFrames
 struct TrailFrame {
     TrailFrame* prevFrame;
      
 };
 
-// We can now describe the state of the WAM
-struct MemoryRegisters {
-    WAMword* P;                 // Program Counter
-    WAMword* CP;                // Continuation Pointer
-    LocalFrame* CurEnv;         // Current Environment Pointer
-    LocalFrame* B;              // Most Recent Choice Point
-    DataCell* H;                // Top of the Heap
-    DataCell* HB;               // Heap Backtrack point
+
+// Environment frames are stuck together like a list,
+struct EnvFrame {
+    EnvFrame* prev;
+    WAMword* contPoint;
+    std::vector <DataCell> LocalRegs;
+
+    EnvFrame (int N, WAMword* CP, EnvFrame* frame) : LocalRegs(N) {
+        contPoint = CP;
+        prev = frame; 
+    }
+};
+
+struct ChoiceFrame {
+    int arity;
+    std::vector <DataCell> GlobalRegs;
+    EnvFrame* contEnv;
+    WAMword* contPoint;
+    ChoiceFrame* prevChoice;
+    WAMword* nextClause;
+    TrailFrame* trailPoint;
+    DataCell* heapPoint;
+    ChoiceFrame* cutPointer;                // Where to go when cut, often refered to B0
+
+    
 };
 
 // Some useful typedefs
 typedef std::stack <DataCell*> addressStack;
+typedef std::vector <DataCell> dataCellVector;
 

@@ -68,6 +68,7 @@ Notable links so far include:
 <li><a href="http://stackoverflow.com/questions/18260876/in-a-warrens-abstract-machine-where-are-argument-variables-created"> SO: When are WAM Argument Variables created? </a></li>
 <li><a href="http://www.gprolog.org/"> The GNU Prolog website </a></li>
 <li><a href="http://stackoverflow.com/questions/19459516/unification-algorithm-example-in-wam-warrens-abstract-machine"> SO: Unification Algorithm Example </a></li>
+<li><a href="http://lists.gnu.org/archive/html/users-prolog/2015-11/threads.html">GNU Prolog Mailing List 11/22/15</a></li>
 </ul>
 
 ### License
