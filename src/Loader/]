@@ -1,0 +1,38 @@
+/*             
+    rWAMgrammar.y
+    russWAM
+
+    Created by Russell Wilhelm Bentley on 10/15/15
+    Copyright (c) 2015 Russell Wilhelm Bentley.
+    Distributed under the MIT License.
+
+    This is a bison (yacc) grammar file for my version of WAM code. 
+    It is heavily influenced by 
+    "Warren's Abstract Machine: A Tutorial Reconstruction" by 
+    Hassan Ait-Kaci.
+*/
+
+%{
+    #include "../../src/Loader/rWAMparser.h"
+%}
+
+%union {
+    int i;
+    char* s;
+}
+
+%code {
+    int yyerror (rWAMparser* parser, const char* s);
+    int yylex (YYSTYPE*);
+
+    using namespace std;
+}
+
+%defines
+%pure-parser
+%parse-param { rWAMparser* parser }
+%define parse.error verbose
+%expect 0
+
+
+

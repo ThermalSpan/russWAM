@@ -31,7 +31,6 @@ protected:
     EnvFrame* m_E;                          // The top of the local frame stack
     ChoiceFrame* m_B;
 
-
     // Put instructions
     void put_variable (RegType t, int regId, int argRegId);
     void put_value (RegType t, int regId, int argRegId);
@@ -70,6 +69,12 @@ protected:
     void proceed ();
     
     // Choice instructions
+    void try_me_else (int functorId, int labelId);
+    void retry_me_else (int functorId, int labelId);
+    void trust_me ();
+    void try_ (int functorId, int labelId);
+    void retry (int functorId, int labelId);
+    void trust (int functorId, int labelId);
     
     // Indexing instructions
     
@@ -80,7 +85,7 @@ protected:
     DataCell* deref (DataCell* address);
     void bind (DataCell* cell1, DataCell* cell2);
     void trail (DataCell* address);
-    void unwind_trail (DataCell* cell1, DataCell* cell2);
+    void unwind_trail (TrailFrame* oldTr, TrailFrame* curTr);
 
     // DataCell manipulation
     DataCell* getLocalReg (int regId);
