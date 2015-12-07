@@ -69,7 +69,7 @@ struct ChoiceFrame {
     DataCell* H;
     ChoiceFrame* B0;                // Where to go when cut, often refered to B0
 
-    ChoiceFrame (int n, ChoicePoint* prev) : GlobalRegs (n) {
+    ChoiceFrame (int n, ChoiceFrame* prev) : GlobalRegs (n) {
         prevChoice = prev;
     }    
 };

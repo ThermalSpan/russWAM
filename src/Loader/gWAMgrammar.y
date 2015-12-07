@@ -2,7 +2,7 @@
     gWAMgrammar.y
     russWAM
 
-    Created by Russell Wilhelm Bentley on 10/15/15
+    Created by Russell Wilhelm Bentley on 12/7/15
     Copyright (c) 2015 Russell Wilhelm Bentley.
     Distributed under the MIT License.
 
@@ -16,9 +16,8 @@
 
 %union {
     int i;
-    char* s;
     double f;
-    string* s;
+    std::string* s;
 }
 
 %code {
@@ -108,63 +107,79 @@
 
 /*  Other Stuff */
 %token '(' ')' '[' ']' '.' ',' ':' '/'
-%token TK_INT
-%token TK_NAME
+%token <i> TK_INT
+%token <f> TK_FLOAT
+%token <s> TK_NAME
 
 /* Grammar Only Tokens */
+%type <i> Top 
+%type <i> PredicateList
+%type <i> Predicate
+%type <i> OneOrMoreInstr
+%type <i> Instr
+%type <i> Reg
+%type <i> OneOrMoreAtoms
+%type <i> OneOrMoreIntL
+%type <i> IntL
+%type <i> OneOrMoreStrs
+%type <i> Str
+%type <i> Functor
+%type <i> TermL
 
 %%
 
-Top: PredicateList  { parser->done (); }
+Top: PredicateList  { parser->setStatus (true); }
 ;
 
 PredicateList: Predicate PredicateList {}
              |                         {} 
 ;
 
-Predicate: TK_predicate '(' TK_NAME ',' TK_INT ',' TK_STATIC ',' TK_PRIVATE ',' TK_MONOFILE ',' TK_GLOBAL ',' InstrList ')' '.'
+Predicate: TK_predicate '(' Functor ',' TK_INT ',' TK_static ',' TK_private ',' TK_monofile ',' TK_global ',' InstrList ')' '.' {} ;
+
+InstrList: '[' OneOrMoreInstr ']' {}
+;		 
+
+OneOrMoreInstr: Instr {}
+              | Instr ',' OneOrMoreInstr {}
 ;
 
-OneOrMoreInstr: Instr
-              | Instr ',' OneOrMoreInstr
+Reg: TK_x '(' TK_INT ')' {}
+   | TK_y '(' TK_INT ')' {}
 ;
 
-Bool: TK_true
-    | TK_false
+OneOrMoreAtoms: Atom   {}
+              | Atom ',' OneOrMoreAtoms {}
 ;
 
-Reg: TK_x '(' TK_NAME ')'
-   | TK_y '(' TK_NAME ')'
+Atom: '(' TK_NAME ',' TK_INT ')' {}
 ;
 
-OneOrMoreAtoms: Atom  
-              | Atom ',' OneOrMoreAtoms
+OneOrMoreIntL: IntL {}
+             | IntL ',' OneOrMoreIntL {}
 ;
 
-Atom: '(' TK_NAME ',' TK_INT ')'
+IntL: '(' TK_INT ',' TK_INT ')' {}
 ;
 
-OneOrMoreIntL: IntL
-             | IntL ',' OneOrMoreInt
-;
-
-IntL: '(' TK_INT ',' TK_INT ')'
-;
-
-OneOrMoreStrs: Str
-             | Str ',' OneOrMoreStrs
+OneOrMoreStrs: Str {}
+             | Str ',' OneOrMoreStrs {}
 ;             
              
-Str: '(' Functor ',' TK_INT ')'
+Str: '(' Functor ',' TK_INT ')' {}
 ;
 
-Functor: TK_NAME '/' TK_INT
+TermL: TK_INT {}
+	 | TK_fail {}
+;
+
+Functor: TK_NAME '/' TK_INT {}
 ;
 
 Instr: TK_put_variable '(' Reg ',' TK_INT ')'  {}
 | TK_put_void '(' TK_INT ')'  {}
 | TK_put_value  '(' Reg ',' TK_INT ')' {}
-| TK_put_unsafe_value '(' TK_Y '(' TK_INT ')' ',' TK_INT ')'  {}
+| TK_put_unsafe_value '(' TK_y '(' TK_INT ')' ',' TK_INT ')'  {}
 | TK_put_atom '(' TK_NAME ',' TK_INT ')' {}
 | TK_put_integer '(' TK_INT ',' TK_INT ')'   {}
 | TK_put_float '(' TK_FLOAT ',' TK_INT ')'  {}
@@ -195,21 +210,21 @@ Instr: TK_put_variable '(' Reg ',' TK_INT ')'  {}
 | TK_execute '(' Functor ')' {}
 | TK_proceed                        {  }
 | TK_fail {}
-| TK_label '(' TK_INT ')'           { $$ = new LabelNode ($3); }
+| TK_label '(' TK_INT ')'           { }
 | TK_try_me_else '(' TK_INT ')'   {}
 | TK_retry_me_else '(' TK_INT ')' {}
 | TK_trust_me_else_fail  {}
-| TK_try    {}
-| TK_retry  {}
-| TK_trust  {}
+| TK_try '(' TK_INT ')'   {}
+| TK_retry '(' TK_INT ')' {}
+| TK_trust '(' TK_INT ')' {}
 | TK_get_current_choice {}
 | TK_cut    {}
 | TK_soft_cut   {}
 | TK_pragma_arity   {}
-| TK_switch_on_term '(' TermL ',' TermL ',' TermL ',' TermL ',' TermL ')'
-| TK_switch_on_atom '(' '[' OneOrMoreAtoms ']' ')'
-| TK_switch_on_integer '(' '[' OneOrMoreIntL ']' ')'
-| TK_switch_on_structure '(' '[' OneOrMoreStrs ']' ')'
+| TK_switch_on_term '(' TermL ',' TermL ',' TermL ',' TermL ',' TermL ')' {}
+| TK_switch_on_atom '(' '[' OneOrMoreAtoms ']' ')' {}
+| TK_switch_on_integer '(' '[' OneOrMoreIntL ']' ')' {}
+| TK_switch_on_structure '(' '[' OneOrMoreStrs ']' ')' {}
 | TK_call_c {}
 | TK_foreign_call_c {}
 ;

@@ -11,12 +11,14 @@
     by 'pl2wam'.
 */
 
+%option nounput
 %option yylineno
 
 %{
     #include <math.h>
-    #include "../../src/Loader/rWAMparser.h"
-    #include "rWAMgrammar.h"
+	#include <string>
+    #include "../../src/Loader/gWAMparser.h"
+    #include "gWAMgrammar.h"
 %}
 
 INTEGER ([1-9][0-9]*)|(0)
@@ -24,7 +26,6 @@ FLOAT [-+]?[0-9]*\.?[0-9]+
 NAME [a-z][a-zA-Z0-9_]*
 
 STRING \"[A-Za-z0-9_ ]+\"
-
 
 %%
 
@@ -99,16 +100,16 @@ STRING \"[A-Za-z0-9_ ]+\"
 "private"                       { return TK_private; }            
 "monofile"                      { return TK_monofile; }            
 "global"                        { return TK_global; }            
+file_name.*$                    /* We're gonna ignore this for the moment... */
 
 
     /* Other Stuff */
-[\(\)\/\:\[\]\,\.]                      { return yytext[0]; }
+[\(\)\/\:\[\]\,\.]             	{ return yytext[0]; }
 
 {INTEGER}         {
     yylval->i = atoi (yytext);
     return TK_INT;
 }
-
 
 {FLOAT}         {
     yylval->f = atof (yytext);
@@ -116,13 +117,12 @@ STRING \"[A-Za-z0-9_ ]+\"
 }
 
 {NAME}          {
-    yylval->s = new string (yytext);
+    yylval->s = new std::string (yytext);
     return TK_NAME;
 }
 
     /* Ignore Header Information, and everything else */
-\%*$
-file_name*$
+%.*$	
 [ \t\n]*
 .
 

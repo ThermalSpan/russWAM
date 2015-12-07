@@ -7,41 +7,43 @@
 //  Distributed under the MIT License
 //
 
-#include "stdafx.h"
-#include "Loader/rWAMparser.h"
-#include "WAM/WAM.h"
+#include <stdlib.h>
+#include <iostream>
+#include "Loader/gWAMparser.h"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    const char* fn = 0;
+    // Get the name of the file
+    string fileName;
    	if (argc == 2) {
-      	fn = argv[1];
-        cout << "Input: " << fn << endl;
+      	fileName.assign(argv[1]);
+        cout << "Input: " << fileName << endl;
+    } else {
+        cerr << "No input file given." << endl;
+        return 1;
     }
-   	rWAMparser p;
 
-    FunctorTable* funTab = new FunctorTable ();
-    StrVec* strTab = new StrVec ();
-    WAMword* codeArray = (WAMword*) malloc (4096 * sizeof(WAMword));
+    // Check that the file is a prolog source file
+    if (fileName.compare (fileName.size() - 3, 3, ".pl") != 0 ) {
+        cerr << "Input file is not a prolog source file (*.pl)" << endl;
+        return 1;
+    }
 
-    p.setTableCode(funTab, codeArray, strTab);
+    // Pass the file to pl2wam and check the return value
+    string command = "pl2wam --no-call-c " + fileName;
+    int ret = system (command.c_str ());
+    if (ret != 0) {
+        cerr << "pl2wam returned " << ret << endl;
+        return 1;
+    }
 
- 	p.run(fn);
+    // Pass the WAM file to the parser
+    string wamFileName (".wam");
+    wamFileName.insert (0, fileName, 0,  fileName.size() - 3);
+    cout << "pl2wam generated " << wamFileName << endl; 
+	gWAMparser parser;
+	parser.run (wamFileName);
 
-   	if (p.status ()) {
-     	cout << "Input OK" << endl;
-        //cout << "FunctorTable size: " << funTab->getTableSize () << endl;
-
-		WAM w (funTab, strTab, codeArray, 400);
-		w.run ();		
-
-   	} else 
-     	cout << "Input BAD" << endl;
-
-	free (codeArray);
-    delete (strTab);
-    delete (funTab);
-    
     return 0;
 }

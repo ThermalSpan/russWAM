@@ -12,10 +12,10 @@ FLEX 		= flex
 TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
-WAMFILES 	= Heap debug core unify put set get FunctorTable driver control
-LOADFILES 	= rWAMparser
-GRAMFILE	= rWAMgrammar
-FLEXFILES	= rWAMscanner
+WAMFILES 	= 
+LOADFILES 	= gWAMparser
+GRAMFILE	= gWAMgrammar
+FLEXFILES	= gWAMlexer 
 EXEFILES 	= main
 TSTFILES 	= 
 
@@ -79,8 +79,8 @@ bin/test/% : build/test/%.o
 
 .PHONY: install
 install: bin/russWAMex
-	cp bin/russWAMex rWAMfiles/russWAMex
+	cp bin/russWAMex Tests/russWAMex
 
 .PHONY: clean
 clean:
-	rm -f -r build bin dirFile rWAMfiles/russWAMex
+	rm -f -r build bin dirFile Tests/russWAMex Tests/*.wam
