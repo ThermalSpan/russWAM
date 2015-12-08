@@ -38,13 +38,8 @@ enum OpCode {
     OC_neck_cut,
     OC_get_level,
     OC_cut,
-    OC_printHeap,
-    OC_printArgRegisters,
-    OC_printResultArg,
-    OC_printHeapCell,
-    OC_unifyHeapCells,
-    OC_write,
-    OC_terminate
+    OC_terminate,
+    OC_NULL
 };
 
 

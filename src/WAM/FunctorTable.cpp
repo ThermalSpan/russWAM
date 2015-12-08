@@ -12,70 +12,70 @@
 using namespace std;
 
 FunctorTable::FunctorTable () {
-    m_Size = 0;   
+    m_nextFunctorId = 0;   
 }
 
 FunctorTable::~FunctorTable () {
-
+    for (auto it = m_ValueVector.begin(); it < m_ValueVector.end(); it++) {
+        delete ((*it).s_labels);
+        free ((*it).s_codeArray);
+    }
 }
 
-int FunctorTable::addFunctor (string nameString, int arity, WAMword* labelPtr) {
-    string key = nameString + "*" + to_string (arity);
-    MapElem element = m_StringMap.find (key);
-    int result;
+string FunctorTable::mangleString (string* name, int arity) {
+    string result =  *name + "*" + to_string (arity);
+    return result;
+}
+
+int FunctorTable::addFunctor (string *name, int arity) {
+    string key = mangleString (name, arity);
+    auto element = m_StringMap.find (key);
+    int result = -1;
     
     // If the (name, arity) is not in the functor table, add it
     if (element == m_StringMap.end ()) {
-        result = m_Size++;
+        result = m_nextFunctorId++;
 		m_StringMap.emplace (key, result);
-        m_ValueVector.push_back (TableValue (result, arity, nameString, labelPtr));
+        m_ValueVector.push_back (TableValue (result, arity, name));
     }
-    // Else, if the (name, arity) pair is in place and without a label, we update the label
-    else {
-        if (m_ValueVector.at(element->second).labelPtr == nullptr) {
-            m_ValueVector.at(element->second).labelPtr = labelPtr;
-        }
-        result = element->second;   
-    }
+    // Else, the functor is already in the table and we have a problem
 
     return result;
 }
 
-int FunctorTable::getFunctorId (string nameString, int arity) {
-    string key = nameString + "*" + to_string (arity);
-    MapElem element = m_StringMap.find (key);
+int FunctorTable::getFunctorId (string *name, int arity) {
+    string key = mangleString (name, arity);
+    auto element = m_StringMap.find (key);
     int result = -1;
     
+    // If the functor is in the map we return its id    
     if (element != m_StringMap.end ()) {
        result = element->second;
     }
+    // Else, return -1, which means there's a problem.
 
     return result;
 }
 
-string FunctorTable::getName (int id) {
-    if (id < 0 || id >= m_Size) {
-        return "?-ID NOT FOUND";
-    } 
-    else {
-        return m_ValueVector[id].name;
-    }
+void FunctorTable::setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*> *labels) {
+    assert (functorId >= 0 && functorId < m_nextFunctorId);
+    TableValue val = m_ValueVector[functorId];
+    val.s_codeArray = codeArray;
+    val.s_labels = labels;
 }
 
-int FunctorTable::getArity (int id) {
-    if (id < 0 || id >= m_Size) {
-        return -1;
-    }    
-    else {
-        return m_ValueVector[id].arity;
-    } 
+string *FunctorTable::getName (int functorId) {
+    assert (functorId > 0 && functorId < m_nextFunctorId);   
+    return m_ValueVector[functorId].s_name;
 }
 
-WAMword* FunctorTable::getLabel (int id) {
-    if (id < 0 || id >= m_Size) {
-        return nullptr;
-    } 
-    else {
-        return m_ValueVector[id].labelPtr;
-    } 
+int FunctorTable::getArity (int functorId) {
+    assert (functorId > 0 && functorId < m_nextFunctorId);
+    return m_ValueVector[functorId].s_arity;
+}
+
+WAMword* FunctorTable::getLabel (int functorId, int labelNum) {
+    assert (functorId > 0 && functorId < m_nextFunctorId);
+    assert (labelNum < m_ValueVector[functorId].s_labels->size ());
+    return m_ValueVector[functorId].s_labels->at (labelNum);
 }

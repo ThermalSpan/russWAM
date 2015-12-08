@@ -9,65 +9,55 @@
 
 #pragma once
 
-#include "../stdafx.h"
+#include <stdlib.h>
+#include <assert.h>
+#include <string>
+#include <unordered_map>
 #include "types.h"
 
 using namespace std;
 
-//
-//  The funtor table is responable for 
-//      1) Assigning each (functor name, arity) pair a unique integer Id
-//      2) Maintaining a bi-directional map between these pairs and the Id's 
-//
-//  This is accomplished with
-//      1) A map with a mangled string key (name + '*' + arity) to int (id)
-//      2) A vector of 'Table Value' structs where the Id is the index 
-//
-
 class FunctorTable {
-public:
-    FunctorTable ();
-    
-    ~FunctorTable ();
-    
-    // Place (name, arity) in the table at label, of with nullptr for label
-    // Will return the Id assigned to (name, arity)
-    // If (name, arity) is already in the table with null label, label will be updated
-    int addFunctor (string name, int arity, WAMword* labelPtr);
-    
-    // Returns Id if (name, arity) is in the table, else -1
-    int getFunctorId (string name, int arity);
-
-    string getName (int id);
-    
-    // Returns Id if (name, arity) is in the table, else -1
-    int getArity (int id);
-
-    // Returns label if (name, arity) is in the table, else nullptr
-    WAMword* getLabel (int id);
-
-    int getTableSize () { return m_Size; }
-    
-protected: 
+protected:
     struct TableValue {
-        int id;
-        int arity;
-        string name;
-        WAMword* labelPtr;
+        int s_id;
+        int s_arity;
+        string* s_name;
+        WAMword* s_codeArray;
+        vector <WAMword*>* s_labels;
 
-        TableValue (int i, int a, string n, WAMword* l) {
-            id = i;
-            arity = a;
-            name = n;
-            labelPtr = l;
+        TableValue (int id, int arity, string* name) {
+            s_id = id;
+            s_arity = arity;
+            s_name = name;
         }
    }; 
-    
-   int m_Size;
+
+   int m_nextFunctorId;
 
    vector <TableValue> m_ValueVector;
 
    unordered_map <string, int> m_StringMap;
 
-   typedef unordered_map <string, int>::const_iterator MapElem;
+   string mangleString (string *name, int arity);
+
+public:
+
+    FunctorTable ();
+    
+    ~FunctorTable ();
+    
+    int addFunctor (string *name, int arity);
+    
+    int getFunctorId (string *name, int arity);
+
+    void setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*> *labels);
+
+    string *getName (int functorId);
+    
+    int getArity (int functorId);
+
+    WAMword* getLabel (int functorId, int labelNum);
+
+    int getTableSize () { return m_nextFunctorId; }
 };

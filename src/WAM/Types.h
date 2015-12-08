@@ -9,9 +9,10 @@
 
 #pragma once
 
-#include "opcode.h"
+#include <stdlib.h>
 #include <stack>
 #include <vector>
+#include "opcode.h"
 
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
