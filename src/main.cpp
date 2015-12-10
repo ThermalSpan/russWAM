@@ -31,7 +31,7 @@ int main(int argc, const char * argv[]) {
     }
 
     // Pass the file to pl2wam and check the return value
-    string command = "pl2wam --no-call-c " + fileName;
+    string command = "pl2wam --no-redef-error --no-call-c " + fileName;
     int ret = system (command.c_str ());
     if (ret != 0) {
         cerr << "pl2wam returned " << ret << endl;

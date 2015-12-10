@@ -37,6 +37,7 @@ struct WAMword {
     int a;
     int b;
     int c;
+    int d;
 };
 
 // The Trail Stack is a doubly linked list of TrailFrames

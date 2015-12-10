@@ -25,6 +25,7 @@ protected:
         string* s_name;
         WAMword* s_codeArray;
         vector <WAMword*>* s_labels;
+        unordered_map <int, int>* s_switchMap;
 
         TableValue (int id, int arity, string* name) {
             s_id = id;
@@ -46,12 +47,12 @@ public:
     FunctorTable ();
     
     ~FunctorTable ();
-    
+    // Returns the functor id, or -1 if already in the table
     int addFunctor (string *name, int arity);
     
     int getFunctorId (string *name, int arity);
 
-    void setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*> *labels);
+    void setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*>* labels, unordered_map <int, int>* switchMap = nullptr);
 
     string *getName (int functorId);
     

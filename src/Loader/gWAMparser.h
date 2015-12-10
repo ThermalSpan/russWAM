@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include <iostream>
 #include "../WAM/types.h"
 
 using namespace std;
