@@ -11,6 +11,9 @@
 */
 
 %{
+    #include <list>
+    #include "../../src/WAM/types.h"
+    #include "../../src/Loader/gWAMsyntax.h"
     #include "../../src/Loader/gWAMparser.h"
 %}
 
@@ -18,6 +21,14 @@
     int i;
     double f;
     std::string* s;
+    PredicateNode* predNode;
+    InstrNode* instrNode;
+    FunctionLabel* funcLabel;
+    Reg* reg;
+    Functor* functor;
+    std::list <PredicateNode*> predList;
+    std::list <InstrNode*>* instrList;
+    std::list <FunctionLabel*> listList;
 }
 
 %code {
@@ -112,47 +123,49 @@
 %token <s> TK_NAME
 
 /* Grammar Only Tokens */
-%type <i> Top 
-%type <i> PredicateList
-%type <i> Predicate
-%type <i> OneOrMoreInstr
-%type <i> Instr
-%type <i> Reg
-%type <i> OneOrMoreAtoms
+%type <predList> PredicateList
+%type <predNode> Predicate
+%type <instrList> InstrList
+%type <instrList> OneOrMoreInstr
+%type <instrNode> Instr
+%type <reg> Reg
+%type <labelList> OneOrMoreAtoms
+%type <funcLabel> Atom
 %type <i> OneOrMoreIntL
 %type <i> IntL
-%type <i> OneOrMoreStrs
-%type <i> Str
-%type <i> Functor
+%type <labelList> OneOrMoreStrs
+%type <funcLabel> Str
+%type <functor> Functor
 %type <i> TermL
 
 %%
 
-Top: PredicateList  { parser->setStatus (true); }
+Top: PredicateList  { parser->setPredicateList ($1); }
 ;
 
-PredicateList: Predicate PredicateList {}
-             |                         {} 
+PredicateList: Predicate PredicateList { $2->push_front ($1); $$ = $2; }
+             |                         { $$ = new list <PredicateNode*> (); } 
 ;
 
-Predicate: TK_predicate '(' Functor ',' TK_INT ',' TK_static ',' TK_private ',' TK_monofile ',' TK_global ',' InstrList ')' '.' {} ;
+Predicate: TK_predicate '(' Functor ',' TK_INT ',' TK_static ',' TK_private ',' TK_monofile ',' TK_global ',' InstrList ')' '.' {$$ = new Predicate ($3, $15); } 
+;
 
-InstrList: '[' OneOrMoreInstr ']' {}
+InstrList: '[' OneOrMoreInstr ']' { $$ = $2; }
 ;		 
 
-OneOrMoreInstr: Instr {}
-              | Instr ',' OneOrMoreInstr {}
+OneOrMoreInstr: Instr { $$ = new list <InstrNode*> (); $$->push_back ($1); }
+              | Instr ',' OneOrMoreInstr { $3->push_front ($1); $$ = $3; }
 ;
 
-Reg: TK_x '(' TK_INT ')' {}
-   | TK_y '(' TK_INT ')' {}
+Reg: TK_x '(' TK_INT ')' { $$ = new Reg ($3, GLOBAL); }
+   | TK_y '(' TK_INT ')' { $$ = new Reg ($3, LOCAL); }
 ;
 
-OneOrMoreAtoms: Atom   {}
-              | Atom ',' OneOrMoreAtoms {}
+OneOrMoreAtoms: Atom   { $$ = new list <Functor*> (); $$->push_back($1); }
+              | Atom ',' OneOrMoreAtoms { $3->push_front ($1); $$ = $3; }
 ;
 
-Atom: '(' TK_NAME ',' TK_INT ')' {}
+Atom: '(' TK_NAME ',' TK_INT ')' { $$ = new FunctorLabel ($2, 0, $4); }
 ;
 
 OneOrMoreIntL: IntL {}
@@ -162,18 +175,18 @@ OneOrMoreIntL: IntL {}
 IntL: '(' TK_INT ',' TK_INT ')' {}
 ;
 
-OneOrMoreStrs: Str {}
+OneOrMoreStrs: Str { $$ = new list <Functor*> (); $$->push_back ($1); }
              | Str ',' OneOrMoreStrs {}
 ;             
              
-Str: '(' Functor ',' TK_INT ')' {}
+Str: '(' Functor ',' TK_INT ')' { $$ = new FunctorLabel ($2, $3); }
 ;
 
-TermL: TK_INT {}
-	 | TK_fail {}
+TermL: TK_INT { $$ = $1; }
+	 | TK_fail { $$ = -1; }
 ;
 
-Functor: TK_NAME '/' TK_INT {}
+Functor: TK_NAME '/' TK_INT { $$ = new Functor ($1, $3); }
 ;
 
 Instr: TK_put_variable '(' Reg ',' TK_INT ')'  {}

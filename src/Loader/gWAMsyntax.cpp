@@ -12,18 +12,20 @@
 
 using namespace std;
 
-PredicateNode::PredicateNode (string* name, int arity, vector <InstrNode*>* instrs) {
-    m_name = name;
-    m_arity = arity;
+PredicateNode::PredicateNode (Functor* functor, list <InstrNode*>* instrs) {
+    m_functor = functor;
     m_instrs = instrs;
 }
 
 bool PredicateNode::passOne (FunctorTable &functorTable) {
     bool result;
-    int id = functorTable.addFunctor (m_name, m_arity);
+    string* name = m_functor->s_name;
+    int arity = m_functor->s_arity;
+
+    int id = functorTable.addFunctor (name, arity);
     if (id == -1) {
         result = false;
-        cout << "Parse Error: " << *m_name << "/" << m_arity << " is already in table.";
+        cout << "Parse Error: " << *name << "/" << arity << " is already in table.";
         cout << endl;
     } else {
         result = true;
@@ -32,12 +34,13 @@ bool PredicateNode::passOne (FunctorTable &functorTable) {
 
     // Note that the +1 is for the null instruction at the end
     m_instrCount = m_instrs->size() + 1;
-    for (auto it = m_instrs->begin (); it < m_instrs->end(); it++) {
+    for (auto it = m_instrs->begin (); it != m_instrs->end(); it++) {
        if ((*it)->isLabel ()) {
             m_instrCount -= 1;
        } 
     }
     
+    delete (m_functor);
     return result;
 }
 
@@ -53,7 +56,7 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
     // Not strictly necassary, but for assurance
     int nextLabel = 1;
     // Here build up the code array and supporting structures
-    for (auto it = m_instrs->begin(); it < m_instrs->end(); it++) {
+    for (auto it = m_instrs->begin(); it != m_instrs->end(); it++) {
         // Switch Map instructions need to setup their part of the map
         if ((*it)->needsSwitchMap ()) {
             if (m_switchMap == nullptr) {
@@ -87,10 +90,11 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
     functorTable.setupFunctor (m_functorId, m_codeArray, m_labels, m_switchMap); 
 
     if (!result) {
-        cout << "Parse Error: ^ Occured in " << *m_name << "/" << m_arity;
+        cout << "Parse Error: ^ Occured in " << functorTable.toString (m_functorId);
         cout << endl;
     }
 
+    delete (m_instrs);    
     return result;
 }
 
@@ -101,6 +105,21 @@ BasicInstrNode::BasicInstrNode (OpCode op, int a, int b, int c) {
     m_c = c;
 }
 
+RegInstrNode::RegInstrNode (OpCode op, Reg* reg, int b, int c) {
+    m_op = op;
+    m_reg = reg;
+    m_b = b;
+    m_c = c;
+}
+
+bool RegInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+    word->a = m_reg->s_regId;
+    word->b = m_b; 
+    word->c = m_c;
+    word->regType = m_reg->s_type;
+    return true;
+}
+
 bool BasicInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     word->op = m_op;
     word->a = m_a;
@@ -109,10 +128,9 @@ bool BasicInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     return true;
 }
 
-FunctorInstrNode::FunctorInstrNode (OpCode op, string* name, int arity, int b, int c) {
+FunctorInstrNode::FunctorInstrNode (OpCode op, Functor* functor, int b, int c) {
     m_op = op;
-    m_name = name;
-    m_arity = arity;
+    m_functor = functor;
     m_b = b;
     m_c = c;
 }
@@ -120,23 +138,28 @@ FunctorInstrNode::FunctorInstrNode (OpCode op, string* name, int arity, int b, i
 bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     bool result = true;
     int functorId = 0; 
-    
+    int arity = m_functor->s_arity;
+    string* name = m_functor->s_name;
+
     // For atoms (constants) we may or may not have seen them before.  
-    if (m_arity == 0) {
-        functorId = functorTable.getFunctorId (m_name, m_arity);
+    if (arity == 0) {
+        functorId = functorTable.getFunctorId (name, arity);
         if (functorId == -1) {
             // Haven't seen it? no problem, lets add it
-            functorId = functorTable.addFunctor (m_name, m_arity);
+            functorId = functorTable.addFunctor (name, arity);
+        } else {
+            delete (name);
         }
     } 
     // All other functors need to have been seen in passOne. 
     else {
-        functorId = functorTable.getFunctorId (m_name, m_arity);
+        functorId = functorTable.getFunctorId (name, arity);
         if (functorId == -1) {
             result = false;
-            cout << "Parse Error: " << *m_name << "/" << m_arity;
+            cout << "Parse Error: " << *name << "/" << arity;
             cout << " is undefined" << endl;
         }
+        delete (name);
     } 
    
     word->op = m_op; 
@@ -144,7 +167,7 @@ bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     word->b = m_b;
     word->c = m_c;
 
-    delete (m_name);
+    delete (m_functor);
     return result;
 }
 
@@ -164,7 +187,7 @@ bool TermSwitchNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     return true;
 }
 
-SwitchMapNode::SwitchMapNode (OpCode op, vector <FunctorLabel>* pairs) {
+SwitchMapNode::SwitchMapNode (OpCode op, list <FunctorLabel*>* pairs) {
     m_op = op;
     m_pairs = pairs; 
 }
@@ -172,10 +195,10 @@ SwitchMapNode::SwitchMapNode (OpCode op, vector <FunctorLabel>* pairs) {
 bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, FunctorTable &functorTable) {
     bool result = true; 
      
-    for (auto it = m_pairs->begin (); it < m_pairs->begin (); it++) {
+    for (auto it = m_pairs->begin (); it != m_pairs->begin (); it++) {
        int functorId;
-       int arity = (*it).s_arity;
-       string* name = (*it).s_name;
+       int arity = (*it)->s_arity;
+       string* name = (*it)->s_name;
 
        // For atoms (constants) we may or may not have seen them before.  
        if (arity == 0) {
@@ -196,10 +219,12 @@ bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, Functor
             }
         }
 
-       switchMap->emplace (functorId, (*it).s_label);
+       switchMap->emplace (functorId, (*it)->s_label);
        delete (name);
+       delete (*it);
     }
-
+    
+    delete (m_pairs);
     return result;
 }
 

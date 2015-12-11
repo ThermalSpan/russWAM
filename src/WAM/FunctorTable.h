@@ -61,4 +61,6 @@ public:
     WAMword* getLabel (int functorId, int labelNum);
 
     int getTableSize () { return m_nextFunctorId; }
+
+    string toString (int functorId);
 };

@@ -86,3 +86,7 @@ WAMword* FunctorTable::getLabel (int functorId, int labelNum) {
     assert (labelNum < m_ValueVector[functorId].s_labels->size ());
     return m_ValueVector[functorId].s_labels->at (labelNum);
 }
+
+string FunctorTable::toString (int functorId) {
+    return *getName (functorId) + "/" + getArity (functorId);
+}

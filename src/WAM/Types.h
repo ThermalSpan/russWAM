@@ -37,7 +37,10 @@ struct WAMword {
     int a;
     int b;
     int c;
-    int d;
+    union {
+        int d;
+        RegType regType;
+    };
 };
 
 // The Trail Stack is a doubly linked list of TrailFrames
@@ -45,7 +48,6 @@ struct TrailFrame {
     TrailFrame* prevFrame;
      
 };
-
 
 // Environment frames are stuck together like a list,
 struct EnvFrame {
