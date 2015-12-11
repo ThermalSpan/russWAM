@@ -13,7 +13,7 @@ TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
 WAMFILES 	= 
-LOADFILES 	= gWAMparser
+LOADFILES 	= gWAMparser gWAMsyntax
 GRAMFILE	= gWAMgrammar
 FLEXFILES	= gWAMlexer 
 EXEFILES 	= main

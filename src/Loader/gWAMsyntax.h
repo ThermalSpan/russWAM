@@ -105,7 +105,7 @@ public:
 // Label Node
 // The is used for labels.
 //
-class LabelNode {
+class LabelNode : public InstrNode {
 protected:
    int m_label; 
 

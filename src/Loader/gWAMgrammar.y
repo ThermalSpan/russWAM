@@ -23,12 +23,12 @@
     std::string* s;
     PredicateNode* predNode;
     InstrNode* instrNode;
-    FunctionLabel* funcLabel;
+    FunctorLabel* funcLabel;
     Reg* reg;
     Functor* functor;
-    std::list <PredicateNode*> predList;
+    std::list <PredicateNode*>* predList;
     std::list <InstrNode*>* instrList;
-    std::list <FunctionLabel*> listList;
+    std::list <FunctorLabel*>* labelList;
 }
 
 %code {
@@ -140,14 +140,14 @@
 
 %%
 
-Top: PredicateList  { parser->setPredicateList ($1); }
+Top: PredicateList  { parser->setPredList ($1); }
 ;
 
 PredicateList: Predicate PredicateList { $2->push_front ($1); $$ = $2; }
              |                         { $$ = new list <PredicateNode*> (); } 
 ;
 
-Predicate: TK_predicate '(' Functor ',' TK_INT ',' TK_static ',' TK_private ',' TK_monofile ',' TK_global ',' InstrList ')' '.' {$$ = new Predicate ($3, $15); } 
+Predicate: TK_predicate '(' Functor ',' TK_INT ',' TK_static ',' TK_private ',' TK_monofile ',' TK_global ',' InstrList ')' '.' {$$ = new PredicateNode ($3, $15); } 
 ;
 
 InstrList: '[' OneOrMoreInstr ']' { $$ = $2; }
@@ -161,7 +161,7 @@ Reg: TK_x '(' TK_INT ')' { $$ = new Reg ($3, GLOBAL); }
    | TK_y '(' TK_INT ')' { $$ = new Reg ($3, LOCAL); }
 ;
 
-OneOrMoreAtoms: Atom   { $$ = new list <Functor*> (); $$->push_back($1); }
+OneOrMoreAtoms: Atom   { $$ = new list <FunctorLabel*> (); $$->push_back($1); }
               | Atom ',' OneOrMoreAtoms { $3->push_front ($1); $$ = $3; }
 ;
 
@@ -175,11 +175,11 @@ OneOrMoreIntL: IntL {}
 IntL: '(' TK_INT ',' TK_INT ')' {}
 ;
 
-OneOrMoreStrs: Str { $$ = new list <Functor*> (); $$->push_back ($1); }
+OneOrMoreStrs: Str { $$ = new list <FunctorLabel*> (); $$->push_back ($1); }
              | Str ',' OneOrMoreStrs {}
 ;             
              
-Str: '(' Functor ',' TK_INT ')' { $$ = new FunctorLabel ($2, $3); }
+Str: '(' Functor ',' TK_INT ')' { $$ = new FunctorLabel ($2, $4); }
 ;
 
 TermL: TK_INT { $$ = $1; }
@@ -189,55 +189,55 @@ TermL: TK_INT { $$ = $1; }
 Functor: TK_NAME '/' TK_INT { $$ = new Functor ($1, $3); }
 ;
 
-Instr: TK_put_variable '(' Reg ',' TK_INT ')'  {}
-| TK_put_void '(' TK_INT ')'  {}
-| TK_put_value  '(' Reg ',' TK_INT ')' {}
-| TK_put_unsafe_value '(' TK_y '(' TK_INT ')' ',' TK_INT ')'  {}
-| TK_put_atom '(' TK_NAME ',' TK_INT ')' {}
-| TK_put_integer '(' TK_INT ',' TK_INT ')'   {}
-| TK_put_float '(' TK_FLOAT ',' TK_INT ')'  {}
-| TK_put_nil '(' TK_INT ')'    {}
-| TK_put_list '(' TK_INT ')'  {}
-| TK_put_structure '(' Functor ',' TK_INT ')'   {}
-| TK_get_variable  '(' Reg ',' TK_INT ')' {}
-| TK_get_value  '(' Reg ',' TK_INT ')' {}
-| TK_get_atom '(' TK_NAME ',' TK_INT ')'  {}
-| TK_get_integer '(' TK_INT ',' TK_INT ')'   {}
-| TK_get_nil '(' TK_INT ')'     {}
-| TK_get_list '(' TK_INT ')' {}
-| TK_get_structure  '(' Functor ',' TK_INT ')' {}
-| TK_unify_variable '(' Reg ')' {}
-| TK_unify_void '(' TK_INT ')' {}
-| TK_unify_value '(' TK_INT ')' {}
-| TK_unify_local_value '(' TK_INT ')'  {}
-| TK_unify_atom '(' TK_NAME ')' {}
-| TK_unify_integer  '(' TK_NAME ')' {}
-| TK_unify_nil {}
-| TK_unify_list {}
-| TK_unify_structure '(' Functor ')' {}
-| TK_allocate '(' TK_INT ')' {}
-| TK_deallocate {}
-| TK_math_load_value '(' TK_INT ',' TK_INT ')'   {}
-| TK_math_fast_load_value '(' TK_INT ',' TK_INT ')'  {}
-| TK_call '(' Functor ')' {}
-| TK_execute '(' Functor ')' {}
-| TK_proceed                        {  }
-| TK_fail {}
-| TK_label '(' TK_INT ')'           { }
-| TK_try_me_else '(' TK_INT ')'   {}
-| TK_retry_me_else '(' TK_INT ')' {}
-| TK_trust_me_else_fail  {}
-| TK_try '(' TK_INT ')'   {}
-| TK_retry '(' TK_INT ')' {}
-| TK_trust '(' TK_INT ')' {}
-| TK_get_current_choice {}
-| TK_cut    {}
-| TK_soft_cut   {}
-| TK_pragma_arity   {}
-| TK_switch_on_term '(' TermL ',' TermL ',' TermL ',' TermL ',' TermL ')' {}
-| TK_switch_on_atom '(' '[' OneOrMoreAtoms ']' ')' {}
-| TK_switch_on_integer '(' '[' OneOrMoreIntL ']' ')' {}
-| TK_switch_on_structure '(' '[' OneOrMoreStrs ']' ')' {}
-| TK_call_c {}
-| TK_foreign_call_c {}
+Instr: TK_put_variable '(' Reg ',' TK_INT ')'                   { $$ = new RegInstrNode (OC_put_variable, $3, $5); }
+| TK_put_void '(' TK_INT ')'                                    { $$ = new BasicInstrNode (OC_put_void, $3); }
+| TK_put_value  '(' Reg ',' TK_INT ')'                          { $$ = new RegInstrNode (OC_put_value, $3, $5); }
+| TK_put_unsafe_value '(' TK_y '(' TK_INT ')' ',' TK_INT ')'    { $$ = new BasicInstrNode (OC_put_unsafe_value, $5, $8); }
+| TK_put_atom '(' TK_NAME ',' TK_INT ')'                        { $$ = new FunctorInstrNode (OC_put_constant, new Functor ($3, 0), $5); }
+| TK_put_integer '(' TK_INT ',' TK_INT ')'                      { $$ = new NotUsedNode ("put_integer"); }
+| TK_put_float '(' TK_FLOAT ',' TK_INT ')'                      { $$ = new NotUsedNode ("put_float"); }
+| TK_put_nil '(' TK_INT ')'                                     { $$ = new BasicInstrNode (OC_put_void, $3); }
+| TK_put_list '(' TK_INT ')'                                    { $$ = new BasicInstrNode (OC_put_list, $3); }
+| TK_put_structure '(' Functor ',' TK_INT ')'                   { $$ = new FunctorInstrNode (OC_put_structure, $3, $5); }
+| TK_get_variable  '(' Reg ',' TK_INT ')'                       { $$ = new RegInstrNode (OC_get_variable, $3, $5); }
+| TK_get_value  '(' Reg ',' TK_INT ')'                          { $$ = new RegInstrNode (OC_get_value, $3, $5); }
+| TK_get_atom '(' TK_NAME ',' TK_INT ')'                        { $$ = new FunctorInstrNode (OC_get_constant, new Functor ($3, 0), $5); }
+| TK_get_integer '(' TK_INT ',' TK_INT ')'                      { $$ = new NotUsedNode ("put_integer"); }
+| TK_get_nil '(' TK_INT ')'                                     { $$ = new BasicInstrNode (OC_get_void, $3); }
+| TK_get_list '(' TK_INT ')'                                    { $$ = new BasicInstrNode (OC_get_list, $3); }
+| TK_get_structure  '(' Functor ',' TK_INT ')'                  { $$ = new FunctorInstrNode (OC_get_structure, $3, $5); }
+| TK_unify_variable '(' Reg ')'                                 { $$ = new RegInstrNode (OC_unify_variable, $3); } 
+| TK_unify_void '(' TK_INT ')'                                  { $$ = new BasicInstrNode (OC_unify_void, $3); }
+| TK_unify_value '(' TK_INT ')'                                 { $$ = new BasicInstrNode (OC_unify_value, $3); }
+| TK_unify_local_value '(' TK_INT ')'                           { $$ = new BasicInstrNode (OC_unify_local_value, $3); }
+| TK_unify_atom '(' TK_NAME ')'                                 { $$ = new FunctorInstrNode (OC_unify_constant, new Functor ($3, 0)); }
+| TK_unify_integer  '(' TK_INT ')'                              { $$ = new NotUsedNode ("unify_integer"); }
+| TK_unify_nil                                                  { $$ = new BasicInstrNode (OC_unify_void); }
+| TK_unify_list                                                 { $$ = new BasicInstrNode (OC_unify_list); }
+| TK_unify_structure '(' Functor ')'                            { $$ = new FunctorInstrNode (OC_unify_structure, $3); }
+| TK_allocate '(' TK_INT ')'                                    { $$ = new BasicInstrNode (OC_allocate, $3); }
+| TK_deallocate                                                 { $$ = new BasicInstrNode (OC_deallocate); }
+| TK_math_load_value '(' TK_INT ',' TK_INT ')'                  { $$ = new NotUsedNode ("math_load_value"); }
+| TK_math_fast_load_value '(' TK_INT ',' TK_INT ')'  {}         { $$ = new NotUsedNode ("math_fast_load_value"); }
+| TK_call '(' Functor ')'                                       { $$ = new FunctorInstrNode (OC_call, $3); }
+| TK_execute '(' Functor ')'                                    { $$ = new FunctorInstrNode (OC_execute, $3); }
+| TK_proceed                                                    { $$ = new BasicInstrNode (OC_proceed); }
+| TK_fail                                                       { $$ = new BasicInstrNode (OC_fail); }
+| TK_label '(' TK_INT ')'                                       { $$ = new LabelNode ($3); }
+| TK_try_me_else '(' TK_INT ')'                                 { $$ = new BasicInstrNode (OC_try_me_else, $3); }
+| TK_retry_me_else '(' TK_INT ')'                               { $$ = new BasicInstrNode (OC_retry_me_else, $3); }
+| TK_trust_me_else_fail                                         { $$ = new BasicInstrNode (OC_trust_me_else_fail); }
+| TK_try '(' TK_INT ')'                                         { $$ = new BasicInstrNode (OC_try, $3); }
+| TK_retry '(' TK_INT ')'                                       { $$ = new BasicInstrNode (OC_retry, $3); }
+| TK_trust '(' TK_INT ')'                                       { $$ = new BasicInstrNode (OC_trust, $3); }
+| TK_get_current_choice '(' TK_INT ')'                          { $$ = new NotUsedNode ("get_current_choice"); }
+| TK_cut                                                        { $$ = new BasicInstrNode (OC_cut); }
+| TK_soft_cut                                                   { $$ = new BasicInstrNode (OC_neck_cut); }
+| TK_pragma_arity                                               { $$ = new NotUsedNode ("pragma_arity"); }
+| TK_switch_on_term '(' TermL ',' TermL ',' TermL ',' TermL ',' TermL ')' { $$ = new TermSwitchNode ($3, $5, $7, $9); }
+| TK_switch_on_atom '(' '[' OneOrMoreAtoms ']' ')'              { $$ = new SwitchMapNode (OC_switch_on_constant, $4); }
+| TK_switch_on_integer '(' '[' OneOrMoreIntL ']' ')'            { $$ = new NotUsedNode ("switch_on_integer"); }
+| TK_switch_on_structure '(' '[' OneOrMoreStrs ']' ')'          { $$ = new SwitchMapNode (OC_switch_on_structure, $4); }
+| TK_call_c                                                     { $$ = new NotUsedNode ("call_c"); }
+| TK_foreign_call_c                                             { $$ = new NotUsedNode ("foreign_call_c"); }
 ;
