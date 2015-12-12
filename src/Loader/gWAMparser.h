@@ -12,6 +12,7 @@
 #include <list>
 #include <iostream>
 #include "../WAM/types.h"
+#include "../WAM/FunctorTable.h"
 #include "gWAMsyntax.h"
 
 using namespace std;
@@ -47,7 +48,7 @@ public:
     
     ~gWAMparser ();
 
-    void run (const string &fileName);
+    void run (const string &fileName, FunctorTable &functorTable);
 
     bool getStatus () { return m_status; }
 

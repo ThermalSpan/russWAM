@@ -1,0 +1,185 @@
+% compiler: GNU Prolog 1.4.4
+% file    : fam.pl
+
+
+file_name('/Users/russell/projects/cpp-prolog/russWAM/Tests/fam.pl').
+
+
+predicate(male/1,1,static,private,monofile,global,[
+    switch_on_term(2,1,fail,fail,fail),
+
+label(1),
+    switch_on_atom([(bill,3),(sam,5),(peter,7),(jordan,9),(rob,11)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_atom(bill,0),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_atom(sam,0),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_atom(peter,0),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_atom(jordan,0),
+    proceed,
+
+label(10),
+    trust_me_else_fail,
+
+label(11),
+    get_atom(rob,0),
+    proceed]).
+
+
+predicate(female/1,7,static,private,monofile,global,[
+    switch_on_term(2,1,fail,fail,fail),
+
+label(1),
+    switch_on_atom([(marry,3),(sarah,5),(christy,7),(val,9),(hillary,11)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_atom(marry,0),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_atom(sarah,0),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_atom(christy,0),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_atom(val,0),
+    proceed,
+
+label(10),
+    trust_me_else_fail,
+
+label(11),
+    get_atom(hillary,0),
+    proceed]).
+
+
+predicate(parent/2,13,static,private,monofile,global,[
+    switch_on_term(4,1,fail,fail,fail),
+
+label(1),
+    switch_on_atom([(bill,2),(marry,3)]),
+
+label(2),
+    try(5),
+    trust(7),
+
+label(3),
+    try(9),
+    trust(11),
+
+label(4),
+    try_me_else(6),
+
+label(5),
+    get_atom(bill,0),
+    get_atom(sam,1),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_atom(bill,0),
+    get_atom(peter,1),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_atom(marry,0),
+    get_atom(jordan,1),
+    proceed,
+
+label(10),
+    trust_me_else_fail,
+
+label(11),
+    get_atom(marry,0),
+    get_atom(rob,1),
+    proceed]).
+
+
+predicate(is_father/1,18,static,private,monofile,global,[
+    allocate(1),
+    get_variable(y(0),0),
+    put_value(y(0),0),
+    call(male/1),
+    put_value(y(0),0),
+    put_void(1),
+    deallocate,
+    execute(parent/2)]).
+
+
+predicate(is_mother/1,19,static,private,monofile,global,[
+    allocate(1),
+    get_variable(y(0),0),
+    put_value(y(0),0),
+    call(female/1),
+    put_value(y(0),0),
+    put_void(1),
+    deallocate,
+    execute(parent/2)]).
+
+
+predicate(siblings/2,21,static,private,monofile,global,[
+    allocate(2),
+    get_variable(y(0),1),
+    put_value(x(0),1),
+    put_variable(y(1),0),
+    call(parent/2),
+    put_unsafe_value(y(1),0),
+    put_value(y(0),1),
+    deallocate,
+    execute(parent/2)]).
+
+
+predicate(cousins/2,22,static,private,monofile,global,[
+    allocate(3),
+    get_variable(y(0),1),
+    put_value(x(0),1),
+    put_variable(y(1),0),
+    call(parent/2),
+    put_variable(y(2),0),
+    put_value(y(0),1),
+    call(parent/2),
+    put_unsafe_value(y(1),0),
+    put_unsafe_value(y(2),1),
+    deallocate,
+    execute(siblings/2)]).

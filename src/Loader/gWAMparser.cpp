@@ -20,12 +20,11 @@ gWAMparser::~gWAMparser () {
 
 }
 
-void gWAMparser::run (const string &fileName) {
+void gWAMparser::run (const string &fileName, FunctorTable &functorTable) {
     yyin = fopen (fileName.c_str (), "r");
     yyparse (this);
     fclose (yyin);
 
-	FunctorTable functorTable;
 	if (m_status && m_predList != nullptr) {
 		bool semResult = true;
 		// Semantic pass 1

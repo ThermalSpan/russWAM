@@ -38,12 +38,15 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
 
-    // Pass the WAM file to the parser
+    // Pass the WAM file to the parser and build the Functor Table
+    FunctorTable functorTable;
     string wamFileName (".wam");
     wamFileName.insert (0, fileName, 0,  fileName.size() - 3);
     cout << "pl2wam generated " << wamFileName << endl; 
 	gWAMparser parser;
-	parser.run (wamFileName);
+	parser.run (wamFileName, functorTable);
+
+    functorTable.debugPrint ();
 	
     return 0;
 }

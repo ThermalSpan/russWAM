@@ -17,6 +17,8 @@
 
 using namespace std;
 
+string to_string (OpCode op);
+
 class FunctorTable {
 protected:
     struct TableValue {
@@ -66,4 +68,6 @@ public:
     int getTableSize () { return m_nextFunctorId; }
 
     string toString (int functorId);
+
+    void debugPrint ();
 };
