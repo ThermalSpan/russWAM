@@ -31,6 +31,9 @@ protected:
             s_id = id;
             s_arity = arity;
             s_name = name;
+            s_codeArray = nullptr;
+            s_labels = nullptr;
+            s_switchMap = nullptr;
         }
    }; 
 

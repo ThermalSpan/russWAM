@@ -12,7 +12,7 @@ FLEX 		= flex
 TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
-WAMFILES 	= 
+WAMFILES 	= FunctorTable
 LOADFILES 	= gWAMparser gWAMsyntax
 GRAMFILE	= gWAMgrammar
 FLEXFILES	= gWAMlexer 

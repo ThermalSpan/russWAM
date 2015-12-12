@@ -75,7 +75,8 @@ struct FunctorLabel {
 //
 class InstrNode {
 public:
-    virtual bool isLabel ();
+    virtual ~InstrNode () {}
+    virtual bool isLabel () { return false; }
     virtual bool needsSwitchMap () { return false; }
     virtual bool passTwo (WAMword* word, FunctorTable &functorTable) = 0;
 };
@@ -95,10 +96,13 @@ protected:
 
 public:
     PredicateNode (Functor* funtor, list <InstrNode*>* m_instrs);
+    ~PredicateNode () {}
     // Used to gather all functor Names
     bool passOne (FunctorTable &functorTable);
     // Used to fill out the functor table.
     bool passTwo (FunctorTable &functorTable);
+
+string* getName () { return  m_functor->s_name; }
 };
 
 //
@@ -111,6 +115,7 @@ protected:
 
 public:
    LabelNode (int label) { m_label = label; }
+   ~LabelNode () {}
    bool passTwo (WAMword* word, FunctorTable &functorTable)  { return false; }
    bool isLabel() { return true; };
    int getLabel() {return m_label; };
@@ -127,6 +132,7 @@ protected:
 
 public:
    BasicInstrNode (OpCode op, int a = 0, int b = 0, int c = 0);
+   ~BasicInstrNode () {}
    bool passTwo (WAMword* word, FunctorTable &functorTable);
 };
 
@@ -142,6 +148,7 @@ protected:
 
 public:
     RegInstrNode (OpCode op, Reg* reg, int b = 0, int c = 0);
+    ~RegInstrNode () {}
     bool passTwo (WAMword* word, FunctorTable &functorTable);
  };
 
@@ -157,6 +164,7 @@ protected:
 
 public:
    FunctorInstrNode (OpCode op, Functor* m_functor, int b = 0, int c = 0);
+   ~FunctorInstrNode () {}
    bool passTwo (WAMword* word, FunctorTable &functorTable);
 };
 
@@ -170,6 +178,7 @@ protected:
 
 public:
    TermSwitchNode (int var, int atm, int lst, int str);
+   ~TermSwitchNode () {}
    bool passTwo (WAMword* word, FunctorTable &functorTable);
 };
 
@@ -184,6 +193,7 @@ protected:
 
 public:
    SwitchMapNode (OpCode op, list <FunctorLabel*>* atoms);
+   ~SwitchMapNode () {}
    bool needsSwitchMap() { return true; }
    bool setupSwitchMap(unordered_map <int, int>* switchMap, FunctorTable &functorTable);
    bool passTwo (WAMword* word, FunctorTable &functorTable);
@@ -196,7 +206,9 @@ public:
 class NotUsedNode : public InstrNode {
 protected:
     string m_opName;
+
 public:
    NotUsedNode (string opName);
+   ~NotUsedNode () {}
    bool passTwo (WAMword* word, FunctorTable &functorTable);
 };

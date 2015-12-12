@@ -44,6 +44,7 @@ int main(int argc, const char * argv[]) {
     cout << "pl2wam generated " << wamFileName << endl; 
 	gWAMparser parser;
 	parser.run (wamFileName);
-
+	
+	cout << "exiting normally?" << endl;
     return 0;
 }

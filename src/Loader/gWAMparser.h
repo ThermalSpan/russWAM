@@ -53,6 +53,6 @@ public:
 
     void setStatus (bool status) { m_status = status; }
 
-    void setPredList (list <PredicateNode*>* predList) { m_predList = predList; }
+    void setPredList (list <PredicateNode*>* predList);
 
 };

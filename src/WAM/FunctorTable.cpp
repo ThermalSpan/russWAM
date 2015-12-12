@@ -17,8 +17,9 @@ FunctorTable::FunctorTable () {
 
 FunctorTable::~FunctorTable () {
     for (auto it = m_ValueVector.begin(); it < m_ValueVector.end(); it++) {
-        delete ((*it).s_labels);
-        free ((*it).s_codeArray);
+        if ((*it).s_codeArray != nullptr) {
+            free ((*it).s_codeArray);
+        }
         if ((*it).s_labels != nullptr) {
             delete ((*it).s_labels);
         }
@@ -72,21 +73,21 @@ void FunctorTable::setupFunctor (int functorId, WAMword* codeArray, vector <WAMw
 }
 
 string *FunctorTable::getName (int functorId) {
-    assert (functorId > 0 && functorId < m_nextFunctorId);   
+    assert (functorId >= 0 && functorId < m_nextFunctorId);   
     return m_ValueVector[functorId].s_name;
 }
 
 int FunctorTable::getArity (int functorId) {
-    assert (functorId > 0 && functorId < m_nextFunctorId);
+    assert (functorId >= 0 && functorId < m_nextFunctorId);
     return m_ValueVector[functorId].s_arity;
 }
 
 WAMword* FunctorTable::getLabel (int functorId, int labelNum) {
-    assert (functorId > 0 && functorId < m_nextFunctorId);
+    assert (functorId >= 0 && functorId < m_nextFunctorId);
     assert (labelNum < m_ValueVector[functorId].s_labels->size ());
     return m_ValueVector[functorId].s_labels->at (labelNum);
 }
 
 string FunctorTable::toString (int functorId) {
-    return *getName (functorId) + "/" + getArity (functorId);
+    return *getName (functorId) + "/" + to_string (getArity (functorId));
 }

@@ -39,8 +39,7 @@ bool PredicateNode::passOne (FunctorTable &functorTable) {
             m_instrCount -= 1;
        } 
     }
-    
-    delete (m_functor);
+
     return result;
 }
 
@@ -56,6 +55,7 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
     // Not strictly necassary, but for assurance
     int nextLabel = 1;
     // Here build up the code array and supporting structures
+    cout << "^ has " << m_instrs->size() << endl;
     for (auto it = m_instrs->begin(); it != m_instrs->end(); it++) {
         // Switch Map instructions need to setup their part of the map
         if ((*it)->needsSwitchMap ()) {
@@ -82,6 +82,8 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
             result = result && (*it)->passTwo (nextWord, functorTable);
             nextWord++;
         }
+
+        delete (*it);
     }
     
     // Add Null word
@@ -94,6 +96,7 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
         cout << endl;
     }
 
+    delete (m_functor);
     delete (m_instrs);    
     return result;
 }
