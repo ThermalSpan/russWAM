@@ -4,6 +4,9 @@ build/*
 bin/*
 dirFile
 
+# Debug stuff
+*.dSYM
+
 # Ignore Mac Specific Stuff
 .DS_STORE
 
