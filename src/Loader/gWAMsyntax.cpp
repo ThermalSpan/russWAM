@@ -15,6 +15,9 @@ using namespace std;
 PredicateNode::PredicateNode (Functor* functor, list <InstrNode*>* instrs) {
     m_functor = functor;
     m_instrs = instrs;
+    m_codeArray = nullptr;
+    m_labels = nullptr;
+    m_switchMap = nullptr;
 }
 
 bool PredicateNode::passOne (FunctorTable &functorTable) {
@@ -25,7 +28,7 @@ bool PredicateNode::passOne (FunctorTable &functorTable) {
     int id = functorTable.addFunctor (name, arity);
     if (id == -1) {
         result = false;
-        cout << "Parse Error: " << *name << "/" << arity << " is already in table.";
+        cout << "Error: " << *name << "/" << arity << " is already in table.";
         cout << endl;
     } else {
         result = true;
@@ -55,21 +58,20 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
     // Not strictly necassary, but for assurance
     int nextLabel = 1;
     // Here build up the code array and supporting structures
-    cout << "^ has " << m_instrs->size() << endl;
     for (auto it = m_instrs->begin(); it != m_instrs->end(); it++) {
         // Switch Map instructions need to setup their part of the map
         if ((*it)->needsSwitchMap ()) {
             if (m_switchMap == nullptr) {
                 m_switchMap = new unordered_map <int, int> ();
             }
-            result = result && dynamic_cast <SwitchMapNode*> (*it) ->setupSwitchMap (m_switchMap, functorTable);
+            result = dynamic_cast <SwitchMapNode*> (*it) ->setupSwitchMap (m_switchMap, functorTable) && result;
         } 
         
         // Labels get special treatment 
         if ((*it)->isLabel ()) {
             int label = dynamic_cast <LabelNode*> (*it)->getLabel();
             if (label != nextLabel) {
-                cout << "Parse Error: Incorrect Label Num " << label;
+                cout << "Error: Incorrect Label Num " << label;
                 cout << endl;
                 result = false;  
             } else {
@@ -79,7 +81,7 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
         } 
         // All other instructions are treated the same
         else {
-            result = result && (*it)->passTwo (nextWord, functorTable);
+            result = (*it)->passTwo (nextWord, functorTable) && result;
             nextWord++;
         }
 
@@ -92,7 +94,7 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
     functorTable.setupFunctor (m_functorId, m_codeArray, m_labels, m_switchMap); 
 
     if (!result) {
-        cout << "Parse Error: ^ Occured in " << functorTable.toString (m_functorId);
+        cout << "Error: ^ Occured in " << functorTable.toString (m_functorId);
         cout << endl;
     }
 
@@ -120,6 +122,8 @@ bool RegInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     word->b = m_b; 
     word->c = m_c;
     word->regType = m_reg->s_type;
+
+    delete (m_reg);
     return true;
 }
 
@@ -159,7 +163,7 @@ bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
         functorId = functorTable.getFunctorId (name, arity);
         if (functorId == -1) {
             result = false;
-            cout << "Parse Error: " << *name << "/" << arity;
+            cout << "Error: " << *name << "/" << arity;
             cout << " is undefined" << endl;
         }
         delete (name);
@@ -196,9 +200,9 @@ SwitchMapNode::SwitchMapNode (OpCode op, list <FunctorLabel*>* pairs) {
 }
 
 bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, FunctorTable &functorTable) {
-    bool result = true; 
-     
-    for (auto it = m_pairs->begin (); it != m_pairs->begin (); it++) {
+    bool result = true;
+
+    for (auto it = m_pairs->begin (); it != m_pairs->end (); it++) {
        int functorId;
        int arity = (*it)->s_arity;
        string* name = (*it)->s_name;
@@ -209,6 +213,8 @@ bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, Functor
             if (functorId == -1) {
                 // Haven't seen it? no problem, lets add it
                 functorId = functorTable.addFunctor (name, arity);
+            } else {
+                delete (name);
             }
         } 
         // All other functors need to have been seen in passOne. 
@@ -216,14 +222,14 @@ bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, Functor
             functorId = functorTable.getFunctorId (name, arity);
             if (functorId == -1) {
                 result = false;
-                cout << "Parse Error: Struct " << *name << "/" << arity;
+                cout << "Error: Struct " << *name << "/" << arity;
                 cout << " is undefined." << endl;
                 continue;
             }
+            delete (name);
         }
 
        switchMap->emplace (functorId, (*it)->s_label);
-       delete (name);
        delete (*it);
     }
     
@@ -241,7 +247,7 @@ NotUsedNode::NotUsedNode (string opName) {
 }
 
 bool NotUsedNode::passTwo (WAMword* word, FunctorTable &functorTable) {
-    cout << "Parse Error: " << m_opName << " is not a supported WAM operation. Sorry.";
+    cout << "Error: " << m_opName << " is not a supported WAM operation. Sorry.";
     cout << endl; 
     return false;
 }

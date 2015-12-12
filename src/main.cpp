@@ -45,6 +45,5 @@ int main(int argc, const char * argv[]) {
 	gWAMparser parser;
 	parser.run (wamFileName);
 	
-	cout << "exiting normally?" << endl;
     return 0;
 }

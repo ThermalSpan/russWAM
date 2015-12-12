@@ -111,7 +111,7 @@ file_name.*$                    /* We're gonna ignore this for the moment... */
 }
 
 {FLOAT}         {
-    yylval->f = atof (yytext);
+    yylval->f = 0.0; // TODO: gotta change this for floats to work, caused a leak in the meantime?
     return TK_FLOAT;
 }
 

@@ -179,7 +179,7 @@ OneOrMoreStrs: Str { $$ = new list <FunctorLabel*> (); $$->push_back ($1); }
              | Str ',' OneOrMoreStrs {}
 ;             
              
-Str: '(' Functor ',' TK_INT ')' { $$ = new FunctorLabel ($2, $4); }
+Str: '(' Functor ',' TK_INT ')' { $$ = new FunctorLabel ($2, $4); cout << "Makin' functor label" <<endl;}
 ;
 
 TermL: TK_INT { $$ = $1; }
@@ -208,8 +208,8 @@ Instr: TK_put_variable '(' Reg ',' TK_INT ')'                   { $$ = new RegIn
 | TK_get_structure  '(' Functor ',' TK_INT ')'                  { $$ = new FunctorInstrNode (OC_get_structure, $3, $5); }
 | TK_unify_variable '(' Reg ')'                                 { $$ = new RegInstrNode (OC_unify_variable, $3); } 
 | TK_unify_void '(' TK_INT ')'                                  { $$ = new BasicInstrNode (OC_unify_void, $3); }
-| TK_unify_value '(' TK_INT ')'                                 { $$ = new BasicInstrNode (OC_unify_value, $3); }
-| TK_unify_local_value '(' TK_INT ')'                           { $$ = new BasicInstrNode (OC_unify_local_value, $3); }
+| TK_unify_value '(' Reg ')'                                    { $$ = new RegInstrNode (OC_unify_value, $3); }
+| TK_unify_local_value '(' Reg ')'                              { $$ = new RegInstrNode (OC_unify_local_value, $3); }
 | TK_unify_atom '(' TK_NAME ')'                                 { $$ = new FunctorInstrNode (OC_unify_constant, new Functor ($3, 0)); }
 | TK_unify_integer  '(' TK_INT ')'                              { $$ = new NotUsedNode ("unify_integer"); }
 | TK_unify_nil                                                  { $$ = new BasicInstrNode (OC_unify_void); }

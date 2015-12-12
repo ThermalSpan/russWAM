@@ -65,6 +65,7 @@ struct FunctorLabel {
         s_name = functor->s_name;
         s_arity = functor->s_arity;
         s_label = label;
+        cout << "functor label, deleting functor" << endl;
         delete (functor);
     }
 };

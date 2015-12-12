@@ -8,6 +8,7 @@
 //
 
 #include "FunctorTable.h"
+#include <iostream>
 
 using namespace std;
 
@@ -17,12 +18,14 @@ FunctorTable::FunctorTable () {
 
 FunctorTable::~FunctorTable () {
     for (auto it = m_ValueVector.begin(); it < m_ValueVector.end(); it++) {
+        delete ((*it).s_name);
+
         if ((*it).s_codeArray != nullptr) {
             free ((*it).s_codeArray);
         }
         if ((*it).s_labels != nullptr) {
             delete ((*it).s_labels);
-        }
+        } 
         if ((*it).s_switchMap != nullptr) {
             delete ((*it).s_switchMap);
         }
@@ -64,12 +67,11 @@ int FunctorTable::getFunctorId (string *name, int arity) {
     return result;
 }
 
-void FunctorTable::setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*> *labels, unordered_map <int, int>* switchMap) {
+void FunctorTable::setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*>* labels, unordered_map <int, int>* switchMap) {
     assert (functorId >= 0 && functorId < m_nextFunctorId);
-    TableValue val = m_ValueVector[functorId];
-    val.s_codeArray = codeArray;
-    val.s_labels = labels;
-    val.s_switchMap = switchMap;
+    m_ValueVector[functorId].s_codeArray = codeArray;
+    m_ValueVector[functorId].s_labels = labels;
+    m_ValueVector[functorId].s_switchMap = switchMap;
 }
 
 string *FunctorTable::getName (int functorId) {
