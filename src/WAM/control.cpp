@@ -27,11 +27,11 @@ void WAM::deallocate () {
 }
 
 void WAM::call (int functorId) {
-    WAMword* label = m_functorTable->getLabel (functorId);
+    WAMword* label = m_functorTable->getLabel (functorId, 0);
     if (label != nullptr) {
         m_CP = m_P + 1;
         m_arity = m_functorTable->getArity (functorId);
-        m_B->cutPointer = m_B;
+        m_B->B0 = m_B;
         m_P = label;
     } else {
         backtrack ();
@@ -39,11 +39,11 @@ void WAM::call (int functorId) {
 }
 
 void WAM::execute (int functorId) {
-    WAMword* label = m_functorTable->getLabel (functorId);
+    WAMword* label = m_functorTable->getLabel (functorId, 0);
     
     if (label != nullptr) {
         m_arity = m_functorTable->getArity (functorId);
-        m_B->cutPointer = m_B;
+        m_B->B0 = m_B;
         m_P = label;
     } else {
        backtrack ();

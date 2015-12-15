@@ -8,7 +8,7 @@ enum OpCode {
     OC_put_constant,
     OC_set_variable,
     OC_set_value,
-    OC_set_localvalue,
+    OC_set_local_value,
     OC_set_constant,
     OC_set_void,
     OC_allocate,

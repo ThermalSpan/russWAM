@@ -9,6 +9,9 @@
 
 #include "WAM.h"
 #include <assert.h>
+#include <iostream>
+
+using namespace std;
 
 void WAM::unify_variable (RegType t, int regId) {
     DataCell* reg = getRegister (t, regId);
@@ -189,7 +192,7 @@ bool WAM::unify (DataCell* cell1, DataCell* cell2) {
                             }
                         }
                         break;
-                    case default:
+                    default:
                         unifySuccess = false;
                         cout << "ERROR: unify, unknown tag" << endl;
                         break;

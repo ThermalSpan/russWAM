@@ -31,6 +31,11 @@ protected:
     EnvFrame* m_E;                          // The top of the local frame stack
     ChoiceFrame* m_B;
 
+public:
+    WAM ();
+    ~WAM ();
+
+protected:
     // Put instructions
     void put_variable (RegType t, int regId, int argRegId);
     void put_value (RegType t, int regId, int argRegId);

@@ -102,7 +102,6 @@ void FunctorTable::debugPrint () {
             cout << "ATOM" << endl;
         } else {
             WAMword* word = (*it).s_codeArray;
-            int label = 0;
             while (word->op != OC_NULL) {
                 cout << to_string (word->op) << endl;
                 word++;

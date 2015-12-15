@@ -4,7 +4,7 @@
 
 # Compiler Stuff
 CC        	= g++
-CFLAGS    	= -c -std=c++11 -stdlib=libc++ -Wall -Wno-deprecated-register
+CFLAGS    	= -c -std=c++11 -stdlib=libc++ -Wall 
 BISON 		= /usr/local/Cellar/bison/3.0.4/bin/bison
 FLEX 		= flex
 
@@ -12,7 +12,7 @@ FLEX 		= flex
 TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
-WAMFILES 	= FunctorTable
+WAMFILES 	= FunctorTable put set get unify control core
 LOADFILES 	= gWAMparser gWAMsyntax
 GRAMFILE	= gWAMgrammar
 FLEXFILES	= gWAMlexer 
@@ -58,10 +58,10 @@ $(FLEXSRC) : $(GRAMHED)
 	$(FLEX) --bison-bridge -o $(FLEXSRC) $(FLEXLEX)
 
 $(GRAMOBJ) : $(GRAMSRC) 
-	$(CC) -g -c -x c++ $(CFLAGS) -o $(GRAMOBJ) $(GRAMSRC) -MD 
+	$(CC) -g -c -x c++ -std=c++11 -stdlib=libc++ -Wno-deprecated-register -Wunneeded-internal-declaration -o $(GRAMOBJ) $(GRAMSRC) -MD 
 
 $(FLEXOBJ) : $(FLEXSRC)
-	$(CC) -g -c -x c++ $(CFLAGS) -o $(FLEXOBJ) $(FLEXSRC) -MD
+	$(CC) -g -c -x c++ -std=c++11 -stdlib=libc++ -Wno-deprecated-register -Wunneeded-internal-declaration -o $(FLEXOBJ) $(FLEXSRC) -MD
 
 bin/russWAMex : $(GRAMOBJ) $(FLEXOBJ) $(LOADOBJ) $(WAMOBJFILES) $(EXEOBJFILES)
 	$(CC) $^ -o bin/russWAMex
@@ -83,4 +83,4 @@ install: bin/russWAMex
 
 .PHONY: clean
 clean:
-	rm -f -r build bin dirFile Tests/russWAMex Tests/*.wam
+	rm -f -r build bin dirFile Tests/russWAMex Tests/*.wam Tests/russWAMex.dSYM
