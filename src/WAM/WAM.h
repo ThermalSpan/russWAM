@@ -21,11 +21,15 @@ protected:
     WAMword* m_P;                           // The next Instruction to be run
     WAMword* m_CP;                          // The continuation instruction
     WAMword* m_L;                           // L for label: the next clause to try
+    WAMword* m_TR;                          // Trail point, 
+    // HB - the backtracking point in the heap, is a getMethod
     Mode m_Mode;                            // READ or WRITE?
     int m_arity;                            // Arity of local functor, called num_of_args in tutorial
+    int m_functorId;                        // The functor id of last call or execute, used in the switch statements
 
     // Data areas
-    DataCell* m_Heap;                       // The base of the HEAP
+    DataCell* m_Heap;                       // The base of the HEAP, an array of DataCells
+    DataCell** m_Trail                      // The base of the trail, and array of DataCell addresses 
     addressStack* m_PDL;                    // Stack of data cells used for unification
     FunctorTable* m_functorTable;           // A data struture used to identify functors
     EnvFrame* m_E;                          // The top of the local frame stack
@@ -74,15 +78,18 @@ protected:
     void proceed ();
     
     // Choice instructions
-    void try_me_else (int functorId, int labelId);
-    void retry_me_else (int functorId, int labelId);
+    void try_me_else (int labelId);
+    void retry_me_else (int labelId);
     void trust_me ();
-    void try_ (int functorId, int labelId);
-    void retry (int functorId, int labelId);
-    void trust (int functorId, int labelId);
+    void try_ (int labelId);
+    void retry (int labelId);
+    void trust (int labelId);
     
     // Indexing instructions
-    
+    void switch_on_term (int V, int C, int L, int S);
+    void switch_on_constant ();
+    void switch_on_structure ();    
+
     // Cut instructions
     
     // Support instructions
@@ -91,6 +98,9 @@ protected:
     void bind (DataCell* cell1, DataCell* cell2);
     void trail (DataCell* address);
     void unwind_trail (TrailFrame* oldTr, TrailFrame* curTr);
+
+    void panic (string message);
+    DataCell* getHB ();                                         // HB, would normally be a "register"
 
     // DataCell manipulation
     DataCell* getLocalReg (int regId);

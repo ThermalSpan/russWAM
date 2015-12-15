@@ -41,11 +41,12 @@ bool WAM::unboundStack (DataCell* cell) {
 }
 
 void WAM::backtrack () {
-
+    
 }
 
 DataCell* WAM::deref (DataCell* address) {
-    if (address->tag == REF) {
+    // If cell is a bound reference, deference that. Else we're done.
+    if (address->tag == REF && address->ref != address > getHB ()) {
         return deref (address->ref);
     } else {
         return address;
@@ -56,10 +57,19 @@ void WAM::bind (DataCell* cell1, DataCell* cell2) {
 
 }
 
+//
+// Store an address that has been bound, but may become unbound during backtrackin
+//
 void WAM::trail (DataCell* address) {
-
+    if (isHeapCell () && address > getHB () || isStackCell ()) {
+        m_TR = address;
+        m_TR = m_TR + 1;
+    }
 }
 
 void WAM::unwind_trail (TrailFrame* oldTr, TrailFrame* curTr) {
-
+   for (DataCell* cell = oldTr; cell < curTr; cell = cell + 1) {
+        cell->tag = REF;
+        cell->ref = cell;
+   } 
 }

@@ -12,7 +12,7 @@ FLEX 		= flex
 TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
-WAMFILES 	= FunctorTable put set get unify control core
+WAMFILES 	= FunctorTable put set get unify control core indexing run
 LOADFILES 	= gWAMparser gWAMsyntax
 GRAMFILE	= gWAMgrammar
 FLEXFILES	= gWAMlexer 

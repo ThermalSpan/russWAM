@@ -69,5 +69,7 @@ public:
 
     string toString (int functorId);
 
+    unordered_map <int, int> *getSwitchMap (int functorId);
+
     void debugPrint ();
 };

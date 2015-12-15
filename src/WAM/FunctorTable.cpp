@@ -94,6 +94,10 @@ string FunctorTable::toString (int functorId) {
     return *getName (functorId) + "/" + to_string (getArity (functorId));
 }
 
+unordered_map <int, int> *FunctorTable::getSwitchMap (int functorId) {
+    return m_ValueVector[functorId].s_switchMap;
+}
+
 void FunctorTable::debugPrint () {
     for (auto it = m_ValueVector.begin (); it != m_ValueVector.end (); it++) {
         cout << "------------------------------------------------------------" << endl; 
@@ -139,8 +143,8 @@ string to_string (OpCode op) {
         case OC_set_value:
             return "OC_set_value";
             break;
-        case OC_set_localvalue:
-            return "OC_set_localvalue";
+        case OC_set_local_value:
+            return "OC_set_local_value";
             break;
         case OC_set_constant:
             return "OC_set_constant";

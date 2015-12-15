@@ -9,7 +9,7 @@
 
 #include "WAM.h"
 
-void WAM::try_me_else (int functorId, int labelId) {
+void WAM::try_me_else (int labelId) {
     // Allocate a new choice frame, setting next clause to label
     m_B = new ChoiceFrame (m_numOfArgs, m_B);  
     int n =;
@@ -22,7 +22,7 @@ void WAM::try_me_else (int functorId, int labelId) {
 
 }
 
-void WAM::retry_me_else (int functorId, int labelId) {
+void WAM::retry_me_else (int labelId) {
     int n = m_B->arity;
     for(int i = 0; i < n; i++) {
         *getGlobalReg(i) = m_B->GlobalRegs (i);
@@ -40,14 +40,14 @@ void WAM::trust_me () {
 
 }
 
-void WAM::try_ (int functorId, int labelId) {
+void WAM::try_ (int labelId) {
     m_B = new ChoiceFrame (m_numOfArgs, m_B, m_B->B0); 
     
 
     m_numOfArgs; 
 }
 
-void WAM::retry (int functorId, int labelId) {
+void WAM::retry (int labelId) {
     int n = m_B->arity;
     for(int i = 0; i < n; i++) {
         *getGlobalReg(i) = m_B->GlobalRegs (i);
@@ -63,7 +63,7 @@ void WAM::retry (int functorId, int labelId) {
     m_P = m_functorTable (functorId, labelId);
 }
 
-void WAM::trust (int functorId, int labelId) {
+void WAM::trust (int labelId) {
     int n = m_B->arity;
     for(int i = 0; i < n; i++) {
         *getGlobalReg(i) = m_B->GlobalRegs (i);
@@ -77,5 +77,5 @@ void WAM::trust (int functorId, int labelId) {
     m_HB = m_B->H;
     m_B = m_B->prevChoice;
     // fix this! delete old one
-    m_P = m_functorTable (functorId, labelId); 
+    m_P = m_functorTable->getLabel(functorId, labelId); 
 }
