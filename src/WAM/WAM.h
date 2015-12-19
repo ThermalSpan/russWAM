@@ -13,15 +13,13 @@
 #include "FunctorTable.h"
 
 class WAM {
-public:
-
 protected:
     DataCell* m_H;                          // The Heap Pointer
     DataCell* m_S;                          // The next term to be unified
     WAMword* m_P;                           // The next Instruction to be run
     WAMword* m_CP;                          // The continuation instruction
     WAMword* m_L;                           // L for label: the next clause to try
-    WAMword* m_TR;                          // Trail point, 
+    DataCell* m_TR;                          // Trail point, 
     // HB - the backtracking point in the heap, is a getMethod
     Mode m_Mode;                            // READ or WRITE?
     int m_arity;                            // Arity of local functor, called num_of_args in tutorial
@@ -29,7 +27,7 @@ protected:
 
     // Data areas
     DataCell* m_Heap;                       // The base of the HEAP, an array of DataCells
-    DataCell** m_Trail                      // The base of the trail, and array of DataCell addresses 
+    DataCell** m_Trail;                     // The base of the trail, and array of dataCell addresses 
     addressStack* m_PDL;                    // Stack of data cells used for unification
     FunctorTable* m_functorTable;           // A data struture used to identify functors
     EnvFrame* m_E;                          // The top of the local frame stack

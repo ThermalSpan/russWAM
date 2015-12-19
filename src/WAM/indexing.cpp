@@ -32,7 +32,7 @@ void WAM::switch_on_term (int V, int C, int L, int S) {
 }
 
 // These are the same...
-// TODO: fix this replications heresy
+// TODO: fix this replication heresy OR find out if they should be different
 void WAM::switch_on_constant () {
     DataCell* cell = deref (getGlobalReg (1));
     auto map = m_functorTable->getSwitchMap (m_functorId);
