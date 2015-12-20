@@ -15,8 +15,6 @@ using namespace std;
 bool WAM::run (string* functor, int arity) {
     bool result = true;
     int queryId = m_functorTable->getFunctorId (functor, arity);
-	WAMword* end = new WAMword ();
-	end->op = OC_NULL;
 	
 	if (queryId == -1) {
 		panic ("ERROR: query not found...");
@@ -24,13 +22,26 @@ bool WAM::run (string* functor, int arity) {
 
     m_P = m_functorTable->getLabel (queryId, 0);
 	
-
     while (m_P->op != OC_NULL) {
     	executeInstr (m_P);    
     }
 	
-	delete (end);
     return result;
+}
+
+bool WAM::runBacktrack () {
+	bool result = true;
+	
+	if (m_B != nullptr) {
+		m_P = m_B->L;
+		while (m_P->op != OC_NULL) {
+			executeInstr (m_P);
+		}
+	} else {
+		result = false;
+	}
+
+	return result;
 }
 
 bool WAM::executeInstr (WAMword* word) {
@@ -150,13 +161,8 @@ bool WAM::executeInstr (WAMword* word) {
         case OC_retry_me_else:
             retry_me_else (word->a);
             break;
-        case OC_trust_me:
-            trust_me ();
-            break;
         case OC_trust_me_else_fail:
-			// TODO: we need to find a...
-            //trust_me_else_fail (word->a);
-			panic ("ERROR: We have not yet defined trust_me_else_fail");
+            trust_me_else_fail ();
             break;
         case OC_try:
             try_ (word->a);

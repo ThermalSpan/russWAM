@@ -59,7 +59,7 @@ void WAM::retry_me_else (int labelId) {
     m_P = m_P + 1;
 }
 
-void WAM::trust_me () {
+void WAM::trust_me_else_fail () {
    // Undo any bindings of unbound cells
     unwind_trail (m_B->TR, m_TR);
 

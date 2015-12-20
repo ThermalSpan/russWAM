@@ -26,7 +26,6 @@ protected:
     DataCell* m_S;                          // The next term to be unified
     WAMword* m_P;                           // The next Instruction to be run
     WAMword* m_CP;                          // The continuation instruction
-    WAMword* m_L;                           // L for label: the next clause to try
     ChoiceFrame* m_B0;                      // The cut pointer
     DataCell** m_TR;                          // Trail point, 
     Mode m_Mode;                            // READ or WRITE?
@@ -44,6 +43,10 @@ protected:
     EnvFrame* m_E;                          // The top of the local frame stack
     ChoiceFrame* m_B;
 
+    //
+    // Extras
+    //
+    WAMword* m_endWord;                    // A null word to use as first m_CP
 
 public:
     //
@@ -53,7 +56,10 @@ public:
     ~WAM ();
 
     bool run (string* functor, int arity);
+    bool runBacktrack ();
     void printResultArg (int reg);
+    void printCell (DataCell* cell);
+
 
 protected:
     //
@@ -101,7 +107,7 @@ protected:
     // Choice instructions
     void try_me_else (int labelId);
     void retry_me_else (int labelId);
-    void trust_me ();
+    void trust_me_else_fail ();
     void try_ (int labelId);
     void retry (int labelId);
     void trust (int labelId);
@@ -118,7 +124,6 @@ protected:
 
     // Output Instructions
     long HeapCellId (DataCell* pointer);
-    void printCell (DataCell* cell);
     void printHeap ();
     void recurPrint (DataCell* cell);
     void printArgRegisters ();

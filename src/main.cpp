@@ -55,6 +55,9 @@ int main(int argc, const char * argv[]) {
 	if (succf) {
 		cout << "It worked! YES!" << endl;	
 		wam->printResultArg (0);
+		if (wam->runBacktrack ()) {
+			wam->printResultArg (0);
+		}
 	} else {
 		cout << "run failed" << endl;
 	}

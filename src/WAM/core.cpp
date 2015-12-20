@@ -14,12 +14,17 @@ using namespace std;
 
 WAM::WAM (FunctorTable* functorTable) {
     m_functorTable = functorTable;
+
+    // Allocate and initialize all memory sections
     m_Heap = (DataCell*) malloc (sizeof (DataCell) * HEAPSIZE);
     m_GlobalArgRegisters = (DataCell*) malloc (sizeof (DataCell) * ARGREGCOUNT);
     m_Trail = (DataCell**) malloc (sizeof (DataCell*) * TRAILSIZE);
     m_PDL = new addressStack ();
+    m_endWord = (WAMword*) malloc (sizeof (WAMword));
 
     // Setup initial state registers
+    m_CP = m_endWord;
+    m_CP->op = OC_NULL;
     m_H = m_Heap;
     m_HB = m_H;
     m_S = nullptr;
@@ -27,6 +32,12 @@ WAM::WAM (FunctorTable* functorTable) {
     m_TR = m_Trail;
     m_E = nullptr;
     m_B = nullptr;
+
+    // Setup all global registers and unbound
+    for (int i = 0; i < ARGREGCOUNT; i++) {
+        m_GlobalArgRegisters[i].tag = REF;
+        m_GlobalArgRegisters[i].ref = &m_GlobalArgRegisters[i];
+    }
 }
 
 WAM::~WAM () {
@@ -34,6 +45,7 @@ WAM::~WAM () {
     free (m_GlobalArgRegisters);
     free (m_Trail);
     delete (m_PDL);
+    free (m_endWord);
 }
 
 DataCell* WAM::getLocalReg (int regId) {
@@ -104,6 +116,10 @@ void WAM::backtrack () {
 }
 
 DataCell* WAM::deref (DataCell* address) {
+    //if (address == nullptr) {
+    //    panic ("ERROR: Trying to deref nullptr");
+    //}
+
     // If cell is a bound reference, deference that. Else we're done.
     if (address->tag == REF && address->ref != address) {
         return deref (address->ref);

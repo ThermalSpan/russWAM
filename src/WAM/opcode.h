@@ -35,7 +35,6 @@ enum OpCode {
     OC_unify_structure,
     OC_try_me_else,
     OC_retry_me_else,
-    OC_trust_me,
     OC_trust_me_else_fail,
     OC_try,
     OC_retry,

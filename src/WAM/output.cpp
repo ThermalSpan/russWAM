@@ -88,7 +88,7 @@ void WAM::recurPrint (DataCell* cell) {
     DataCell* fun = strDeref (deref (cell));
     
     if (fun == nullptr) {
-        cout << "NULL FUN";
+        panic ("ERROR: Tried to recur print null functor");
     }
 
     int a = m_functorTable->getArity (fun->functorId);
@@ -117,7 +117,7 @@ DataCell* WAM::strDeref (DataCell* cell) {
     if (cell->tag == STR) {
         result = strDeref (cell->ref);
     }
-    else if (cell->tag == FUN) {
+    else if (cell->tag == FUN || cell->tag == CON) {
         result = cell;
     }
     else {

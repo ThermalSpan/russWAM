@@ -224,9 +224,6 @@ string to_string (OpCode op) {
         case OC_retry_me_else:
             return "OC_retry_me_else";
             break;
-        case OC_trust_me:
-            return "OC_trust_me";
-            break;
         case OC_trust_me_else_fail:
             return "OC_trust_me_else_fail";
             break;

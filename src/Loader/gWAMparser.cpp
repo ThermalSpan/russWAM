@@ -38,7 +38,7 @@ void gWAMparser::run (const string &fileName, FunctorTable &functorTable) {
             delete (*it);
 		}
 
-		cout << "Semantic passes done: " << semResult << endl;
+		cout << "Parsed Succesfully" << endl;
         delete (m_predList);
 	} else {
 		cout << "Parse Failure" << endl;
