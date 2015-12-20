@@ -254,5 +254,8 @@ string to_string (OpCode op) {
         case OC_NULL:
             return "OC_NULL";
             break;
+        default:
+            return "OC ... UNKNOWN";
+            break;
    }
 }

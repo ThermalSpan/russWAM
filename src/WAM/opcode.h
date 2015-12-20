@@ -44,7 +44,8 @@ enum OpCode {
     OC_get_level,
     OC_cut,
     OC_terminate,
-    OC_NULL
+    OC_NULL,
+    OC_FAIL
 };
 
 

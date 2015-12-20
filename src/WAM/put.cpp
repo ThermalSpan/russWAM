@@ -98,3 +98,12 @@ void WAM::put_constant (int functorId, int argRegId) {
 
     m_P = m_P + 1;
 }
+
+void WAM::put_void (int argRegId) {
+	// Ai <- (REF, Ai)
+	DataCell* globalReg = getGlobalReg (argRegId);
+	globalReg->tag = REF;
+	globalReg->ref = globalReg;
+
+	m_P = m_P + 1;
+}

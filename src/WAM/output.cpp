@@ -1,22 +1,32 @@
 //
-//  debug.cpp
+//  output.cpp
 //  russWAM
 //
-//  Created by Russell Wilhelm Bentley on 10/15/15.
+//  Created by Russell Wilhelm Bentley on 12/18/15.
 //  Copyright (c) 2015 Russell Wilhelm Bentley.
 //  Distributed under the MIT License.
 //
 
+#include <iostream>
 #include "WAM.h"
 
-long WAM::ptrToHeapCell (DataCell* pointer) {
+using namespace std;
+
+void WAM::panic (string message) {
+    cout << "!!! PANIC !!!" << endl;
+    cout << message << endl;
+
+    exit (EXIT_FAILURE);
+}
+
+long WAM::HeapCellId (DataCell* pointer) {
     if (pointer == nullptr) {
         return -2;
     } 
   
-    long dif = pointer - getBase ();
-    
-    if (dif > MEMSIZE || dif < 0) {
+    long dif = pointer - m_Heap;
+
+    if (dif > HEAPSIZE || dif < 0) {
         return -1;
     } 
     else {
@@ -29,15 +39,15 @@ void WAM::printCell (DataCell* cell) {
     if (cell == nullptr) {
         cout << "null";
     }
-    else if (cell->type == VAL && cell->tag == REF) {  
-        cout << "REF: " << ptrToHeapCell (cell->ref);
+    else if (cell->tag == REF) {  
+        cout << "REF: " << HeapCellId (cell->ref);
     }
-    else if (cell->type == VAL && cell->tag == STR) {
-        cout << "STR: " << ptrToHeapCell (cell->ref);
+    else if (cell->tag == STR) {
+        cout << "STR: " << HeapCellId (cell->ref);
     }       
-    else if (cell->type == FUN) {
-        cout << m_FunctorTable->getName (cell->functorId) << "/";
-        cout << cell->arity << "\t"; 
+    else if (cell->tag == FUN || cell->tag == CON) {
+        cout << m_functorTable->getName (cell->functorId) << "/";
+        cout << m_functorTable->getArity (cell->functorId) << "\t"; 
     }
     else {
         cout << "What type is this?";
@@ -46,45 +56,32 @@ void WAM::printCell (DataCell* cell) {
 }
 
 void WAM::printHeap () {
-    int i;
-    DataCell* basCell = m_heap->at (0);
-
  	cout << "HEAP:" << endl;   
-    for (i = 0; i < m_maxHindex; i++) {
+    // TODO: someday when i have max H index again, put that here instead of 12, that's arbitrary.
+    for (int i = 0; i < 12; i++) {
         cout << i;       
-        printCell (&basCell[i]);
+        printCell (&m_Heap[i]);
      }
 
 	cout << endl;
-
-    incrPreg ();
 }
 
 void WAM::printArgRegisters () {
     int i;
  	cout << "ARGUMENT REGISTERS:" << endl;
 
-    for (i = 1; i < ARG_REG_COUNT; i++) {
+    for (i = 1; i < ARGREGCOUNT; i++) {
         cout << i << "\t| ";       
-        printCell (&m_argRegisters[i]);           
+        printCell (&m_GlobalArgRegisters[i]);           
     }
 
 	cout << endl;
-
-    incrPreg ();
 }
 
 void WAM::printResultArg (int reg) {
-    DataCell* cell = deref (&m_argRegisters[reg]);
+    DataCell* cell = deref (&m_GlobalArgRegisters[reg]);
     recurPrint (cell);  
     cout << endl;
-    incrPreg ();
-}
-
-void WAM::printHeapCell (int i) {
-    recurPrint (m_heap->at(i));
-    cout << endl;
-    incrPreg ();
 }
 
 void WAM::recurPrint (DataCell* cell) {
@@ -94,10 +91,10 @@ void WAM::recurPrint (DataCell* cell) {
         cout << "NULL FUN";
     }
 
-    int a = m_FunctorTable->getArity (fun->functorId);
-    string name = m_FunctorTable->getName (fun->functorId);
+    int a = m_functorTable->getArity (fun->functorId);
+    string* name = m_functorTable->getName (fun->functorId);
 
-    cout << name;
+    cout << *name;
     if (a != 0) {
         cout << "(";
     }
@@ -114,17 +111,13 @@ void WAM::recurPrint (DataCell* cell) {
     }
  }
 
-DataCell* WAM::getBase () {
-    return m_heap->at (0);
-}
-
 DataCell* WAM::strDeref (DataCell* cell) {
     DataCell* result;
 
-    if (cell->type == VAL && cell->tag == STR) {
+    if (cell->tag == STR) {
         result = strDeref (cell->ref);
     }
-    else if (cell->type == FUN) {
+    else if (cell->tag == FUN) {
         result = cell;
     }
     else {
@@ -132,11 +125,4 @@ DataCell* WAM::strDeref (DataCell* cell) {
     }
 
     return result;
-}
-
-void WAM::unifyHeapCells (int a, int b) {
-    DataCell* cell1 = m_heap->at (a);
-    DataCell* cell2 = m_heap->at (b);
-    unify (cell1, cell2);
-    incrPreg ();
 }

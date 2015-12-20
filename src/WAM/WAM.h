@@ -12,32 +12,54 @@
 #include "types.h"
 #include "FunctorTable.h"
 
+#define HEAPSIZE 9000
+#define ARGREGCOUNT 30
+#define TRAILSIZE 100
+
 class WAM {
 protected:
+    //
+    // State Registers
+    //
     DataCell* m_H;                          // The Heap Pointer
+    DataCell* m_HB;                         // The Backtracking point on the heap
     DataCell* m_S;                          // The next term to be unified
     WAMword* m_P;                           // The next Instruction to be run
     WAMword* m_CP;                          // The continuation instruction
     WAMword* m_L;                           // L for label: the next clause to try
-    DataCell* m_TR;                          // Trail point, 
-    // HB - the backtracking point in the heap, is a getMethod
+    ChoiceFrame* m_B0;                      // The cut pointer
+    DataCell** m_TR;                          // Trail point, 
     Mode m_Mode;                            // READ or WRITE?
     int m_arity;                            // Arity of local functor, called num_of_args in tutorial
     int m_functorId;                        // The functor id of last call or execute, used in the switch statements
 
+    //
     // Data areas
+    //
     DataCell* m_Heap;                       // The base of the HEAP, an array of DataCells
+    DataCell* m_GlobalArgRegisters;         // An array of datacells to serve as global registers
     DataCell** m_Trail;                     // The base of the trail, and array of dataCell addresses 
     addressStack* m_PDL;                    // Stack of data cells used for unification
     FunctorTable* m_functorTable;           // A data struture used to identify functors
     EnvFrame* m_E;                          // The top of the local frame stack
     ChoiceFrame* m_B;
 
+
 public:
-    WAM ();
+    //
+    // Public Methods
+    //
+    WAM (FunctorTable* functorTable);
     ~WAM ();
 
+    bool run (string* functor, int arity);
+    void printResultArg (int reg);
+
 protected:
+    //
+    // Private Methods
+    //
+
     // Put instructions
     void put_variable (RegType t, int regId, int argRegId);
     void put_value (RegType t, int regId, int argRegId);
@@ -45,6 +67,7 @@ protected:
     void put_structure (int functorId, int argRegId);
     void put_list (int argRegId);
     void put_constant (int functorId, int argRegId);
+    void put_void (int argRegId);
 
     // Get instructions
     void get_variable (RegType t, int regId, int argRegId);
@@ -89,21 +112,34 @@ protected:
     void switch_on_structure ();    
 
     // Cut instructions
+    void neck_cut ();
+    void get_level (int regId);
+    void cut (int regId);
+
+    // Output Instructions
+    long HeapCellId (DataCell* pointer);
+    void printCell (DataCell* cell);
+    void printHeap ();
+    void recurPrint (DataCell* cell);
+    void printArgRegisters ();
+    DataCell* strDeref (DataCell* cell);
+    
     
     // Support instructions
     void backtrack ();
     DataCell* deref (DataCell* address);
     void bind (DataCell* cell1, DataCell* cell2);
     void trail (DataCell* address);
-    void unwind_trail (TrailFrame* oldTr, TrailFrame* curTr);
+    void unwind_trail (DataCell** oldTr, DataCell** curTr);
 
     void panic (string message);
-    DataCell* getHB ();                                         // HB, would normally be a "register"
+    bool executeInstr (WAMword* word);
 
     // DataCell manipulation
     DataCell* getLocalReg (int regId);
     DataCell* getGlobalReg (int regId);
     DataCell* getRegister (RegType t, int regId);
+    bool isGlobalCell (DataCell* cell);
     bool isStackCell (DataCell* cell);
     bool isHeapCell (DataCell* cell);
     bool unboundHeap (DataCell* cell);

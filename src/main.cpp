@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "Loader/gWAMparser.h"
+#include "WAM/WAM.h"
 
 using namespace std;
 
@@ -46,7 +47,19 @@ int main(int argc, const char * argv[]) {
 	gWAMparser parser;
 	parser.run (wamFileName, functorTable);
 
-    functorTable.debugPrint ();
+	// Build the WAM an run!
+	bool succf;
+	WAM* wam = new WAM (&functorTable);
+	string* q  = new string ("query");
+	succf = wam->run (q, 1);
+	if (succf) {
+		cout << "It worked! YES!" << endl;	
+		wam->printResultArg (0);
+	} else {
+		cout << "run failed" << endl;
+	}
 	
+	delete (q);
+	delete (wam);
     return 0;
 }

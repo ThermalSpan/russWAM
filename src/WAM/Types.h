@@ -63,17 +63,21 @@ struct EnvFrame {
 
 // Contain all the information to undo a choice, forms a list
 struct ChoiceFrame {
-    int arity;
     std::vector <DataCell> GlobalRegs;
+    ChoiceFrame* prevChoice;
+    
+    // The state of the WAM
     EnvFrame* E;
     WAMword* CP;
-    ChoiceFrame* prevChoice;
-    WAMword* nextClause;
-    TrailFrame* TR;
+    WAMword* L;
+    DataCell** TR;
     DataCell* H;
     ChoiceFrame* B0;                // Where to go when cut, often refered to B0
+    int functorId;
+    int arity;
 
     ChoiceFrame (int n, ChoiceFrame* prev) : GlobalRegs (n) {
+        arity = n;
         prevChoice = prev;
     }    
 };
