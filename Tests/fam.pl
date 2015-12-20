@@ -23,4 +23,6 @@ cousins(A, B) :- parent(P1, A), parent(P2, B), siblings(P1, P2).
 
 query(X) :- male(X).
 
+query1(X, Y) :- male(X), female(Y).
+
 

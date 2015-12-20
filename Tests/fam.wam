@@ -187,3 +187,12 @@ predicate(cousins/2,22,static,private,monofile,global,[
 
 predicate(query/1,24,static,private,monofile,global,[
     execute(male/1)]).
+
+
+predicate(query1/2,26,static,private,monofile,global,[
+    allocate(1),
+    get_variable(y(0),1),
+    call(male/1),
+    put_value(y(0),0),
+    deallocate,
+    execute(female/1)]).
