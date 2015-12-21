@@ -1,0 +1,65 @@
+% compiler: GNU Prolog 1.4.4
+% file    : plants.pl
+
+
+file_name('/Users/russell/projects/cpp-prolog/russWAM/Tests/plants.pl').
+
+
+predicate(fruit/1,1,static,private,monofile,global,[
+    switch_on_term(2,1,fail,fail,fail),
+
+label(1),
+    switch_on_atom([(apple,3),(orange,5),(banana,7),(tomato,9)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_atom(apple,0),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_atom(orange,0),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_atom(banana,0),
+    proceed,
+
+label(8),
+    trust_me_else_fail,
+
+label(9),
+    get_atom(tomato,0),
+    proceed]).
+
+
+predicate(vegetable/1,6,static,private,monofile,global,[
+    switch_on_term(2,1,fail,fail,fail),
+
+label(1),
+    switch_on_atom([(cucumber,3),(carrot,5)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_atom(cucumber,0),
+    proceed,
+
+label(4),
+    trust_me_else_fail,
+
+label(5),
+    get_atom(carrot,0),
+    proceed]).
+
+
+predicate(query/1,9,static,private,monofile,global,[
+    execute(fruit/1)]).
