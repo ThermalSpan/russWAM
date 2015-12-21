@@ -17,6 +17,8 @@ dirFile
 *.aux
 *.lof
 *.log
+*.blg
+*.bbl
 *.lot
 *.fls
 *.out
@@ -26,5 +28,8 @@ dirFile
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+
+# Prolly shouldn't be any pdfs either
+*.pdf
 
 
