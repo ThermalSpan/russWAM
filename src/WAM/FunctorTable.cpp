@@ -107,14 +107,14 @@ void FunctorTable::debugPrint () {
         } else {
             WAMword* word = (*it).s_codeArray;
             while (word->op != OC_NULL) {
-                cout << to_string (word->op) << endl;
+                cout << op_to_string (word->op) << endl;
                 word++;
             }
         }
     }
 }
 
-string to_string (OpCode op) {
+string FunctorTable::op_to_string (OpCode op) {
    switch (op) {
         case OC_put_variable:
             return "OC_put_variable";

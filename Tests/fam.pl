@@ -21,7 +21,7 @@ is_mother(M) :- female(M), parent(M,_).
 siblings(A, B) :- parent(P, A), parent(P, B).
 cousins(A, B) :- parent(P1, A), parent(P2, B), siblings(P1, P2).
 
-query(X) :- male(X).
+query(X) :- female(Y).
 
 query1(X, Y) :- male(X), female(Y).
 

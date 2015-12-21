@@ -21,8 +21,9 @@ bool WAM::run (string* functor, int arity) {
 	}
 
     m_P = m_functorTable->getLabel (queryId, 0);
-	
-    while (m_P->op != OC_NULL) {
+
+    int icount = 0;
+    while (m_P->op != OC_NULL && icount < 20) {
     	executeInstr (m_P);    
     }
 	
@@ -112,10 +113,10 @@ bool WAM::executeInstr (WAMword* word) {
             switch_on_structure ();
             break;
         case OC_get_variable:
-            get_variable (word->regType, word->b, word->c);
+            get_variable (word->regType, word->a, word->b);
             break;
         case OC_get_value:
-            get_value (word->regType, word->b, word->c);
+            get_value (word->regType, word->a, word->b);
             break;
         case OC_get_structure:
             get_structure (word->a, word->b);

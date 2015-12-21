@@ -53,13 +53,13 @@ int main(int argc, const char * argv[]) {
 	string* q  = new string ("query");
 	succf = wam->run (q, 1);
 	if (succf) {
-		cout << "It worked! YES!" << endl;	
+		cout << "yes." << endl;	
 		wam->printResultArg (0);
-		if (wam->runBacktrack ()) {
+		while (wam->runBacktrack ()) {
 			wam->printResultArg (0);
 		}
 	} else {
-		cout << "run failed" << endl;
+		cout << "no." << endl;
 	}
 	
 	delete (q);

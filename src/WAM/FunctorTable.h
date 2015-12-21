@@ -72,4 +72,6 @@ public:
     unordered_map <int, int> *getSwitchMap (int functorId);
 
     void debugPrint ();
+
+    string op_to_string (OpCode op);
 };

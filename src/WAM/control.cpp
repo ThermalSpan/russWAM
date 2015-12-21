@@ -9,9 +9,14 @@
 
 #include "WAM.h"
 #include <assert.h>
+#include <iostream>
+
+using namespace std;
 
 void WAM::allocate (int N) {
+    cout << "CALL: allocate" << endl;
     m_E = new EnvFrame (N, m_CP, m_E);
+    m_P = m_P + 1;
 }
 
 void WAM::deallocate () {
@@ -27,12 +32,13 @@ void WAM::deallocate () {
 }
 
 void WAM::call (int functorId) {
+    cout << "CALL: call" << endl;
     WAMword* label = m_functorTable->getLabel (functorId, 0);
     if (label != nullptr) {
         m_CP = m_P + 1;
         m_arity = m_functorTable->getArity (functorId);
 		m_functorId = functorId;
-        m_B->B0 = m_B;
+        if (m_B != nullptr) m_B->B0 = m_B;
         m_P = label;
     } else {
         backtrack ();
@@ -45,7 +51,7 @@ void WAM::execute (int functorId) {
     if (label != nullptr) {
         m_arity = m_functorTable->getArity (functorId);
 		m_functorId = functorId;
-        m_B0 = m_B;
+        if (m_B != nullptr) m_B0 = m_B;
         m_P = label;
     } else {
        backtrack ();
