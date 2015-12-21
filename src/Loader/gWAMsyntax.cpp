@@ -33,14 +33,14 @@ bool PredicateNode::passOne (FunctorTable &functorTable) {
     } else {
         result = true;
         m_functorId = id;
-    } 
+    }
 
     // Note that the +1 is for the null instruction at the end
     m_instrCount = m_instrs->size() + 1;
     for (auto it = m_instrs->begin (); it != m_instrs->end(); it++) {
-       if ((*it)->isLabel ()) {
+        if ((*it)->isLabel ()) {
             m_instrCount -= 1;
-       } 
+        }
     }
 
     return result;
@@ -49,7 +49,7 @@ bool PredicateNode::passOne (FunctorTable &functorTable) {
 bool PredicateNode::passTwo (FunctorTable &functorTable) {
     bool result = true;
 
-    m_codeArray = (WAMword*) malloc (m_instrCount * sizeof(WAMword));
+    m_codeArray = (WAMword*) malloc (m_instrCount * sizeof (WAMword));
     m_labels = new vector <WAMword*> ();
     WAMword* nextWord = m_codeArray;
 
@@ -65,20 +65,20 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
                 m_switchMap = new unordered_map <int, int> ();
             }
             result = dynamic_cast <SwitchMapNode*> (*it) ->setupSwitchMap (m_switchMap, functorTable) && result;
-        } 
-        
-        // Labels get special treatment 
+        }
+
+        // Labels get special treatment
         if ((*it)->isLabel ()) {
             int label = dynamic_cast <LabelNode*> (*it)->getLabel();
             if (label != nextLabel) {
                 cout << "Error: Incorrect Label Num " << label;
                 cout << endl;
-                result = false;  
+                result = false;
             } else {
                 nextLabel += 1;
                 m_labels->push_back (nextWord);
             }
-        } 
+        }
         // All other instructions are treated the same
         else {
             result = (*it)->passTwo (nextWord, functorTable) && result;
@@ -87,11 +87,11 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
 
         delete (*it);
     }
-    
+
     // Add Null word
     nextWord->op = OC_NULL;
     // Pass all the information to the functor table
-    functorTable.setupFunctor (m_functorId, m_codeArray, m_labels, m_switchMap); 
+    functorTable.setupFunctor (m_functorId, m_codeArray, m_labels, m_switchMap);
 
     if (!result) {
         cout << "Error: ^ Occured in " << functorTable.toString (m_functorId);
@@ -99,7 +99,7 @@ bool PredicateNode::passTwo (FunctorTable &functorTable) {
     }
 
     delete (m_functor);
-    delete (m_instrs);    
+    delete (m_instrs);
     return result;
 }
 
@@ -119,7 +119,7 @@ RegInstrNode::RegInstrNode (OpCode op, Reg* reg, int b, int c) {
 
 bool RegInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     word->a = m_reg->s_regId;
-    word->b = m_b; 
+    word->b = m_b;
     word->c = m_c;
     word->regType = m_reg->s_type;
 
@@ -144,11 +144,11 @@ FunctorInstrNode::FunctorInstrNode (OpCode op, Functor* functor, int b, int c) {
 
 bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     bool result = true;
-    int functorId = 0; 
+    int functorId = 0;
     int arity = m_functor->s_arity;
     string* name = m_functor->s_name;
 
-    // For atoms (constants) we may or may not have seen them before.  
+    // For atoms (constants) we may or may not have seen them before.
     if (arity == 0) {
         functorId = functorTable.getFunctorId (name, arity);
         if (functorId == -1) {
@@ -157,8 +157,8 @@ bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
         } else {
             delete (name);
         }
-    } 
-    // All other functors need to have been seen in passOne. 
+    }
+    // All other functors need to have been seen in passOne.
     else {
         functorId = functorTable.getFunctorId (name, arity);
         if (functorId == -1) {
@@ -167,9 +167,9 @@ bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
             cout << " is undefined" << endl;
         }
         delete (name);
-    } 
-   
-    word->op = m_op; 
+    }
+
+    word->op = m_op;
     word->a = functorId;
     word->b = m_b;
     word->c = m_c;
@@ -182,7 +182,7 @@ TermSwitchNode::TermSwitchNode (int var, int atm, int lst, int str) {
     m_var = var;
     m_atm = atm;
     m_lst = lst;
-    m_str = str;  
+    m_str = str;
 }
 
 bool TermSwitchNode::passTwo (WAMword* word, FunctorTable &functorTable) {
@@ -190,25 +190,25 @@ bool TermSwitchNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     word->a = m_var;
     word->b = m_atm;
     word->c = m_lst;
-    word->d = m_str; 
+    word->d = m_str;
     return true;
 }
 
 SwitchMapNode::SwitchMapNode (OpCode op, list <FunctorLabel*>* pairs) {
     m_op = op;
-    m_pairs = pairs; 
+    m_pairs = pairs;
 }
 
 bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, FunctorTable &functorTable) {
     bool result = true;
 
     for (auto it = m_pairs->begin (); it != m_pairs->end (); it++) {
-       int functorId;
-       int arity = (*it)->s_arity;
-       string* name = (*it)->s_name;
+        int functorId;
+        int arity = (*it)->s_arity;
+        string* name = (*it)->s_name;
 
-       // For atoms (constants) we may or may not have seen them before.  
-       if (arity == 0) {
+        // For atoms (constants) we may or may not have seen them before.
+        if (arity == 0) {
             functorId = functorTable.getFunctorId (name, arity);
             if (functorId == -1) {
                 // Haven't seen it? no problem, lets add it
@@ -216,8 +216,8 @@ bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, Functor
             } else {
                 delete (name);
             }
-        } 
-        // All other functors need to have been seen in passOne. 
+        }
+        // All other functors need to have been seen in passOne.
         else {
             functorId = functorTable.getFunctorId (name, arity);
             if (functorId == -1) {
@@ -229,10 +229,10 @@ bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, Functor
             delete (name);
         }
 
-       switchMap->emplace (functorId, (*it)->s_label);
-       delete (*it);
+        switchMap->emplace (functorId, (*it)->s_label);
+        delete (*it);
     }
-    
+
     delete (m_pairs);
     return result;
 }
@@ -248,7 +248,7 @@ NotUsedNode::NotUsedNode (string opName) {
 
 bool NotUsedNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     cout << "Error: " << m_opName << " is not a supported WAM operation. Sorry.";
-    cout << endl; 
+    cout << endl;
     return false;
 }
 

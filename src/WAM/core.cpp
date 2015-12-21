@@ -49,34 +49,34 @@ WAM::~WAM () {
 }
 
 DataCell* WAM::getLocalReg (int regId) {
-    return &(m_E->LocalRegs.at (regId));
+    return & (m_E->LocalRegs.at (regId));
 }
 
 DataCell* WAM::getGlobalReg (int regId) {
     if (regId < 0 || regId >= ARGREGCOUNT) {
         panic ("ERROR: tried to get arg reg " + to_string (regId));
     }
-    return &(m_GlobalArgRegisters[regId]);
+    return & (m_GlobalArgRegisters[regId]);
 }
 
 DataCell* WAM::getRegister (RegType type, int regId) {
     switch (type) {
-        case GLOBAL:
-            return getGlobalReg (regId);
-            break;
-        case LOCAL:
-            return getLocalReg (regId);
-            break;
+    case GLOBAL:
+        return getGlobalReg (regId);
+        break;
+    case LOCAL:
+        return getLocalReg (regId);
+        break;
     }
 }
 
 bool WAM::isStackCell (DataCell* cell) {
-    return !(isHeapCell (cell) || isGlobalCell (cell));
+    return ! (isHeapCell (cell) || isGlobalCell (cell));
 }
 
 bool WAM::isHeapCell (DataCell* cell) {
     if (cell >= m_Heap && cell < m_Heap + HEAPSIZE) {
-        return true; 
+        return true;
     } else {
         return false;
     }
@@ -98,7 +98,7 @@ bool WAM::unboundHeap (DataCell* cell) {
 }
 
 bool WAM::unboundStack (DataCell* cell) {
-     bool result;
+    bool result;
     result = isStackCell (cell);
     result = result && cell->tag == REF && cell->ref ==cell;
     return result;
@@ -128,7 +128,7 @@ DataCell* WAM::deref (DataCell* address) {
     }
 }
 
-// TODO: this is ugly. And I dunno about that cell2 < cell1 stuff. 
+// TODO: this is ugly. And I dunno about that cell2 < cell1 stuff.
 void WAM::bind (DataCell* cell1, DataCell* cell2) {
     bool test = cell1->tag == REF;
     test = test && cell2->tag != REF && cell2 < cell1;
@@ -152,8 +152,8 @@ void WAM::trail (DataCell* address) {
 }
 
 void WAM::unwind_trail (DataCell** oldTr, DataCell** curTr) {
-   for (DataCell** cell = oldTr; cell < curTr; cell = cell + 1) {
+    for (DataCell** cell = oldTr; cell < curTr; cell = cell + 1) {
         (*cell)->tag = REF;
         (*cell)->ref = (*cell);
-   } 
+    }
 }

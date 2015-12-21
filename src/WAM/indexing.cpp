@@ -5,29 +5,29 @@
 //  Created by Russell Wilhelm Bentley on 12/14/15.
 //  Copyright (c) 2015 Russell Wilhelm Bentley.
 //  Distributed under the MIT License
-//  
+//
 
 #include <unordered_map>
 #include "WAM.h"
 
 void WAM::switch_on_term (int V, int C, int L, int S) {
-    DataCell* cell = deref (getGlobalReg (1)); 
+    DataCell* cell = deref (getGlobalReg (1));
     switch (cell->tag) {
-        case REF:
-            m_P = m_functorTable->getLabel (m_functorId, V);
-            break;
-        case CON:
-            m_P = m_functorTable->getLabel (m_functorId, C);
-            break;
-        case LIS:
-            m_P = m_functorTable->getLabel (m_functorId, L);
-            break;
-        case STR:
-            m_P = m_functorTable->getLabel (m_functorId, S);
-            break;
-        default:
-            panic ("PANIC: switch_on_term not on term? What?");
-            break;
+    case REF:
+        m_P = m_functorTable->getLabel (m_functorId, V);
+        break;
+    case CON:
+        m_P = m_functorTable->getLabel (m_functorId, C);
+        break;
+    case LIS:
+        m_P = m_functorTable->getLabel (m_functorId, L);
+        break;
+    case STR:
+        m_P = m_functorTable->getLabel (m_functorId, S);
+        break;
+    default:
+        panic ("PANIC: switch_on_term not on term? What?");
+        break;
     }
 }
 

@@ -22,71 +22,66 @@ void WAM::panic (string message) {
 long WAM::HeapCellId (DataCell* pointer) {
     if (pointer == nullptr) {
         return -2;
-    } 
-  
+    }
+
     long dif = pointer - m_Heap;
 
     if (dif > HEAPSIZE || dif < 0) {
         return -1;
-    } 
-    else {
+    } else {
         return dif;
     }
 }
 
 void WAM::printCell (DataCell* cell) {
-    cout << "\t| ";       
+    cout << "\t| ";
     if (cell == nullptr) {
         cout << "null";
-    }
-    else if (cell->tag == REF) {  
+    } else if (cell->tag == REF) {
         cout << "REF: " << HeapCellId (cell->ref);
-    }
-    else if (cell->tag == STR) {
+    } else if (cell->tag == STR) {
         cout << "STR: " << HeapCellId (cell->ref);
-    }       
-    else if (cell->tag == FUN || cell->tag == CON) {
+    } else if (cell->tag == FUN || cell->tag == CON) {
         cout << m_functorTable->getName (cell->functorId) << "/";
-        cout << m_functorTable->getArity (cell->functorId) << "\t"; 
-    }
-    else {
+        cout << m_functorTable->getArity (cell->functorId) << "\t";
+    } else {
         cout << "What type is this?";
-    }   
-    cout << "|" << endl; 
+    }
+    cout << "|" << endl;
 }
 
 void WAM::printHeap () {
- 	cout << "HEAP:" << endl;   
+    cout << "HEAP:" << endl;
     // TODO: someday when i have max H index again, put that here instead of 12, that's arbitrary.
     for (int i = 0; i < 12; i++) {
-        cout << i;       
+        cout << i;
         printCell (&m_Heap[i]);
-     }
+    }
 
-	cout << endl;
+    cout << endl;
 }
 
 void WAM::printArgRegisters () {
     int i;
- 	cout << "ARGUMENT REGISTERS:" << endl;
+    cout << "ARGUMENT REGISTERS:" << endl;
 
     for (i = 1; i < ARGREGCOUNT; i++) {
-        cout << i << "\t| ";       
-        printCell (&m_GlobalArgRegisters[i]);           
+        cout << i << "\t| ";
+        printCell (&m_GlobalArgRegisters[i]);
     }
 
-	cout << endl;
+    cout << endl;
 }
 
 void WAM::printResultArg (int reg) {
     DataCell* cell = deref (&m_GlobalArgRegisters[reg]);
-    recurPrint (cell);  
+    recurPrint (cell);
     cout << endl;
 }
 
 void WAM::recurPrint (DataCell* cell) {
     DataCell* fun = strDeref (deref (cell));
-    
+
     if (fun == nullptr) {
         panic ("ERROR: Tried to recur print null functor");
     }
@@ -103,24 +98,22 @@ void WAM::recurPrint (DataCell* cell) {
         recurPrint (&fun[i]);
         if (i != a) {
             cout << ",";
-         }
+        }
     }
 
     if (a != 0) {
         cout << ")";
     }
- }
+}
 
 DataCell* WAM::strDeref (DataCell* cell) {
     DataCell* result;
 
     if (cell->tag == STR) {
         result = strDeref (cell->ref);
-    }
-    else if (cell->tag == FUN || cell->tag == CON) {
+    } else if (cell->tag == FUN || cell->tag == CON) {
         result = cell;
-    }
-    else {
+    } else {
         result = nullptr;
     }
 

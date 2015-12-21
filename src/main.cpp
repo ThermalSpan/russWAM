@@ -14,11 +14,11 @@
 
 using namespace std;
 
-int main(int argc, const char * argv[]) {
+int main (int argc, const char * argv[]) {
     // Get the name of the file
     string fileName;
-   	if (argc == 2) {
-      	fileName.assign(argv[1]);
+    if (argc == 2) {
+        fileName.assign (argv[1]);
         cout << "Input: " << fileName << endl;
     } else {
         cerr << "No input file given." << endl;
@@ -43,26 +43,26 @@ int main(int argc, const char * argv[]) {
     FunctorTable functorTable;
     string wamFileName (".wam");
     wamFileName.insert (0, fileName, 0,  fileName.size() - 3);
-    cout << "pl2wam generated " << wamFileName << endl; 
-	gWAMparser parser;
-	parser.run (wamFileName, functorTable);
+    cout << "pl2wam generated " << wamFileName << endl;
+    gWAMparser parser;
+    parser.run (wamFileName, functorTable);
 
-	// Build the WAM an run!
-	bool succf;
-	WAM* wam = new WAM (&functorTable);
-	string* q  = new string ("query");
-	succf = wam->run (q, 1);
-	if (succf) {
-		cout << "yes." << endl;	
-		wam->printResultArg (0);
-		while (wam->runBacktrack ()) {
-			wam->printResultArg (0);
-		}
-	} else {
-		cout << "no." << endl;
-	}
-	
-	delete (q);
-	delete (wam);
+    // Build the WAM an run!
+    bool succf;
+    WAM* wam = new WAM (&functorTable);
+    string* q  = new string ("query");
+    succf = wam->run (q, 1);
+    if (succf) {
+        cout << "yes." << endl;
+        wam->printResultArg (0);
+        while (wam->runBacktrack ()) {
+            wam->printResultArg (0);
+        }
+    } else {
+        cout << "no." << endl;
+    }
+
+    delete (q);
+    delete (wam);
     return 0;
 }

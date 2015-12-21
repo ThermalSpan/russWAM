@@ -32,4 +32,10 @@ dirFile
 # Prolly shouldn't be any pdfs either
 *.pdf
 
+# No need for WAM code either
+*.wam
+
+# Or astyle artifacts
+*.orig
+
 
