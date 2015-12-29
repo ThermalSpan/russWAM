@@ -43,7 +43,7 @@ struct Functor {
     Functor (string* name, int arity) {
         s_name = name;
         s_arity = arity;
-    }   
+    }
 };
 
 //
@@ -72,14 +72,18 @@ struct FunctorLabel {
 
 //
 // Instruction Node
-// The base for all types of instruction nodes. 
+// The base for all types of instruction nodes.
 //
 class InstrNode {
 public:
     virtual ~InstrNode () {}
-    virtual bool isLabel () { return false; }
-    virtual bool needsSwitchMap () { return false; }
-    virtual bool passTwo (WAMword* word, FunctorTable &functorTable) = 0;
+    virtual bool isLabel () {
+        return false;
+    }
+    virtual bool needsSwitchMap () {
+        return false;
+    }
+    virtual bool passTwo (WAMword* word, FunctorTable& functorTable) = 0;
 };
 
 //
@@ -99,11 +103,13 @@ public:
     PredicateNode (Functor* funtor, list <InstrNode*>* m_instrs);
     ~PredicateNode () {}
     // Used to gather all functor Names
-    bool passOne (FunctorTable &functorTable);
+    bool passOne (FunctorTable& functorTable);
     // Used to fill out the functor table.
-    bool passTwo (FunctorTable &functorTable);
+    bool passTwo (FunctorTable& functorTable);
 
-string* getName () { return  m_functor->s_name; }
+    string* getName () {
+        return  m_functor->s_name;
+    }
 };
 
 //
@@ -112,14 +118,22 @@ string* getName () { return  m_functor->s_name; }
 //
 class LabelNode : public InstrNode {
 protected:
-   int m_label; 
+    int m_label;
 
 public:
-   LabelNode (int label) { m_label = label; }
-   ~LabelNode () {}
-   bool passTwo (WAMword* word, FunctorTable &functorTable)  { return false; }
-   bool isLabel() { return true; };
-   int getLabel() {return m_label; };
+    LabelNode (int label) {
+        m_label = label;
+    }
+    ~LabelNode () {}
+    bool passTwo (WAMword* word, FunctorTable& functorTable)  {
+        return false;
+    }
+    bool isLabel() {
+        return true;
+    };
+    int getLabel() {
+        return m_label;
+    };
 };
 
 //
@@ -128,13 +142,13 @@ public:
 //
 class BasicInstrNode : public InstrNode {
 protected:
-   int m_a, m_b, m_c;
-   OpCode m_op;
+    int m_a, m_b, m_c;
+    OpCode m_op;
 
 public:
-   BasicInstrNode (OpCode op, int a = 0, int b = 0, int c = 0);
-   ~BasicInstrNode () {}
-   bool passTwo (WAMword* word, FunctorTable &functorTable);
+    BasicInstrNode (OpCode op, int a = 0, int b = 0, int c = 0);
+    ~BasicInstrNode () {}
+    bool passTwo (WAMword* word, FunctorTable& functorTable);
 };
 
 //
@@ -150,23 +164,23 @@ protected:
 public:
     RegInstrNode (OpCode op, Reg* reg, int b = 0, int c = 0);
     ~RegInstrNode () {}
-    bool passTwo (WAMword* word, FunctorTable &functorTable);
- };
+    bool passTwo (WAMword* word, FunctorTable& functorTable);
+};
 
 //
-// Functor Instruction Node 
+// Functor Instruction Node
 // Used for any instruction that has a functor with 0 or more integer arguments in WAM form.
 //
 class FunctorInstrNode : public InstrNode {
 protected:
-   int m_b, m_c;
-   Functor* m_functor;
-   OpCode m_op;
+    int m_b, m_c;
+    Functor* m_functor;
+    OpCode m_op;
 
 public:
-   FunctorInstrNode (OpCode op, Functor* m_functor, int b = 0, int c = 0);
-   ~FunctorInstrNode () {}
-   bool passTwo (WAMword* word, FunctorTable &functorTable);
+    FunctorInstrNode (OpCode op, Functor* m_functor, int b = 0, int c = 0);
+    ~FunctorInstrNode () {}
+    bool passTwo (WAMword* word, FunctorTable& functorTable);
 };
 
 //
@@ -175,12 +189,12 @@ public:
 //
 class TermSwitchNode : public InstrNode {
 protected:
-   int m_var, m_atm, m_lst, m_str;
+    int m_var, m_atm, m_lst, m_str;
 
 public:
-   TermSwitchNode (int var, int atm, int lst, int str);
-   ~TermSwitchNode () {}
-   bool passTwo (WAMword* word, FunctorTable &functorTable);
+    TermSwitchNode (int var, int atm, int lst, int str);
+    ~TermSwitchNode () {}
+    bool passTwo (WAMword* word, FunctorTable& functorTable);
 };
 
 //
@@ -193,14 +207,16 @@ protected:
     OpCode m_op;
 
 public:
-   SwitchMapNode (OpCode op, list <FunctorLabel*>* atoms);
-   ~SwitchMapNode () {}
-   bool needsSwitchMap() { return true; }
-   bool setupSwitchMap(unordered_map <int, int>* switchMap, FunctorTable &functorTable);
-   bool passTwo (WAMword* word, FunctorTable &functorTable);
+    SwitchMapNode (OpCode op, list <FunctorLabel*>* atoms);
+    ~SwitchMapNode () {}
+    bool needsSwitchMap() {
+        return true;
+    }
+    bool setupSwitchMap (unordered_map <int, int>* switchMap, FunctorTable& functorTable);
+    bool passTwo (WAMword* word, FunctorTable& functorTable);
 };
 
-// 
+//
 // Not-Used Node
 // There are several gWAM instruction that are unsupported. This Node is for them.
 //
@@ -209,7 +225,7 @@ protected:
     string m_opName;
 
 public:
-   NotUsedNode (string opName);
-   ~NotUsedNode () {}
-   bool passTwo (WAMword* word, FunctorTable &functorTable);
+    NotUsedNode (string opName);
+    ~NotUsedNode () {}
+    bool passTwo (WAMword* word, FunctorTable& functorTable);
 };

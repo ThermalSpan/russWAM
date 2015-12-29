@@ -21,20 +21,20 @@ class gWAMparser;
 
 //
 // Bison Parser Methods
-// 
+//
 extern int yyget_lineno ();
 extern int yyparse (gWAMparser* p);
 int yyerror (gWAMparser* p, const char* s);
 
 //
 // Bison Parser Variables
-// 
+//
 extern FILE* yyin;
 extern int yydebug;
 
 //
 // Bison Interface
-// --------------- 
+// ---------------
 // The bison parser calls this when it reaches EOF, if 1 (true) then function terminates
 extern "C" int yywrap ();
 
@@ -45,14 +45,18 @@ protected:
 
 public:
     gWAMparser ();
-    
+
     ~gWAMparser ();
 
-    void run (const string &fileName, FunctorTable &functorTable);
+    void run (const string& fileName, FunctorTable& functorTable);
 
-    bool getStatus () { return m_status; }
+    bool getStatus () {
+        return m_status;
+    }
 
-    void setStatus (bool status) { m_status = status; }
+    void setStatus (bool status) {
+        m_status = status;
+    }
 
     void setPredList (list <PredicateNode*>* predList);
 

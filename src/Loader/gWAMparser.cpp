@@ -20,7 +20,7 @@ gWAMparser::~gWAMparser () {
 
 }
 
-void gWAMparser::run (const string &fileName, FunctorTable &functorTable) {
+void gWAMparser::run (const string& fileName, FunctorTable& functorTable) {
     yyin = fopen (fileName.c_str (), "r");
     yyparse (this);
     fclose (yyin);

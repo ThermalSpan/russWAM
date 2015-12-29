@@ -15,7 +15,7 @@
 
 using namespace std;
 
-int main (int argc, char * argv[]) {
+int main (int argc, char* argv[]) {
     // Does the User want the help menu?
     if (cmdOptionExists (argv, argv + argc, "-h") || cmdOptionExists (argv, argv + argc, "--help")) {
         printHelp ();
@@ -53,7 +53,7 @@ int main (int argc, char * argv[]) {
     cout << "pl2wam generated " << wamFileName << endl;
     gWAMparser parser;
     parser.run (wamFileName, functorTable);
-    
+
     // Should we print the functor table?
     if (cmdOptionExists (argv, argv + argc, "--print-functor-table")) {
         functorTable.debugPrint ();

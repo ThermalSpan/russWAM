@@ -37,39 +37,41 @@ protected:
             s_labels = nullptr;
             s_switchMap = nullptr;
         }
-   }; 
+    };
 
-   int m_nextFunctorId;
+    int m_nextFunctorId;
 
-   vector <TableValue> m_ValueVector;
+    vector <TableValue> m_ValueVector;
 
-   unordered_map <string, int> m_StringMap;
+    unordered_map <string, int> m_StringMap;
 
-   string mangleString (string *name, int arity);
+    string mangleString (string* name, int arity);
 
 public:
 
     FunctorTable ();
-    
+
     ~FunctorTable ();
     // Returns the functor id, or -1 if already in the table
-    int addFunctor (string *name, int arity);
-    
-    int getFunctorId (string *name, int arity);
+    int addFunctor (string* name, int arity);
+
+    int getFunctorId (string* name, int arity);
 
     void setupFunctor (int functorId, WAMword* codeArray, vector <WAMword*>* labels, unordered_map <int, int>* switchMap = nullptr);
 
-    string *getName (int functorId);
-    
+    string* getName (int functorId);
+
     int getArity (int functorId);
 
     WAMword* getLabel (int functorId, int labelNum);
 
-    int getTableSize () { return m_nextFunctorId; }
+    int getTableSize () {
+        return m_nextFunctorId;
+    }
 
     string toString (int functorId);
 
-    unordered_map <int, int> *getSwitchMap (int functorId);
+    unordered_map <int, int>* getSwitchMap (int functorId);
 
     void debugPrint ();
 

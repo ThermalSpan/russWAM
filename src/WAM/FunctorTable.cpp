@@ -37,7 +37,7 @@ string FunctorTable::mangleString (string* name, int arity) {
     return result;
 }
 
-int FunctorTable::addFunctor (string *name, int arity) {
+int FunctorTable::addFunctor (string* name, int arity) {
     string key = mangleString (name, arity);
     auto element = m_StringMap.find (key);
     int result = -1;
@@ -53,7 +53,7 @@ int FunctorTable::addFunctor (string *name, int arity) {
     return result;
 }
 
-int FunctorTable::getFunctorId (string *name, int arity) {
+int FunctorTable::getFunctorId (string* name, int arity) {
     string key = mangleString (name, arity);
     auto element = m_StringMap.find (key);
     int result = -1;
@@ -74,7 +74,7 @@ void FunctorTable::setupFunctor (int functorId, WAMword* codeArray, vector <WAMw
     m_ValueVector[functorId].s_switchMap = switchMap;
 }
 
-string *FunctorTable::getName (int functorId) {
+string* FunctorTable::getName (int functorId) {
     assert (functorId >= 0 && functorId < m_nextFunctorId);
     return m_ValueVector[functorId].s_name;
 }
@@ -94,7 +94,7 @@ string FunctorTable::toString (int functorId) {
     return *getName (functorId) + "/" + to_string (getArity (functorId));
 }
 
-unordered_map <int, int> *FunctorTable::getSwitchMap (int functorId) {
+unordered_map <int, int>* FunctorTable::getSwitchMap (int functorId) {
     return m_ValueVector[functorId].s_switchMap;
 }
 

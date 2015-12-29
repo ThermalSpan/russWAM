@@ -13,11 +13,13 @@ TEMPDIRS  	= build bin build/Memory build/WAM build/test bin/test build/Loader
 
 # File List/s
 WAMFILES 	= FunctorTable put set get unify control core indexing run output cut choice
+WAMHEADERS  = src/WAM/WAM.h src/WAM/FunctorTable.h
 LOADFILES 	= gWAMparser gWAMsyntax
+LOADHEADERS = $(LOADFILES:%=src/Loader/%.h)
 GRAMFILE	= gWAMgrammar
 FLEXFILES	= gWAMlexer 
 EXEFILES 	= main utilities
-TSTFILES 	= 
+EXEHEADERS  = src/utilities.h
 
 # Derived Files Lists
 WAMSRCFILES	= $(WAMFILES:%=src/WAM/%.cpp)
@@ -37,10 +39,6 @@ FLEXOBJ		= $(FLEXSRC:%.c=%.o)
 
 EXESRCFILES = $(EXEFILES:%=src/%.cpp)
 EXEOBJFILES = $(EXESRCFILES:src/%.cpp=build/%.o)
-
-TSTSRCFILES = $(TSTFILES:%=test/%.cpp)
-TSTOBJFILES = $(TSTSRCFILES:test/%.cpp=build/test/%.o)
-TSTEXEFILES = $(TSTSRCFILES:test/%.cpp=bin/test/%)
 
 # Targets
 all: dirFile bin/russWAMex
@@ -76,6 +74,9 @@ bin/test/% : build/test/%.o
 	$(CC) $< $(WAMOBJFILES) -g -o $@
 
 # Phony Command
+.PHONY: style
+style:
+	astyle -A2 -s4 -xd -k1 -j $(EXESRCFILES) $(EXEHEADERS) $(LOADSRC) $(LOADHEADERS) $(WAMSRCFILES) $(WAMHEADERS)
 
 .PHONY: install
 install: bin/russWAMex
@@ -83,4 +84,4 @@ install: bin/russWAMex
 
 .PHONY: clean
 clean:
-	rm -f -r build bin dirFile Tests/russWAMex Tests/*.wam Tests/russWAMex.dSYM
+	rm -f -r build bin dirFile Tests/russWAMex Tests/*.wam Tests/russWAMex.dSYM *.orig

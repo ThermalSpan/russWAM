@@ -23,11 +23,11 @@ void printHelp ();
 // Returns the option next to a flag
 // src: http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c
 //
-char *getCmdOption (char** begin, char** end, const string &option);
+char* getCmdOption (char** begin, char** end, const string& option);
 
 //
 // Returns whether or not a flag is there
 // src: http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c
 //
-bool cmdOptionExists (char** begin, char** end, const string &option);
+bool cmdOptionExists (char** begin, char** end, const string& option);
 

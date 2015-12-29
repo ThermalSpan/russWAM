@@ -3,6 +3,7 @@ build/*
 build/*
 bin/*
 dirFile
+Tests/russWAMex
 
 # Debug stuff
 *.dSYM

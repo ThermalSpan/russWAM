@@ -20,7 +20,7 @@ PredicateNode::PredicateNode (Functor* functor, list <InstrNode*>* instrs) {
     m_switchMap = nullptr;
 }
 
-bool PredicateNode::passOne (FunctorTable &functorTable) {
+bool PredicateNode::passOne (FunctorTable& functorTable) {
     bool result;
     string* name = m_functor->s_name;
     int arity = m_functor->s_arity;
@@ -46,7 +46,7 @@ bool PredicateNode::passOne (FunctorTable &functorTable) {
     return result;
 }
 
-bool PredicateNode::passTwo (FunctorTable &functorTable) {
+bool PredicateNode::passTwo (FunctorTable& functorTable) {
     bool result = true;
 
     m_codeArray = (WAMword*) malloc (m_instrCount * sizeof (WAMword));
@@ -117,8 +117,8 @@ RegInstrNode::RegInstrNode (OpCode op, Reg* reg, int b, int c) {
     m_c = c;
 }
 
-bool RegInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
-	word->op = m_op;
+bool RegInstrNode::passTwo (WAMword* word, FunctorTable& functorTable) {
+    word->op = m_op;
     word->a = m_reg->s_regId;
     word->b = m_b;
     word->c = m_c;
@@ -128,7 +128,7 @@ bool RegInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
     return true;
 }
 
-bool BasicInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+bool BasicInstrNode::passTwo (WAMword* word, FunctorTable& functorTable) {
     word->op = m_op;
     word->a = m_a;
     word->b = m_b;
@@ -143,7 +143,7 @@ FunctorInstrNode::FunctorInstrNode (OpCode op, Functor* functor, int b, int c) {
     m_c = c;
 }
 
-bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+bool FunctorInstrNode::passTwo (WAMword* word, FunctorTable& functorTable) {
     bool result = true;
     int functorId = 0;
     int arity = m_functor->s_arity;
@@ -186,7 +186,7 @@ TermSwitchNode::TermSwitchNode (int var, int atm, int lst, int str) {
     m_str = str;
 }
 
-bool TermSwitchNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+bool TermSwitchNode::passTwo (WAMword* word, FunctorTable& functorTable) {
     word->op = OC_switch_on_term;
     word->a = m_var;
     word->b = m_atm;
@@ -200,7 +200,7 @@ SwitchMapNode::SwitchMapNode (OpCode op, list <FunctorLabel*>* pairs) {
     m_pairs = pairs;
 }
 
-bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, FunctorTable &functorTable) {
+bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, FunctorTable& functorTable) {
     bool result = true;
 
     for (auto it = m_pairs->begin (); it != m_pairs->end (); it++) {
@@ -238,7 +238,7 @@ bool SwitchMapNode::setupSwitchMap (unordered_map <int, int>* switchMap, Functor
     return result;
 }
 
-bool SwitchMapNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+bool SwitchMapNode::passTwo (WAMword* word, FunctorTable& functorTable) {
     word->op = m_op;
     return true;
 }
@@ -247,7 +247,7 @@ NotUsedNode::NotUsedNode (string opName) {
     m_opName = opName;
 }
 
-bool NotUsedNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+bool NotUsedNode::passTwo (WAMword* word, FunctorTable& functorTable) {
     cout << "Error: " << m_opName << " is not a supported WAM operation. Sorry.";
     cout << endl;
     return false;

@@ -35,7 +35,9 @@ void WAM::call (int functorId) {
         m_CP = m_P + 1;
         m_arity = m_functorTable->getArity (functorId);
         m_functorId = functorId;
-        if (m_B != nullptr) m_B->B0 = m_B;
+        if (m_B != nullptr) {
+            m_B->B0 = m_B;
+        }
         m_P = label;
     } else {
         backtrack ();
@@ -48,7 +50,9 @@ void WAM::execute (int functorId) {
     if (label != nullptr) {
         m_arity = m_functorTable->getArity (functorId);
         m_functorId = functorId;
-        if (m_B != nullptr) m_B0 = m_B;
+        if (m_B != nullptr) {
+            m_B0 = m_B;
+        }
         m_P = label;
     } else {
         backtrack ();

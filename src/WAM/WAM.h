@@ -5,7 +5,7 @@
 //  Created by Russell Wilhelm Bentley on 11/21/15.
 //  Copyright (c) 2015 Russell Wilhelm Bentley.
 //  Distributed under the MIT License
-//  
+//
 
 #pragma once
 
@@ -27,7 +27,7 @@ protected:
     WAMword* m_P;                           // The next Instruction to be run
     WAMword* m_CP;                          // The continuation instruction
     ChoiceFrame* m_B0;                      // The cut pointer
-    DataCell** m_TR;                          // Trail point, 
+    DataCell** m_TR;                          // Trail point,
     Mode m_Mode;                            // READ or WRITE?
     int m_arity;                            // Arity of local functor, called num_of_args in tutorial
     int m_functorId;                        // The functor id of last call or execute, used in the switch statements
@@ -37,7 +37,7 @@ protected:
     //
     DataCell* m_Heap;                       // The base of the HEAP, an array of DataCells
     DataCell* m_GlobalArgRegisters;         // An array of datacells to serve as global registers
-    DataCell** m_Trail;                     // The base of the trail, and array of dataCell addresses 
+    DataCell** m_Trail;                     // The base of the trail, and array of dataCell addresses
     addressStack* m_PDL;                    // Stack of data cells used for unification
     FunctorTable* m_functorTable;           // A data struture used to identify functors
     EnvFrame* m_E;                          // The top of the local frame stack
@@ -89,7 +89,7 @@ protected:
     void set_constant (int functorId);
     void set_void (int n);
 
-    // Unify intructions 
+    // Unify intructions
     void unify_variable (RegType t, int regId);
     void unify_value (RegType t, int regId);
     void unify_local_value (RegType t, int regId);
@@ -103,7 +103,7 @@ protected:
     void call (int functorId);
     void execute (int functorId);
     void proceed ();
-    
+
     // Choice instructions
     void try_me_else (int labelId);
     void retry_me_else (int labelId);
@@ -111,11 +111,11 @@ protected:
     void try_ (int labelId);
     void retry (int labelId);
     void trust (int labelId);
-    
+
     // Indexing instructions
     void switch_on_term (int V, int C, int L, int S);
     void switch_on_constant ();
-    void switch_on_structure ();    
+    void switch_on_structure ();
 
     // Cut instructions
     void neck_cut ();
@@ -128,8 +128,8 @@ protected:
     void recurPrint (DataCell* cell);
     void printArgRegisters ();
     DataCell* strDeref (DataCell* cell);
-    
-    
+
+
     // Support instructions
     void backtrack ();
     DataCell* deref (DataCell* address);
@@ -150,6 +150,6 @@ protected:
     bool unboundHeap (DataCell* cell);
     bool unboundStack (DataCell* cell);
 
-	// Debug Print stuff
-	string tag2str (Tag t);
+    // Debug Print stuff
+    string tag2str (Tag t);
 };
