@@ -157,3 +157,27 @@ void WAM::unwind_trail (DataCell** oldTr, DataCell** curTr) {
         (*cell)->ref = (*cell);
     }
 }
+
+// Some debug print stuff
+string WAM::tag2str (Tag t) {
+	switch (t) {
+	case REF:
+		return "REF";
+		break;
+	case CON:
+		return "CON";
+		break;
+	case LIS:
+		return "LIS";
+		break;
+	case STR:
+		return "STR";
+		break;
+	case FUN:
+		return "FUN";
+		break;
+	default:
+		return "UNKNOWN TAG";
+		break;
+	}
+}

@@ -22,7 +22,7 @@ int main (int argc, char * argv[]) {
         exit (0);
     }
 
-    // Get the name of the file
+    // Get the name of the file, which should be the last argument
     string fileName;
     if (argc > 1) {
         fileName.assign (argv[argc - 1]);
@@ -59,8 +59,12 @@ int main (int argc, char * argv[]) {
         functorTable.debugPrint ();
         exit (0);
     }
+    // Should we exit now?
+    if (cmdOptionExists (argv, argv + argc, "--parse-only")) {
+        exit (0);
+    }
 
-    // Build the WAM an run!
+    // Build the WAM and run!
     bool succf;
     WAM* wam = new WAM (&functorTable);
     string* q  = new string ("query");

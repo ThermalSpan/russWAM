@@ -1,5 +1,5 @@
 //
-//  utilities.h
+//  utilities.cpp
 //  russWAM
 //
 //  Created by Russell Wilhelm Bentley on 12/29/15.
@@ -18,6 +18,7 @@ void printHelp () {
     cout << "Options" << endl;
     cout << "\t-h / --help\t\tPrint help and exit." << endl;
     cout << "\t--print-functor-table\tPrint the functor table and exit." << endl;
+    cout << "\t--parse-only\t\tBuild functor table then exit." << endl;
 }
 
 char *getCmdOption (char** begin, char** end, const string &option) {

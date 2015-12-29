@@ -118,6 +118,7 @@ RegInstrNode::RegInstrNode (OpCode op, Reg* reg, int b, int c) {
 }
 
 bool RegInstrNode::passTwo (WAMword* word, FunctorTable &functorTable) {
+	word->op = m_op;
     word->a = m_reg->s_regId;
     word->b = m_b;
     word->c = m_c;

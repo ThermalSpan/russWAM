@@ -149,4 +149,7 @@ protected:
     bool isHeapCell (DataCell* cell);
     bool unboundHeap (DataCell* cell);
     bool unboundStack (DataCell* cell);
+
+	// Debug Print stuff
+	string tag2str (Tag t);
 };

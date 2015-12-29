@@ -99,15 +99,16 @@ unordered_map <int, int> *FunctorTable::getSwitchMap (int functorId) {
 }
 
 void FunctorTable::debugPrint () {
+    cout << "FUNCTOR TABLE PRINT" << endl;
     for (auto it = m_ValueVector.begin (); it != m_ValueVector.end (); it++) {
         cout << "------------------------------------------------------------" << endl;
         cout << * ((*it).s_name) << "/" << (*it).s_arity << " -> id: " << (*it).s_id << endl;
         if ((*it).s_arity == 0) {
-            cout << "ATOM" << endl;
+            cout << "\tATOM" << endl;
         } else {
             WAMword* word = (*it).s_codeArray;
             while (word->op != OC_NULL) {
-                cout << op_to_string (word->op) << endl;
+                cout << "\t" << op_to_string (word->op) << endl;
                 word++;
             }
         }

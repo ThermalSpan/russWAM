@@ -32,7 +32,7 @@ bool WAM::run (string* functor, int arity) {
 
 bool WAM::runBacktrack () {
     bool result = true;
-
+	cout << "run backtrack " << endl;
     if (m_B != nullptr) {
         m_P = m_B->L;
         while (m_P->op != OC_NULL) {

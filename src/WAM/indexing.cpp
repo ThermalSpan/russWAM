@@ -14,19 +14,36 @@ void WAM::switch_on_term (int V, int C, int L, int S) {
     DataCell* cell = deref (getGlobalReg (1));
     switch (cell->tag) {
     case REF:
-        m_P = m_functorTable->getLabel (m_functorId, V);
+		if (V == -1) {
+			backtrack ();
+		} else {
+        	m_P = m_functorTable->getLabel (m_functorId, V);
+		}
         break;
     case CON:
-        m_P = m_functorTable->getLabel (m_functorId, C);
+		if (C == -1) {
+			backtrack ();
+		} else {
+			m_P = m_functorTable->getLabel (m_functorId, C);
+		}
         break;
     case LIS:
-        m_P = m_functorTable->getLabel (m_functorId, L);
+		if (L == -1) {
+			backtrack ();
+		} else {
+        	m_P = m_functorTable->getLabel (m_functorId, L);
+		}
         break;
     case STR:
-        m_P = m_functorTable->getLabel (m_functorId, S);
+	case FUN: // TODO: Is this right?
+		if (S == -1) {
+			backtrack ();
+		} else {
+        	m_P = m_functorTable->getLabel (m_functorId, S);
+		}
         break;
     default:
-        panic ("PANIC: switch_on_term not on term? What?");
+        panic ("PANIC: switch_on_term not on term? tag: " + tag2str (cell->tag));
         break;
     }
 }

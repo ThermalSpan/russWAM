@@ -10,9 +10,12 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string>
 #include <stack>
 #include <vector>
 #include "opcode.h"
+
+using namespace std;
 
 // The WAM has some modal instructions.
 enum Mode {READ, WRITE};
@@ -85,4 +88,3 @@ struct ChoiceFrame {
 // Some useful typedefs
 typedef std::stack <DataCell*> addressStack;
 typedef std::vector <DataCell> dataCellVector;
-

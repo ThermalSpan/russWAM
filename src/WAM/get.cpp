@@ -8,12 +8,10 @@
 //
 
 #include "WAM.h"
-#include <iostream>
 
 using namespace std;
 
 void WAM::get_variable (RegType t, int regId, int argRegId) {
-    cout << "CALL: get_variable" << endl;
     DataCell* reg = getRegister (t, regId);
 
     // Ai <- Vn
