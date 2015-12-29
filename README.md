@@ -53,6 +53,7 @@ Notable links so far include:
 <li><a href="http://stackoverflow.com/questions/19459516/unification-algorithm-example-in-wam-warrens-abstract-machine"> SO: Unification Algorithm Example </a></li>
 <li><a href="http://lists.gnu.org/archive/html/users-prolog/2015-11/threads.html">GNU Prolog Mailing List 11/22/15</a></li>
 <li><a href="http://www.sciencedirect.com/science/article/pii/0743106694900310"> The wonder years of sequential Prolog implementation </a></li>
+<li><a href="http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c"> SO: How to parse command line arguments </a></li>
 </ul>
 
 ### License

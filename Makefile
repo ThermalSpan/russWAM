@@ -16,7 +16,7 @@ WAMFILES 	= FunctorTable put set get unify control core indexing run output cut 
 LOADFILES 	= gWAMparser gWAMsyntax
 GRAMFILE	= gWAMgrammar
 FLEXFILES	= gWAMlexer 
-EXEFILES 	= main
+EXEFILES 	= main utilities
 TSTFILES 	= 
 
 # Derived Files Lists

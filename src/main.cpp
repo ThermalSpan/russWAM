@@ -9,16 +9,23 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include "utilities.h"
 #include "Loader/gWAMparser.h"
 #include "WAM/WAM.h"
 
 using namespace std;
 
-int main (int argc, const char * argv[]) {
+int main (int argc, char * argv[]) {
+    // Does the User want the help menu?
+    if (cmdOptionExists (argv, argv + argc, "-h") || cmdOptionExists (argv, argv + argc, "--help")) {
+        printHelp ();
+        exit (0);
+    }
+
     // Get the name of the file
     string fileName;
-    if (argc == 2) {
-        fileName.assign (argv[1]);
+    if (argc > 1) {
+        fileName.assign (argv[argc - 1]);
         cout << "Input: " << fileName << endl;
     } else {
         cerr << "No input file given." << endl;
@@ -46,6 +53,12 @@ int main (int argc, const char * argv[]) {
     cout << "pl2wam generated " << wamFileName << endl;
     gWAMparser parser;
     parser.run (wamFileName, functorTable);
+    
+    // Should we print the functor table?
+    if (cmdOptionExists (argv, argv + argc, "--print-functor-table")) {
+        functorTable.debugPrint ();
+        exit (0);
+    }
 
     // Build the WAM an run!
     bool succf;
